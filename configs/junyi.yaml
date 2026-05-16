@@ -1,0 +1,24 @@
+dataset:
+  name: junyi
+  raw_dir: data/raw/junyi
+  processed_dir: data/processed/junyi
+  has_static_q_matrix: true
+  has_prerequisite_graph: true
+  timestamp_available: true
+  description: "Junyi Academy dataset. Main dataset for DAG audit."
+q_matrix:
+  source: expert_static
+  require_provenance: true
+
+graph:
+  e_pre:
+    mode: static_external_or_ground_truth
+    prune_cycles: true
+  e_sim:
+    method: jaccard
+    threshold: 0.10
+    top_k: 20
+  e_co:
+    method: pmi
+    min_count: 2
+    positive_pmi_only: true

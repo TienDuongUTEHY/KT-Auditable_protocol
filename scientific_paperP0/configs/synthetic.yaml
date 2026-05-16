@@ -1,0 +1,8 @@
+dataset:
+  name: synthetic
+  raw_dir: data/raw/synthetic
+  processed_dir: data/processed/synthetic
+  has_static_q_matrix: true
+  has_prerequisite_graph: true
+  timestamp_available: true
+  description: "Small synthetic dataset for unit and smoke tests."

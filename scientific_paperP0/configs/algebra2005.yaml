@@ -1,0 +1,26 @@
+dataset:
+  name: algebra2005
+  raw_dir: data/raw/algebra2005
+  processed_dir: data/processed/algebra2005
+  has_static_q_matrix: true
+  has_prerequisite_graph: false
+  timestamp_available: true
+  description: "KDD Cup 2010 Algebra I 2005-2006 dataset."
+
+q_matrix:
+  source: provided_static
+  require_provenance: true
+
+graph:
+  e_pre:
+    mode: inferred_train_only
+    method: temporal_confidence
+    confidence_threshold: 0.10
+  e_sim:
+    method: jaccard
+    threshold: 0.10
+    top_k: 20
+  e_co:
+    method: pmi
+    min_count: 2
+    positive_pmi_only: true

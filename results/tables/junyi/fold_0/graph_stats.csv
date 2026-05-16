@@ -1,0 +1,4 @@
+dataset,fold_id,edge_type,directed,num_nodes,num_edges,density,avg_degree,weight_min,weight_mean,weight_max,weight_std
+junyi,0,E_pre,True,10.0,45,0.5,9.0,1.0,1.0,1.0,0.0
+junyi,0,E_sim_train,,,0,,,,,,
+junyi,0,E_co,False,10.0,25,0.555556,5.0,0.0304,0.7942,3.0148,0.7454

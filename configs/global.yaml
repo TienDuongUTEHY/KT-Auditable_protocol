@@ -1,0 +1,65 @@
+project:
+  name: scientific_paperP0
+  title: "Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"
+  seed: 2026
+  output_dir: results
+  log_dir: logs
+
+splitting:
+  strategy: learner_based_temporal
+  train_ratio: 0.70
+  valid_ratio: 0.15
+  test_ratio: 0.15
+  min_interactions_per_learner: 3
+
+graph:
+  e_pre:
+    enabled: true
+    default_mode: dataset_specific
+    prune_cycles: true
+  e_sim:
+    enabled: true
+    method: jaccard
+    threshold: 0.10
+    top_k: 20
+  e_co:
+    enabled: true
+    method: pmi
+    min_count: 2
+    pmi_smoothing: 1.0e-9
+    positive_pmi_only: true
+    undirected: true
+
+sparse_skill:
+  bins:
+    - name: very_sparse
+      min: 0
+      max: 20
+    - name: sparse
+      min: 20
+      max: 100
+    - name: medium
+      min: 100
+      max: 500
+    - name: frequent
+      min: 500
+      max: null
+
+baseline:
+  enabled: true
+  models:
+    - BKT
+    - DKT
+  graph_variants:
+    - no_graph
+    - E_pre
+    - E_pre_E_sim
+    - E_pre_E_sim_E_co
+  seeds:
+    - 2026
+  max_epochs: 5
+  smoke_mode: true
+
+audit:
+  fail_fast: true
+  allow_failed_audit: true

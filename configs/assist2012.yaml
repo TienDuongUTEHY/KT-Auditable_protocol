@@ -1,0 +1,26 @@
+dataset:
+  name: assist2012
+  raw_dir: data/raw/assist2012
+  processed_dir: data/processed/assist2012
+  has_static_q_matrix: true
+  has_prerequisite_graph: false
+  timestamp_available: true
+  description: "ASSISTments 2012 benchmark. Stress test for inferred graph protocol."
+q_matrix:
+  source: provided_static
+  require_provenance: true
+
+graph:
+  e_pre:
+    mode: inferred_train_only
+    method: temporal_confidence
+    confidence_threshold: 0.10
+    prune_cycles: true
+  e_sim:
+    method: jaccard
+    threshold: 0.10
+    top_k: 20
+  e_co:
+    method: pmi
+    min_count: 2
+    positive_pmi_only: true

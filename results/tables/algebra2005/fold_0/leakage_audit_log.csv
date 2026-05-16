@@ -1,0 +1,6 @@
+dataset,fold_id,check_name,status
+algebra2005,0,L1_edge,PASS
+algebra2005,0,L2_qmatrix,PASS
+algebra2005,0,L3_temporal,PASS
+algebra2005,0,L4_coldstart,PASS
+algebra2005,0,L5_co_occurrence,PASS

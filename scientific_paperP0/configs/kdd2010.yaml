@@ -1,0 +1,11 @@
+dataset:
+  name: kdd2010
+  raw_dir: data/raw/kdd2010
+  processed_dir: data/processed/kdd2010
+  has_static_q_matrix: true
+  has_prerequisite_graph: false
+  timestamp_available: true
+  description: "KDD Cup 2010 Algebra I 2005-2006 dataset. Replaced original mock with real extracted dataset."
+q_matrix:
+  source: provided_static
+  require_provenance: true

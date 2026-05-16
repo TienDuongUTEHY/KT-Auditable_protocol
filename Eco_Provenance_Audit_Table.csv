@@ -1,0 +1,4 @@
+Dataset,Symmetry Pass,Train-only Support,Weight Dist (Mean ± Std),Sparse-KC Coverage
+kdd2010,True,True,0.422 ± 0.385,77.78% (28/36)
+junyi,True,True,0.794 ± 0.745,100.00% (3/3)
+assist2012,True,True,1.213 ± 0.932,86.90% (73/84)

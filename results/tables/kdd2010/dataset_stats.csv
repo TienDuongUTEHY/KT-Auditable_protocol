@@ -1,0 +1,2 @@
+Dataset,Learners,Questions,Skills,Interactions,AvgSeqLen,QMatrixSource
+kdd2010,28,22266,110,72947,2605.25,provided_static

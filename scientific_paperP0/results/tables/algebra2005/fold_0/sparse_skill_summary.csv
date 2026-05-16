@@ -1,0 +1,2 @@
+dataset,fold_id,total_skills,sparse_skills,medium_skills,dense_skills,p33_threshold,p66_threshold,avg_interactions_per_skill,min_interactions,max_interactions
+algebra2005,0,108,36,35,37,55.6,171.6,354.47,2,3557

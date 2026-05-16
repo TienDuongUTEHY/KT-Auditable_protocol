@@ -1,0 +1,153 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260514224230
+Username: TIENDUONGUTEHY\Laptop QHD
+RunAs User: TIENDUONGUTEHY\Laptop QHD
+Configuration Name: 
+Machine: TIENDUONGUTEHY (Microsoft Windows NT 10.0.19045.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -File .\run_all_experiments_p0.ps1
+Process ID: 3176
+PSVersion: 5.1.19041.6456
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.6456
+BuildVersion: 10.0.19041.6456
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is logs/run_log_junyi_full.txt
+
+--- DANG XU LY DATASET: junyi ---
+Cau hinh: configs/junyi.yaml
+
+[*] [1/12] Chuan hoa du lieu tho (Preprocess)
+  -> Da tim thay ket qua cu: data/processed/junyi/interactions.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [2/12] Chia du lieu va kiem tra ro ri (Split Checker)
+  -> Da tim thay ket qua cu: data/processed/junyi/fold_0/train.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [3/12] Truy xuat nguon goc Q-Matrix (Q-Matrix Provenance)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/qmatrix_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [4/12] Xay dung do thi 3 quan he (Tri-relation Graph Builder)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/E_pre_train.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [5/12] Kiem toan Do thi co huong (DAG Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/dag_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [6/12] Kiem toan quan he Dong xuat hien (ECO Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/eco_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [7/12] Kiem toan ro ri 5 cap do (Leakage Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/leakage_audit_log.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [8/12] Thong ke Do thi (Graph Statistics)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/graph_stats.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [9/12] Ho so Ky nang thua thot (Sparse Skill Profile)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/sparse_skill_profile.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [10/12] Chay cac mo hinh co so danh gia chan doan (Baseline Probes)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/baseline_results.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [11/12] Ve Bieu do Bao cao (Make Figures)
+  -> Da tim thay ket qua cu: results/figures/junyi/fold_0/fig4_relation_ablation.pdf. BO QUA de tiet kiem thoi gian!
+
+[*] [12/12] Tong hop Bao cao chan doan cuoi cung (Report Generator)
+  -> Da tim thay ket qua cu: results/reports/junyi/fold_0/p0_diagnostic_report.md. BO QUA de tiet kiem thoi gian!
+
+--- HOAN THANH XUAT SAC DATASET: junyi ---
+**********************
+Windows PowerShell transcript end
+End time: 20260514224230
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20260514225428
+Username: TIENDUONGUTEHY\Laptop QHD
+RunAs User: TIENDUONGUTEHY\Laptop QHD
+Configuration Name: 
+Machine: TIENDUONGUTEHY (Microsoft Windows NT 10.0.19045.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -File .\run_all_experiments_p0.ps1
+Process ID: 9936
+PSVersion: 5.1.19041.6456
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.6456
+BuildVersion: 10.0.19041.6456
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is logs/run_log_junyi_full.txt
+
+--- DANG XU LY DATASET: junyi ---
+Cau hinh: configs/junyi.yaml
+
+[*] [1/12] Chuan hoa du lieu tho (Preprocess)
+  -> Da tim thay ket qua cu: data/processed/junyi/interactions.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [2/12] Chia du lieu va kiem tra ro ri (Split Checker)
+  -> Da tim thay ket qua cu: data/processed/junyi/fold_0/train.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [3/12] Truy xuat nguon goc Q-Matrix (Q-Matrix Provenance)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/qmatrix_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [4/12] Xay dung do thi 3 quan he (Tri-relation Graph Builder)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/E_pre_train.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [5/12] Kiem toan Do thi co huong (DAG Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/dag_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [6/12] Kiem toan quan he Dong xuat hien (ECO Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/eco_audit.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [7/12] Kiem toan ro ri 5 cap do (Leakage Audit)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/leakage_audit_log.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [8/12] Thong ke Do thi (Graph Statistics)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/graph_stats.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [9/12] Ho so Ky nang thua thot (Sparse Skill Profile)
+  -> Da tim thay ket qua cu: results/tables/junyi/fold_0/sparse_skill_profile.csv. BO QUA de tiet kiem thoi gian!
+
+[*] [10/12] Chay cac mo hinh co so danh gia chan doan (Baseline Probes)
+  -> Dang thuc thi mo hinh DKT voi Seed 2024...
+
+  -> Dang thuc thi mo hinh simpleKT voi Seed 2024...
+
+  -> Dang thuc thi mo hinh GKT voi Seed 2024...
+
+  -> Dang thuc thi mo hinh GIKT voi Seed 2024...
+
+  -> Dang thuc thi mo hinh DKT voi Seed 2025...
+
+  -> Dang thuc thi mo hinh simpleKT voi Seed 2025...
+
+  -> Dang thuc thi mo hinh GKT voi Seed 2025...
+
+  -> Dang thuc thi mo hinh GIKT voi Seed 2025...
+
+  -> Dang thuc thi mo hinh DKT voi Seed 2026...
+
+  -> Dang thuc thi mo hinh simpleKT voi Seed 2026...
+
+  -> Dang thuc thi mo hinh GKT voi Seed 2026...
+
+  -> Dang thuc thi mo hinh GIKT voi Seed 2026...
+
+
+[*] [11/12] Ve Bieu do Bao cao (Make Figures)
+  -> Dang thuc thi: python -m src.make_figures --config configs/junyi.yaml --fold 0
+  -> Hoan thanh. Tam nghi 3 giay de giai phong RAM (Garbage Collection)...
+
+[*] [12/12] Tong hop Bao cao chan doan cuoi cung (Report Generator)
+  -> Dang thuc thi: python -m src.report_generator --config configs/junyi.yaml --fold 0
+  -> Hoan thanh. Tam nghi 3 giay de giai phong RAM (Garbage Collection)...
+
+--- HOAN THANH XUAT SAC DATASET: junyi ---
+**********************
+Windows PowerShell transcript end
+End time: 20260514231003
+**********************

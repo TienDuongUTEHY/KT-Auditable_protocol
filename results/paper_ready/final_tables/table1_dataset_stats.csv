@@ -1,0 +1,4 @@
+Dataset,Skills,Interactions,Sparse Skills,Medium Skills,Dense Skills
+KDD2010,108,38282,36,35,37
+ASSIST2012,255,155075,84,84,87
+JUNYI,10,350029,3,3,4

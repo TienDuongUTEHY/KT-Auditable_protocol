@@ -1,0 +1,25 @@
+Dataset,Model,Graph Variant,AUC,ACC,NLL
+kdd2010,DKT,no_graph,0.7151,0.7558,0.6073
+kdd2010,simpleKT,no_graph,0.7403,0.7129,0.5534
+kdd2010,DKT,E_sim_top3,0.7058,0.7779,0.6053
+kdd2010,simpleKT,E_sim_top3,0.74,0.7195,0.5519
+kdd2010,DKT,E_sim_top5,0.7234,0.7729,0.6137
+kdd2010,simpleKT,E_sim_top5,0.74,0.7248,0.551
+kdd2010,DKT,E_sim_top10,0.7231,0.7608,0.6065
+kdd2010,simpleKT,E_sim_top10,0.7398,0.7247,0.5511
+junyi,DKT,no_graph,0.6671,0.7063,0.583
+junyi,simpleKT,no_graph,0.6075,0.6882,0.607
+junyi,DKT,E_sim_top3,0.669,0.706,0.5815
+junyi,simpleKT,E_sim_top3,0.6075,0.6882,0.607
+junyi,DKT,E_sim_top5,0.6689,0.7067,0.582
+junyi,simpleKT,E_sim_top5,0.6075,0.6882,0.607
+junyi,DKT,E_sim_top10,0.6685,0.706,0.5821
+junyi,simpleKT,E_sim_top10,0.6075,0.6882,0.607
+assist2012,DKT,no_graph,0.6086,0.6857,0.6238
+assist2012,simpleKT,no_graph,0.5517,0.7067,0.6019
+assist2012,DKT,E_sim_top3,0.6071,0.6869,0.6197
+assist2012,simpleKT,E_sim_top3,0.5517,0.7067,0.6019
+assist2012,DKT,E_sim_top5,0.6086,0.6902,0.6207
+assist2012,simpleKT,E_sim_top5,0.5517,0.7067,0.6019
+assist2012,DKT,E_sim_top10,0.6077,0.6912,0.6215
+assist2012,simpleKT,E_sim_top10,0.5517,0.7067,0.6019
