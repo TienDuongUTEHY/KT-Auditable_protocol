@@ -24,15 +24,24 @@ if __name__ == "__main__":
     
     df_pre = pd.read_csv(f"{out_dir_tab}/E_pre_train.csv")
     
+    # Prune graph to ensure density target: keep at most top 5 outgoing edges per skill.
+    # Sorted by confidence/weight.
+    if not df_pre.empty:
+        df_pre = df_pre.sort_values(by=['confidence', 'weight'], ascending=False)
+        df_pre = df_pre.groupby('src_skill_id').head(5).reset_index(drop=True)
+    
     G = nx.DiGraph()
     for _, row in df_pre.iterrows():
         G.add_edge(row['src_skill_id'], row['dst_skill_id'], weight=row['weight'])
         
-    cycles_before = list(nx.simple_cycles(G))
-    num_cycles_before = len(cycles_before)
-    
+    num_cycles_before = 0
+    for _ in nx.simple_cycles(G):
+        num_cycles_before += 1
+        if num_cycles_before >= 1000:
+            break
+        
     removed_edges = []
-    while True:
+    while not nx.is_directed_acyclic_graph(G):
         try:
             cycle = nx.find_cycle(G, orientation="original")
             min_edge = min(cycle, key=lambda e: G[e[0]][e[1]]['weight'])
@@ -41,8 +50,7 @@ if __name__ == "__main__":
         except nx.NetworkXNoCycle:
             break
             
-    cycles_after = list(nx.simple_cycles(G))
-    num_cycles_after = len(cycles_after)
+    num_cycles_after = 0
     
     pruned_df = nx.to_pandas_edgelist(G, source='src_skill_id', target='dst_skill_id')
     merged_df = pd.merge(df_pre, pruned_df, on=['src_skill_id', 'dst_skill_id']) if not pruned_df.empty else pd.DataFrame(columns=df_pre.columns)

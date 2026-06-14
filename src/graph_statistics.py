@@ -39,6 +39,12 @@ if __name__ == "__main__":
             edges = G.number_of_edges()
             density = nx.density(G)
             avg_deg = sum(dict(G.degree()).values()) / nodes if nodes > 0 else 0
+            
+            if directed:
+                components = nx.number_weakly_connected_components(G)
+            else:
+                components = nx.number_connected_components(G)
+                
             weights = df['weight'].dropna() if 'weight' in df.columns else pd.Series([1.0] * edges)
             rows.append({
                 "dataset": dataset,
@@ -49,6 +55,7 @@ if __name__ == "__main__":
                 "num_edges": edges,
                 "density": round(density, 6),
                 "avg_degree": round(avg_deg, 4),
+                "components": components,
                 "weight_min": round(weights.min(), 4),
                 "weight_mean": round(weights.mean(), 4),
                 "weight_max": round(weights.max(), 4),

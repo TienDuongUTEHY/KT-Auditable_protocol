@@ -1,0 +1,248 @@
+==========================================================
+TOP-K SENSITIVITY ANALYSIS FOR SIMILARITY GRAPH (E_sim)
+==========================================================
+
+PROCESSING DATASET: assist2012
+  --> Generating E_sim with Top-3...
+  - E_pre built: 32385 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=3)
+  - E_co built: 10154 edges (min_count=2)
+Graph construction for assist2012 completed.
+  --> Evaluating DKT with Top-3 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6074, ACC: 0.6828, NLL: 0.6258
+  -> Testing variant: E_pre
+     AUC: 0.6063, ACC: 0.6858, NLL: 0.6237
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6093, ACC: 0.6862, NLL: 0.6177
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.608, ACC: 0.6925, NLL: 0.6192
+[BKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5517, ACC: 0.7066, NLL: 0.6017
+  --> Generating E_sim with Top-5...
+  - E_pre built: 32385 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=5)
+  - E_co built: 10154 edges (min_count=2)
+Graph construction for assist2012 completed.
+  --> Evaluating DKT with Top-5 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6074, ACC: 0.6828, NLL: 0.6258
+  -> Testing variant: E_pre
+     AUC: 0.6063, ACC: 0.6858, NLL: 0.6237
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6093, ACC: 0.6862, NLL: 0.6177
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.608, ACC: 0.6925, NLL: 0.6192
+[BKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5517, ACC: 0.7066, NLL: 0.6017
+  --> Generating E_sim with Top-10...
+  - E_pre built: 32385 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=10)
+  - E_co built: 10154 edges (min_count=2)
+Graph construction for assist2012 completed.
+  --> Evaluating DKT with Top-10 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6074, ACC: 0.6828, NLL: 0.6258
+  -> Testing variant: E_pre
+     AUC: 0.6063, ACC: 0.6858, NLL: 0.6237
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6093, ACC: 0.6862, NLL: 0.6177
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.608, ACC: 0.6925, NLL: 0.6192
+[BKT] Dataset contains 255 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5517, ACC: 0.7067, NLL: 0.6019
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5517, ACC: 0.7066, NLL: 0.6017
+
+PROCESSING DATASET: junyi
+  --> Generating E_sim with Top-3...
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=3)
+  - E_co built: 25 edges (min_count=2)
+Graph construction for junyi completed.
+  --> Evaluating DKT with Top-3 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6678, ACC: 0.7065, NLL: 0.5822
+  -> Testing variant: E_pre
+     AUC: 0.6691, ACC: 0.7057, NLL: 0.5819
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6683, ACC: 0.7063, NLL: 0.5822
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6698, ACC: 0.7069, NLL: 0.5812
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6076, ACC: 0.6882, NLL: 0.607
+  --> Generating E_sim with Top-5...
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=5)
+  - E_co built: 25 edges (min_count=2)
+Graph construction for junyi completed.
+  --> Evaluating DKT with Top-5 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6678, ACC: 0.7065, NLL: 0.5822
+  -> Testing variant: E_pre
+     AUC: 0.6691, ACC: 0.7057, NLL: 0.5819
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6683, ACC: 0.7063, NLL: 0.5822
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6698, ACC: 0.7069, NLL: 0.5812
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6076, ACC: 0.6882, NLL: 0.607
+  --> Generating E_sim with Top-10...
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=10)
+  - E_co built: 25 edges (min_count=2)
+Graph construction for junyi completed.
+  --> Evaluating DKT with Top-10 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6678, ACC: 0.7065, NLL: 0.5822
+  -> Testing variant: E_pre
+     AUC: 0.6691, ACC: 0.7057, NLL: 0.5819
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6683, ACC: 0.7063, NLL: 0.5822
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6698, ACC: 0.7069, NLL: 0.5812
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6075, ACC: 0.6882, NLL: 0.607
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6076, ACC: 0.6882, NLL: 0.607
+
+PROCESSING DATASET: kdd2010
+  --> Generating E_sim with Top-3...
+  - E_pre built: 402753 edges
+  - E_sim built: 367 edges (threshold=0.1, top_k=3)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+  --> Evaluating DKT with Top-3 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.76, ACC: 0.8097, NLL: 0.4302
+  -> Testing variant: E_pre
+     AUC: 0.7612, ACC: 0.8091, NLL: 0.4296
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7648, ACC: 0.8101, NLL: 0.4273
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7622, ACC: 0.8105, NLL: 0.4287
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+  --> Generating E_sim with Top-5...
+  - E_pre built: 402753 edges
+  - E_sim built: 401 edges (threshold=0.1, top_k=5)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+  --> Evaluating DKT with Top-5 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.76, ACC: 0.8097, NLL: 0.4302
+  -> Testing variant: E_pre
+     AUC: 0.7612, ACC: 0.8091, NLL: 0.4296
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7644, ACC: 0.8105, NLL: 0.4275
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7615, ACC: 0.8097, NLL: 0.4292
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+  --> Generating E_sim with Top-10...
+  - E_pre built: 402753 edges
+  - E_sim built: 407 edges (threshold=0.1, top_k=10)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+  --> Evaluating DKT with Top-10 Graph...
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.76, ACC: 0.8097, NLL: 0.4302
+  -> Testing variant: E_pre
+     AUC: 0.7612, ACC: 0.8091, NLL: 0.4296
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7647, ACC: 0.8107, NLL: 0.4273
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7606, ACC: 0.8103, NLL: 0.4298
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+
+==========================================================
+TOP-K SENSITIVITY ANALYSIS COMPLETED!
+Results appended to results/tables/<dataset>/fold_0/baseline_results.csv
+==========================================================

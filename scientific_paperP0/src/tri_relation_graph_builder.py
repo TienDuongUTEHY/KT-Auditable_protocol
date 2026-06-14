@@ -9,18 +9,18 @@ import numpy as np
 import datetime
 from src.common import load_config, ensure_dir
 
-def build_e_pre(df_train, out_dir, dataset):
+def build_e_pre(df_train, out_dir, dataset, fold=0):
     skill_times = df_train.groupby('skill_id')['timestamp'].median().sort_values()
     edges = []
     skills = skill_times.index.tolist()
     for i in range(len(skills)):
         for j in range(i + 1, len(skills)):
             edges.append({
-                'dataset': dataset, 'fold_id': 0,
+                'dataset': dataset, 'fold_id': fold,
                 'src_skill_id': skills[i], 'dst_skill_id': skills[j],
                 'relation_type': 'E_pre', 'directed': True,
                 'weight': 1.0, 'support_count': 10,
-                'source_split': 'train', 'source_fold': 0, 'support_source': 'train',
+                'source_split': 'train', 'source_fold': fold, 'support_source': 'train',
                 'support_interaction_ids_hash': 'hash', 'support_question_ids_hash': 'hash',
                 'construction_method': 'temporal_heuristic', 'threshold': 0, 'confidence': 0.5,
                 'created_at': datetime.datetime.now().isoformat()
@@ -31,7 +31,7 @@ def build_e_pre(df_train, out_dir, dataset):
     print(f"  - E_pre built: {len(df_edges)} edges")
     return df_edges
 
-def build_e_sim(df_train, out_dir, dataset, threshold=0.1):
+def build_e_sim(df_train, out_dir, dataset, fold=0, threshold=0.1):
     skill_q_map = df_train.groupby('skill_id')['question_id'].apply(set).to_dict()
     skills = list(skill_q_map.keys())
     edges = []
@@ -44,11 +44,11 @@ def build_e_sim(df_train, out_dir, dataset, threshold=0.1):
             jaccard = intersection / union if union > 0 else 0
             if jaccard >= threshold:
                 edges.append({
-                    'dataset': dataset, 'fold_id': 0,
+                    'dataset': dataset, 'fold_id': fold,
                     'src_skill_id': s1, 'dst_skill_id': s2,
                     'relation_type': 'E_sim', 'directed': False,
                     'weight': jaccard, 'support_count': intersection,
-                    'source_split': 'train', 'source_fold': 0, 'support_source': 'train',
+                    'source_split': 'train', 'source_fold': fold, 'support_source': 'train',
                     'support_interaction_ids_hash': 'hash', 'support_question_ids_hash': 'hash',
                     'construction_method': 'jaccard', 'threshold': threshold, 'confidence': 1.0,
                     'created_at': datetime.datetime.now().isoformat()
@@ -59,7 +59,7 @@ def build_e_sim(df_train, out_dir, dataset, threshold=0.1):
     print(f"  - E_sim built: {len(df_edges)} edges (threshold={threshold})")
     return df_edges
 
-def build_e_co(df_train, out_dir, dataset, min_count=2):
+def build_e_co(df_train, out_dir, dataset, fold=0, min_count=2):
     learner_skills = df_train.groupby('learner_id')['skill_id'].apply(list).to_dict()
     co_counts = {}
     skill_counts = {}
@@ -84,11 +84,11 @@ def build_e_co(df_train, out_dir, dataset, min_count=2):
             pmi = np.log(p_co / (p_s1 * p_s2))
             if pmi > 0:
                 edges.append({
-                    'dataset': dataset, 'fold_id': 0,
+                    'dataset': dataset, 'fold_id': fold,
                     'src_skill_id': s1, 'dst_skill_id': s2,
                     'relation_type': 'E_co', 'directed': False,
                     'weight': pmi, 'support_count': count,
-                    'source_split': 'train', 'source_fold': 0, 'support_source': 'train',
+                    'source_split': 'train', 'source_fold': fold, 'support_source': 'train',
                     'support_interaction_ids_hash': 'hash', 'support_question_ids_hash': 'hash',
                     'construction_method': 'pmi', 'threshold': 0, 'confidence': 1.0,
                     'created_at': datetime.datetime.now().isoformat()
@@ -115,9 +115,9 @@ if __name__ == "__main__":
     
     df_train = pd.read_csv(f"{in_dir}/train.csv")
     
-    e_pre = build_e_pre(df_train, out_dir, dataset)
-    e_sim = build_e_sim(df_train, out_dir, dataset)
-    e_co = build_e_co(df_train, out_dir, dataset)
+    e_pre = build_e_pre(df_train, out_dir, dataset, fold=args.fold)
+    e_sim = build_e_sim(df_train, out_dir, dataset, fold=args.fold)
+    e_co = build_e_co(df_train, out_dir, dataset, fold=args.fold)
     
     columns = ['dataset', 'fold_id', 'src_skill_id', 'dst_skill_id', 'relation_type', 'directed', 'weight', 'support_count', 'source_split', 'source_fold', 'support_source', 'support_interaction_ids_hash', 'support_question_ids_hash', 'construction_method', 'threshold', 'confidence', 'created_at']
     prov = pd.concat([e_pre, e_sim, e_co]) if not e_pre.empty else pd.DataFrame(columns=columns)

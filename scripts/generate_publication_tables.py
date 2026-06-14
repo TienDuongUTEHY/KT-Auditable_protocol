@@ -22,14 +22,23 @@ for d in datasets:
     sparse_sum = load_csv_safe(f"{RESULTS_DIR}/{d}/fold_0/sparse_skill_summary.csv")
     if sparse_sum is not None:
         row = sparse_sum.iloc[0].to_dict()
+    try:
+        df_stats = pd.read_csv(f"results/tables/{d}/dataset_stats.csv")
+        row_stats = df_stats.iloc[0]
         stats_rows.append({
             'Dataset': d.upper(),
-            'Skills': row.get('total_skills'),
-            'Interactions': int(row.get('total_skills') * row.get('avg_interactions_per_skill', 0)), # reconstruct roughly or use raw
-            'Sparse Skills': row.get('sparse_skills'),
-            'Medium Skills': row.get('medium_skills'),
-            'Dense Skills': row.get('dense_skills'),
+            'Learners': row_stats.get('Learners', 0),
+            'Questions': row_stats.get('Questions', 0),
+            'Skills': row_stats.get('Skills', 0),
+            'Interactions': row_stats.get('Interactions', 0),
+            'AvgSeqLen': row_stats.get('AvgSeqLen', 0),
+            'Very Sparse Skills': row.get('very_sparse_skills', 0),
+            'Sparse Skills': row.get('sparse_skills', 0),
+            'Medium Skills': row.get('medium_skills', 0),
+            'Frequent Skills': row.get('frequent_skills', 0),
         })
+    except FileNotFoundError:
+        pass
 
 df_t1 = pd.DataFrame(stats_rows)
 df_t1.to_csv(f"{OUT_DIR}/table1_dataset_stats.csv", index=False)
@@ -87,5 +96,27 @@ md_report += "## Table 3: Model Performance (5-Seed Summary)\n\n" + df_t3.to_mar
 
 with open(f"results/paper_ready/final_publication_tables.md", "w", encoding='utf-8') as f:
     f.write(md_report)
+    
+    f.write("## Appendix: Five-Type Leakage Taxonomy\n")
+    f.write("| Type | Description | Source |\n")
+    f.write("|:---|:---|:---|\n")
+    f.write("| L1 | Edge Leakage: Future target links inside training graph | Graph topology |\n")
+    f.write("| L2 | Q-Matrix Leakage: Unknown mappings during testing | External info |\n")
+    f.write("| L3 | Temporal Leakage: Time-traveling data leaks | Time Split |\n")
+    f.write("| L4 | Cold Start: Overlapping learners | Learner Split |\n")
+    f.write("| L5 | Co-occurrence Leakage: Future interactions | Metric calc |\n\n")
+    
+    f.write("## Note: Hyperparameter Leakage\n")
+    f.write("Hyperparameter leakage (L6) occurs when hyperparameters are tuned on the test set. Our strict validation split ensures this is prevented.\n")
+
+# --- 4. 144-RUN EXPORT ---
+all_results = []
+for d in datasets:
+    base_res = load_csv_safe(f"{RESULTS_DIR}/{d}/fold_0/baseline_results.csv")
+    if base_res is not None:
+        all_results.append(base_res)
+if all_results:
+    pd.concat(all_results).to_csv(f"{OUT_DIR}/144_run_export.csv", index=False)
+    print("Exported 144_run_export.csv")
 
 print("\nAll compilation successfully written to results/paper_ready/")

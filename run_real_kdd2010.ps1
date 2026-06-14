@@ -37,10 +37,13 @@ Write-Host "[10/12] Running BASELINE PROBES (BKT & DKT)..."
 & $PythonPath -m src.baseline_probe --config $Config --fold 0 --model BKT
 & $PythonPath -m src.baseline_probe --config $Config --fold 0 --model DKT
 
-Write-Host "[11/12] Running MAKE FIGURES..."
+Write-Host "[11/13] Running DAG DISRUPTION (DDR)..."
+& $PythonPath -m src.dag_disruption --config $Config --fold 0 --seed $Seed
+
+Write-Host "[12/13] Running MAKE FIGURES..."
 & $PythonPath -m src.make_figures --config $Config --fold 0
 
-Write-Host "[12/12] Running REPORT GENERATOR..."
+Write-Host "[13/13] Running REPORT GENERATOR..."
 & $PythonPath -m src.report_generator --config $Config --fold 0
 
 Write-Host "ALL KDD2010 RESULTS SUCCESSFULLY OVERWRITTEN WITH ALGEBRA 2005-2006 DATA."

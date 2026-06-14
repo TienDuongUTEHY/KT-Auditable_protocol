@@ -1,0 +1,98 @@
+==========================================================
+NOISE ROBUSTNESS EVALUATION (10%, 20%, 50%, 100%) FOR DKT
+==========================================================
+
+PROCESSING DATASET: assist2012
+  --> Generating 0.1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.1/train.csv'
+  --> Generating 0.2 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.2 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.2/train.csv'
+  --> Generating 0.5 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.5 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.5/train.csv'
+  --> Generating 1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_1/train.csv'
+
+PROCESSING DATASET: junyi
+  --> Generating 0.1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.1/train.csv'
+  --> Generating 0.2 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.2 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.2/train.csv'
+  --> Generating 0.5 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.5 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.5/train.csv'
+  --> Generating 1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_1/train.csv'
+
+PROCESSING DATASET: kdd2010
+  --> Generating 0.1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.1/train.csv'
+  --> Generating 0.2 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.2 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.2/train.csv'
+  --> Generating 0.5 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 0.5 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.5/train.csv'
+  --> Generating 1 Noise Data...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+  --> Evaluating DKT on 1 Noise Data...
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_1/train.csv'
+
+==========================================================
+NOISE ROBUSTNESS EVALUATION COMPLETED!
+Results appended to results/tables/<dataset>/fold_0/baseline_results.csv
+==========================================================

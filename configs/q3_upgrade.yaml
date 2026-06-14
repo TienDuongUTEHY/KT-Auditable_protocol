@@ -1,0 +1,20 @@
+datasets:
+- assist2012
+- junyi
+- kdd2010
+folds:
+- 0
+- 1
+- 2
+graph_variants:
+- no_graph
+- E_pre
+- E_pre_E_sim_E_co
+models:
+- dkt
+- simplekt
+project_name: lc_mrsg_q3_upgrade
+random_seeds:
+- 42
+- 43
+- 44

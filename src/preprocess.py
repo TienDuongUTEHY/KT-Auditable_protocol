@@ -52,4 +52,10 @@ if __name__ == "__main__":
         "QMatrixSource": df_qm['source'].iloc[0] if len(df_qm) > 0 else "unknown"
     }
     pd.DataFrame([stats]).to_csv(f"{stats_dir}/dataset_stats.csv", index=False)
+    
+    # E0: KC Frequency Distribution
+    kc_freq = df_int['skill_id'].value_counts().reset_index()
+    kc_freq.columns = ['skill_id', 'frequency']
+    kc_freq.to_csv(f"{stats_dir}/kc_frequency_distribution.csv", index=False)
+    
     print(f"Preprocess for {dataset} completed.")

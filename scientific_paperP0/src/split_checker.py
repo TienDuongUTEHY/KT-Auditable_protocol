@@ -13,14 +13,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--seed", type=int, required=True)
+    parser.add_argument("--fold", type=int, default=0)
     args = parser.parse_args()
     
     cfg = load_config(args.config)
     dataset = cfg['dataset']['name']
-    set_random_seed(args.seed)
+    
+    # Use seed derived from base seed and fold to get different folds
+    set_random_seed(args.seed + args.fold)
     
     processed_dir = cfg['dataset']['processed_dir']
-    out_dir = f"{processed_dir}/fold_0"
+    out_dir = f"{processed_dir}/fold_{args.fold}"
     ensure_dir(out_dir)
     
     df_int = pd.read_csv(f"{processed_dir}/interactions.csv")
@@ -51,6 +54,6 @@ if __name__ == "__main__":
     split_hash = hashlib.md5(pd.util.hash_pandas_object(train_df, index=True).values).hexdigest()
     with open(f"{out_dir}/split_hash.txt", "w") as f: f.write(split_hash)
     with open(f"{out_dir}/split_report.md", "w") as f: 
-        f.write(f"# Split Report\\nSeed: {args.seed}\\nTrain: {len(train_df)}\\nValid: {len(valid_df)}\\nTest: {len(test_df)}\\n")
+        f.write(f"# Split Report\nSeed: {args.seed}\nFold: {args.fold}\nTrain: {len(train_df)}\nValid: {len(valid_df)}\nTest: {len(test_df)}\n")
         
-    print(f"Splitting for {dataset} completed.")
+    print(f"Splitting for {dataset} fold {args.fold} completed.")

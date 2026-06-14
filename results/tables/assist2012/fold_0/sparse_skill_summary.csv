@@ -1,2 +1,0 @@
-dataset,fold_id,total_skills,sparse_skills,medium_skills,dense_skills,p33_threshold,p66_threshold,avg_interactions_per_skill,min_interactions,max_interactions
-assist2012,0,255,84,84,87,28.6,376.9,608.14,1,10976

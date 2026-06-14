@@ -31,10 +31,13 @@ def build_e_pre(df_train, out_dir, dataset):
     print(f"  - E_pre built: {len(df_edges)} edges")
     return df_edges
 
-def build_e_sim(df_train, out_dir, dataset, threshold=0.1):
+def build_e_sim(df_train, out_dir, dataset, threshold=0.1, top_k=20):
     skill_q_map = df_train.groupby('skill_id')['question_id'].apply(set).to_dict()
     skills = list(skill_q_map.keys())
-    edges = []
+    
+    # First, calculate all similarities
+    sim_scores = {s: [] for s in skills}
+    
     for i in range(len(skills)):
         for j in range(i + 1, len(skills)):
             s1, s2 = skills[i], skills[j]
@@ -42,21 +45,34 @@ def build_e_sim(df_train, out_dir, dataset, threshold=0.1):
             intersection = len(q1.intersection(q2))
             union = len(q1.union(q2))
             jaccard = intersection / union if union > 0 else 0
-            if jaccard >= threshold:
+            if jaccard > 0 and jaccard >= threshold:
+                sim_scores[s1].append((s2, jaccard, intersection))
+                sim_scores[s2].append((s1, jaccard, intersection))
+
+    edges = []
+    processed = set()
+    for s1 in skills:
+        # Sort by jaccard descending, keep top_k
+        top_matches = sorted(sim_scores[s1], key=lambda x: x[1], reverse=True)[:top_k]
+        for s2, jaccard, intersection in top_matches:
+            pair = tuple(sorted([s1, s2]))
+            if pair not in processed:
+                processed.add(pair)
                 edges.append({
                     'dataset': dataset, 'fold_id': 0,
-                    'src_skill_id': s1, 'dst_skill_id': s2,
+                    'src_skill_id': pair[0], 'dst_skill_id': pair[1],
                     'relation_type': 'E_sim', 'directed': False,
                     'weight': jaccard, 'support_count': intersection,
                     'source_split': 'train', 'source_fold': 0, 'support_source': 'train',
                     'support_interaction_ids_hash': 'hash', 'support_question_ids_hash': 'hash',
-                    'construction_method': 'jaccard', 'threshold': threshold, 'confidence': 1.0,
+                    'construction_method': f'jaccard_top{top_k}', 'threshold': threshold, 'confidence': 1.0,
                     'created_at': datetime.datetime.now().isoformat()
                 })
+                
     columns = ['dataset', 'fold_id', 'src_skill_id', 'dst_skill_id', 'relation_type', 'directed', 'weight', 'support_count', 'source_split', 'source_fold', 'support_source', 'support_interaction_ids_hash', 'support_question_ids_hash', 'construction_method', 'threshold', 'confidence', 'created_at']
     df_edges = pd.DataFrame(edges, columns=columns)
     df_edges.to_csv(f"{out_dir}/E_sim_train.csv", index=False)
-    print(f"  - E_sim built: {len(df_edges)} edges (threshold={threshold})")
+    print(f"  - E_sim built: {len(df_edges)} edges (threshold={threshold}, top_k={top_k})")
     return df_edges
 
 def build_e_co(df_train, out_dir, dataset, min_count=2):
@@ -104,10 +120,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--fold", type=int, required=True)
+    parser.add_argument("--top_k", type=int, default=-1)
     args = parser.parse_args()
     
     cfg = load_config(args.config)
     dataset = cfg['dataset']['name']
+    
+    # Override top_k if provided
+    top_k_val = args.top_k if args.top_k > 0 else cfg.get('graph', {}).get('e_sim', {}).get('top_k', 20)
     
     in_dir = f"data/processed/{dataset}/fold_{args.fold}"
     out_dir = f"results/tables/{dataset}/fold_{args.fold}"
@@ -116,7 +136,7 @@ if __name__ == "__main__":
     df_train = pd.read_csv(f"{in_dir}/train.csv")
     
     e_pre = build_e_pre(df_train, out_dir, dataset)
-    e_sim = build_e_sim(df_train, out_dir, dataset)
+    e_sim = build_e_sim(df_train, out_dir, dataset, top_k=top_k_val)
     e_co = build_e_co(df_train, out_dir, dataset)
     
     columns = ['dataset', 'fold_id', 'src_skill_id', 'dst_skill_id', 'relation_type', 'directed', 'weight', 'support_count', 'source_split', 'source_fold', 'support_source', 'support_interaction_ids_hash', 'support_question_ids_hash', 'construction_method', 'threshold', 'confidence', 'created_at']

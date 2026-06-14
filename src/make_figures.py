@@ -165,14 +165,32 @@ def fig4_relation_ablation(out_dir, dataset, fold, tab_dir):
     save_pdf(f"{out_dir}/fig4_relation_ablation.pdf", fig)
 
 
+def fig0_kc_frequency_distribution(out_dir, dataset, fold, tab_dir):
+    """Fig 0: KC Frequency Distribution (E0)."""
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.suptitle(f"Fig 0: KC Frequency Distribution — {dataset} fold {fold}", fontsize=13, fontweight='bold')
+    try:
+        df_kc = pd.read_csv(f"results/tables/{dataset}/kc_frequency_distribution.csv")
+        ax.hist(df_kc['frequency'], bins=50, color='#4C72B0', edgecolor='black', alpha=0.8)
+        ax.set_title('KC Interaction Frequency')
+        ax.set_xlabel('Number of Interactions')
+        ax.set_ylabel('Number of KCs')
+        ax.set_yscale('log')
+    except Exception as e:
+        ax.text(0.5, 0.5, f'No KC freq data\n{e}', ha='center', va='center')
+    plt.tight_layout()
+    save_pdf(f"{out_dir}/fig0_kc_frequency_distribution.pdf", fig)
+
 def fig5_eco_threshold_sensitivity(out_dir, dataset, fold, tab_dir):
-    """Fig 5: How edge count varies with different PMI thresholds."""
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    fig.suptitle(f"Fig 5: E_co Threshold Sensitivity — {dataset} fold {fold}", fontsize=13, fontweight='bold')
+    """Fig 5: E_co Sensitivity and Heatmap of PMI vs Support Count (E7)."""
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    fig.suptitle(f"Fig 5: E_co Sensitivity & Heatmap — {dataset} fold {fold}", fontsize=13, fontweight='bold')
     try:
         df_co = pd.read_csv(f"{tab_dir}/E_co_train.csv")
         weights = df_co['weight'].dropna().values
-        thresholds = np.linspace(0, weights.max(), 30)
+        counts = df_co['support_count'].dropna().values if 'support_count' in df_co.columns else np.zeros_like(weights)
+        
+        thresholds = np.linspace(0, weights.max() if len(weights)>0 else 1, 30)
         edge_counts = [int((weights >= t).sum()) for t in thresholds]
         axes[0].plot(thresholds, edge_counts, color='#4C72B0', linewidth=2, marker='o', markersize=3)
         axes[0].set_title('Edge Count vs PMI Threshold')
@@ -189,6 +207,14 @@ def fig5_eco_threshold_sensitivity(out_dir, dataset, fold, tab_dir):
         axes[1].set_ylabel('% Edges Retained')
         axes[1].legend()
         axes[1].grid(True, alpha=0.3)
+        
+        # Heatmap (PMI vs Count)
+        if len(weights) > 0 and len(counts) > 0:
+            h = axes[2].hist2d(counts, weights, bins=30, cmap='YlGnBu', cmin=1)
+            fig.colorbar(h[3], ax=axes[2], label='Number of Edges')
+            axes[2].set_title('Heatmap: Support Count vs PMI')
+            axes[2].set_xlabel('Support Count (k_co)')
+            axes[2].set_ylabel('PMI Weight')
     except Exception as e:
         for ax in axes:
             ax.text(0.5, 0.5, f'No E_co data\n{e}', ha='center', va='center', transform=ax.transAxes)
@@ -233,10 +259,11 @@ if __name__ == "__main__":
     ensure_dir(out_dir)
 
     print(f"\n[make_figures] Generating all figures for {dataset} fold {args.fold}...")
+    fig0_kc_frequency_distribution(out_dir, dataset, args.fold, tab_dir)
     fig1_pipeline_overview(out_dir, dataset, args.fold, tab_dir)
     fig2_eco_weight_distribution(out_dir, dataset, args.fold, tab_dir)
     fig3_sparse_skill_strata(out_dir, dataset, args.fold, tab_dir)
     fig4_relation_ablation(out_dir, dataset, args.fold, tab_dir)
     fig5_eco_threshold_sensitivity(out_dir, dataset, args.fold, tab_dir)
     fig6_leakage_audit_summary(out_dir, dataset, args.fold, tab_dir)
-    print(f"[make_figures] All 6 figures for {dataset} generated successfully.\n")
+    print(f"[make_figures] All figures for {dataset} generated successfully.\n")

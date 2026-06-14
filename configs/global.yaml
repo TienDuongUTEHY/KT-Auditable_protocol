@@ -6,10 +6,10 @@ project:
   log_dir: logs
 
 splitting:
-  strategy: learner_based_temporal
-  train_ratio: 0.70
-  valid_ratio: 0.15
-  test_ratio: 0.15
+  strategy: temporal_deployment_style
+  train_ratio: 0.80
+  valid_ratio: 0.10
+  test_ratio: 0.10
   min_interactions_per_learner: 3
 
 graph:

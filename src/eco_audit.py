@@ -41,10 +41,28 @@ if __name__ == "__main__":
         "num_positive": (w > 0).sum() if not w.empty else 0
     }
     
-    rep = f"# E_co Audit\\nSymmetry Pass: {symmetry_pass}\\nTrain-only Pass: {train_only_pass}\\n"
+    c = df_co['support_count'] if not df_co.empty and 'support_count' in df_co.columns else pd.Series(dtype=int)
+    c_dist = {
+        "min": c.min() if not c.empty else 0,
+        "q25": c.quantile(0.25) if not c.empty else 0,
+        "median": c.median() if not c.empty else 0,
+        "mean": c.mean() if not c.empty else 0,
+        "q75": c.quantile(0.75) if not c.empty else 0,
+        "max": c.max() if not c.empty else 0
+    }
+    
+    rep = f"# E_co Audit\nSymmetry Pass: {symmetry_pass}\nTrain-only Pass: {train_only_pass}\n"
+    rep += f"Weight Distribution: Min={dist['min']:.4f}, Median={dist['median']:.4f}, Max={dist['max']:.4f}\n"
+    rep += f"Count Distribution: Min={c_dist['min']:.4f}, Median={c_dist['median']:.4f}, Max={c_dist['max']:.4f}\n"
     with open(f"{out_dir_rep}/eco_audit.md", "w") as f: f.write(rep)
     
-    audit_df = pd.DataFrame([{"dataset": dataset, "symmetry_pass": symmetry_pass, "train_only_pass": train_only_pass}])
+    audit_df = pd.DataFrame([{
+        "dataset": dataset, 
+        "symmetry_pass": symmetry_pass, 
+        "train_only_pass": train_only_pass,
+        "count_median": c_dist['median'],
+        "count_max": c_dist['max']
+    }])
     audit_df.to_csv(f"{out_dir_tab}/eco_audit.csv", index=False)
     
     print(f"Eco audit for {dataset} completed.")

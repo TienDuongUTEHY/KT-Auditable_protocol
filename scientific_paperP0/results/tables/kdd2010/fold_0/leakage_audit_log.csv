@@ -1,6 +1,0 @@
-dataset,fold_id,check_name,status
-kdd2010,0,L1_edge,PASS
-kdd2010,0,L2_qmatrix,PASS
-kdd2010,0,L3_temporal,PASS
-kdd2010,0,L4_coldstart,PASS
-kdd2010,0,L5_co_occurrence,PASS

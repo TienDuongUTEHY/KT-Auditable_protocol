@@ -1,1 +1,0 @@
-dataset,fold_id,src_skill_id,dst_skill_id,relation_type,directed,weight,support_count,source_split,source_fold,support_source,support_interaction_ids_hash,support_question_ids_hash,construction_method,threshold,confidence,created_at

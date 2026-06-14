@@ -1,0 +1,43 @@
+project: lc_mrsg_q3_fix
+random_seeds: [42, 43, 44, 2025, 2026]
+folds: [0, 1, 2]
+datasets: [assist2012, junyi, kdd2010]
+models: [bkt, dkt, simplekt, gikt, skt]
+graph_variants: [no_graph, e_pre, e_pre_e_sim, full_lc_mrsg]
+
+paths:
+  data_root: data/processed
+  graph_root: graphs
+  prediction_root: results/predictions
+  log_root: results/logs
+  output_root: results/q3_fix
+
+dataset_targets:
+  assist2012:
+    min_users: 22000
+    min_interactions: 220000
+    min_skills: 250
+  junyi:
+    min_users: 70000
+    min_interactions: 16000000
+    min_skills: 10
+  kdd2010:
+    min_users: 800
+    min_interactions: 1600000
+    min_skills: 900
+
+sparse_strata:
+  very_sparse_max: 50
+  sparse_max: 100
+  medium_max: 500
+
+pre_pruning:
+  target_density_default: 0.05
+  target_density_junyi: 0.20
+  topk_out_values: [3, 5, 10]
+  threshold_values: [0.70, 0.80, 0.90]
+
+topk_similarity:
+  k_values: [3, 5, 10, 20]
+
+noise_rates: [0.0, 0.05, 0.10, 0.20, 0.50, 1.0]

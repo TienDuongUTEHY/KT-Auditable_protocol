@@ -2,5 +2,5 @@ dataset,fold_id,check_name,status
 assist2012,0,L1_edge,PASS
 assist2012,0,L2_qmatrix,PASS
 assist2012,0,L3_temporal,PASS
-assist2012,0,L4_coldstart,PASS
+assist2012,0,L4_coldstart (No Learner Overlap),FAIL
 assist2012,0,L5_co_occurrence,PASS

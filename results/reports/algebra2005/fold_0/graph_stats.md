@@ -1,7 +1,0 @@
-# Graph Statistics — algebra2005 fold 0
-
-| dataset     |   fold_id | edge_type   | directed   |   num_nodes |   num_edges |   density |   avg_degree |   weight_min |   weight_mean |   weight_max |   weight_std |
-|:------------|----------:|:------------|:-----------|------------:|------------:|----------:|-------------:|-------------:|--------------:|-------------:|-------------:|
-| algebra2005 |         0 | E_pre       | True       |         108 |        5778 |  0.5      |     107      |       1      |        1      |       1      |       0      |
-| algebra2005 |         0 | E_sim       | False      |          48 |          67 |  0.059397 |       2.7917 |       0.1031 |        0.2073 |       0.5283 |       0.1034 |
-| algebra2005 |         0 | E_co        | False      |          91 |        3706 |  0.905006 |      81.4505 |       0.0059 |        0.422  |       1.5581 |       0.3855 |

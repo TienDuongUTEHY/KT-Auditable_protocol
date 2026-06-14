@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE and editors
+.vscode/
+.idea/
+.pytest_cache/
+.cache
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Large files / Data / Archives
+*.rar
+*.zip
+*.tar.gz
+*.7z
+*.pdf
+
+# Project specific data, results, runs, backups, figures, graphs
+data/
+results/
+runs/
+outputs/
+backups/
+graphs/
+figures/
+ResultBS/
+scientific_paperP0/data/
+scientific_paperP0/results/
+scientific_paperP0/runs/
+scientific_paperP0/outputs/
+scientific_paperP0/backups/
+scientific_paperP0/graphs/
+scientific_paperP0/figures/
+
+# Local logs
+*.log

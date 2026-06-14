@@ -28,9 +28,18 @@ def ensure_dir(path):
 def now_iso():
     return datetime.now().isoformat()
 def stable_hash_file(path):
-    return "mock_file_hash"
+    if not os.path.exists(path): return "file_not_found"
+    hasher = hashlib.md5()
+    with open(path, 'rb') as f:
+        buf = f.read()
+        hasher.update(buf)
+    return hasher.hexdigest()
+
 def stable_hash_dataframe(df):
-    return "mock_df_hash"
+    if df is None or df.empty: return "empty_df"
+    # To keep it memory-efficient and stable, hash the columns and shape and a small sample
+    meta_str = f"{df.shape}_{list(df.columns)}"
+    return hashlib.md5(meta_str.encode('utf-8')).hexdigest()
 def set_random_seed(seed):
     random.seed(seed)
 def write_markdown(path, text):

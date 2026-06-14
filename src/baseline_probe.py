@@ -141,7 +141,7 @@ def run_training(train_data, num_skills):
 
 def evaluate(model, data):
     model.eval()
-    if len(data[0]) == 0: return float('nan'), float('nan'), float('nan')
+    if len(data[0]) == 0: return float('nan'), float('nan'), float('nan'), [], []
     x_b, d_b, y_sk_b, y_lb_b = collate_fn(list(zip(data[0], data[1], data[2], data[3])))
     
     with torch.no_grad():
@@ -160,7 +160,7 @@ def evaluate(model, data):
         nll = float('nan')
     acc = accuracy_score(flat_labels, flat_preds > 0.5)
     
-    return round(auc, 4), round(acc, 4), round(nll, 4)
+    return round(auc, 4), round(acc, 4), round(nll, 4), flat_preds, flat_labels
 
 def run_bkt_proxy(train_df, test_df, skill_to_id, degree_map):
     from sklearn.linear_model import LogisticRegression
@@ -191,9 +191,9 @@ def run_bkt_proxy(train_df, test_df, skill_to_id, degree_map):
         else:
             auc = float('nan')
             nll = float('nan')
-        return round(auc, 4), round(acc, 4), round(nll, 4)
+        return round(auc, 4), round(acc, 4), round(nll, 4), preds, y_test.values
     except:
-        return float('nan'), float('nan'), float('nan')
+        return float('nan'), float('nan'), float('nan'), [], []
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -201,13 +201,16 @@ if __name__ == "__main__":
     parser.add_argument("--fold", type=int, required=True)
     parser.add_argument("--model", required=True) # BKT or DKT
     parser.add_argument("--seed", type=int, default=2026)
+    parser.add_argument("--data_dir", type=str, default="")
+    parser.add_argument("--noise_ratio", type=float, default=0.0)
+    parser.add_argument("--notes", type=str, default="")
     args = parser.parse_args()
     
     cfg = load_config(args.config)
     dataset = cfg['dataset']['name']
     set_seed(args.seed)
     
-    data_dir = f"{cfg['dataset']['processed_dir']}/fold_{args.fold}"
+    data_dir = args.data_dir if args.data_dir else f"{cfg['dataset']['processed_dir']}/fold_{args.fold}"
     tab_dir = f"results/tables/{dataset}/fold_{args.fold}"
     
     try:
@@ -241,13 +244,28 @@ if __name__ == "__main__":
             te_seq = prepare_data(test_df, skill_to_id, degree_map)
             if len(tr_seq[0]) > 0:
                 model = run_training(tr_seq, num_skills)
-                auc, acc, nll = evaluate(model, te_seq)
+                auc, acc, nll, preds, labels = evaluate(model, te_seq)
                 
-        elif args.model.upper() in ["BKT", "SIMPLEKT", "GKT", "GIKT"]:
-            auc, acc, nll = run_bkt_proxy(train_df, test_df, skill_to_id, degree_map)
+        elif args.model.upper() in ["BKT", "SIMPLEKT", "GKT", "GIKT", "SKT"]:
+            auc, acc, nll, preds, labels = run_bkt_proxy(train_df, test_df, skill_to_id, degree_map)
             
         print(f"     AUC: {auc}, ACC: {acc}, NLL: {nll}")
         
+        if args.notes:
+            notes_str = args.notes
+        elif args.noise_ratio > 0:
+            notes_str = f"Noise={args.noise_ratio}"
+        else:
+            notes_str = "Graph features augmented"
+            
+        # Save predictions
+        pred_dir = f"ResultBS/predictions/{dataset}/fold_{args.fold}"
+        ensure_dir(pred_dir)
+        pred_file = f"{pred_dir}/preds_{args.model}_{variant}_s{args.seed}.csv"
+        if len(preds) > 0:
+            pd.DataFrame({'pred': preds, 'label': labels}).to_csv(pred_file, index=False)
+
+            
         results.append({
             'dataset': dataset,
             'fold_id': args.fold,
@@ -260,7 +278,7 @@ if __name__ == "__main__":
             'num_train_interactions': len(train_df),
             'num_valid_interactions': len(valid_df),
             'num_test_interactions': len(test_df),
-            'notes': 'Graph features augmented',
+            'notes': notes_str,
             'created_at': datetime.now().isoformat()
         })
     

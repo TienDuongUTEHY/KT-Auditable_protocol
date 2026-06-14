@@ -1,2 +1,0 @@
-dataset,fold_id,total_skills,sparse_skills,medium_skills,dense_skills,p33_threshold,p66_threshold,avg_interactions_per_skill,min_interactions,max_interactions
-junyi,0,10,3,3,4,4628.9,27885.6,35002.9,132,206512

@@ -1,0 +1,877 @@
+==========================================================
+MASTER AUTOMATION RUN - PLAN B (REVIEWER RESPONSES)
+==========================================================
+
+==========================================================
+PROCESSING DATASET: kdd2010
+==========================================================
+[CORE] Running Preprocess for Deployment 80/20 Split...
+Preprocess for kdd2010 completed.
+  --> Executing Pipeline for Seed: 2024
+Splitting for kdd2010 completed.
+QMatrix provenance for kdd2010 completed. Status: PASS
+  - E_pre built: 402753 edges
+  - E_sim built: 407 edges (threshold=0.1, top_k=20)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+DAG audit for kdd2010 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for kdd2010 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 1.1407, max: 5.8636
+Leakage audit for kdd2010 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=898, edges=402753, density=0.5000
+  [graph_stats] E_sim_train: nodes=284, edges=407, density=0.0101
+  [graph_stats] E_co_train: nodes=763, edges=197581, density=0.6797
+Graph statistics for kdd2010 saved.
+Sparse-skill profile for kdd2010: very_sparse=233, sparse=73, medium=204, frequent=388
+DAG Disruption Rate (DDR) experiment for kdd2010 completed.
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.7608, ACC: 0.8106, NLL: 0.4292
+  -> Testing variant: E_pre
+     AUC: 0.7615, ACC: 0.814, NLL: 0.4284
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7633, ACC: 0.8095, NLL: 0.4276
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7614, ACC: 0.8099, NLL: 0.4292
+[simpleKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[GIKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[SKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2024.
+  --> Executing Pipeline for Seed: 2025
+Splitting for kdd2010 completed.
+QMatrix provenance for kdd2010 completed. Status: PASS
+  - E_pre built: 402753 edges
+  - E_sim built: 407 edges (threshold=0.1, top_k=20)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+DAG audit for kdd2010 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for kdd2010 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 1.1407, max: 5.8636
+Leakage audit for kdd2010 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=898, edges=402753, density=0.5000
+  [graph_stats] E_sim_train: nodes=284, edges=407, density=0.0101
+  [graph_stats] E_co_train: nodes=763, edges=197581, density=0.6797
+Graph statistics for kdd2010 saved.
+Sparse-skill profile for kdd2010: very_sparse=233, sparse=73, medium=204, frequent=388
+DAG Disruption Rate (DDR) experiment for kdd2010 completed.
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.7669, ACC: 0.8101, NLL: 0.4256
+  -> Testing variant: E_pre
+     AUC: 0.7624, ACC: 0.8119, NLL: 0.4282
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7623, ACC: 0.8112, NLL: 0.4281
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7641, ACC: 0.8122, NLL: 0.4268
+[simpleKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[GIKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[SKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2025.
+  --> Executing Pipeline for Seed: 2026
+Splitting for kdd2010 completed.
+QMatrix provenance for kdd2010 completed. Status: PASS
+  - E_pre built: 402753 edges
+  - E_sim built: 407 edges (threshold=0.1, top_k=20)
+  - E_co built: 197581 edges (min_count=2)
+Graph construction for kdd2010 completed.
+DAG audit for kdd2010 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for kdd2010 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 1.1407, max: 5.8636
+Leakage audit for kdd2010 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=898, edges=402753, density=0.5000
+  [graph_stats] E_sim_train: nodes=284, edges=407, density=0.0101
+  [graph_stats] E_co_train: nodes=763, edges=197581, density=0.6797
+Graph statistics for kdd2010 saved.
+Sparse-skill profile for kdd2010: very_sparse=233, sparse=73, medium=204, frequent=388
+DAG Disruption Rate (DDR) experiment for kdd2010 completed.
+[BKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.76, ACC: 0.8097, NLL: 0.4302
+  -> Testing variant: E_pre
+     AUC: 0.7612, ACC: 0.8091, NLL: 0.4296
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.7648, ACC: 0.8101, NLL: 0.4273
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.7622, ACC: 0.8105, NLL: 0.4287
+[simpleKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[GIKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+[SKT] Dataset contains 905 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre
+     AUC: 0.6849, ACC: 0.7937, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6849, ACC: 0.793, NLL: 0.4373
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6851, ACC: 0.7944, NLL: 0.4373
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/kdd2010/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2026.
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\make_figures.py:112: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = axes[1].boxplot(strata_groups, labels=strata_order, patch_artist=True)
+
+[make_figures] Generating all figures for kdd2010 fold 0...
+  Saved: results/figures/kdd2010/fold_0/fig0_kc_frequency_distribution.pdf
+  Saved: results/figures/kdd2010/fold_0/fig1_pipeline.pdf
+  Saved: results/figures/kdd2010/fold_0/fig2_eco_weight_distribution.pdf
+  Saved: results/figures/kdd2010/fold_0/fig3_sparse_skill_strata.pdf
+  Saved: results/figures/kdd2010/fold_0/fig4_relation_ablation.pdf
+  Saved: results/figures/kdd2010/fold_0/fig5_eco_threshold_sensitivity_optional.pdf
+  Saved: results/figures/kdd2010/fold_0/fig6_leakage_audit_summary.pdf
+[make_figures] All figures for kdd2010 generated successfully.
+
+[report] Diagnostic report written: results/reports/kdd2010/fold_0/p0_diagnostic_report.md
+[report] Archives created in results/paper_ready/
+End-to-end P0 pipeline completed for kdd2010 fold 0.
+
+==========================================================
+PROCESSING DATASET: assist2012
+==========================================================
+[CORE] Running Preprocess for Deployment 80/20 Split...
+Error loading assist2012 raw files: [Errno 2] No such file or directory: 'data/raw/assist2012/interactions.csv'
+  --> Executing Pipeline for Seed: 2024
+Splitting for assist2012 completed.
+QMatrix provenance for assist2012 completed. Status: PASS
+  - E_pre built: 32131 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 9994 edges (min_count=2)
+Graph construction for assist2012 completed.
+DAG audit for assist2012 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for assist2012 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.9747, max: 8.5986
+Leakage audit for assist2012 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=254, edges=32131, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=245, edges=9994, density=0.3344
+Graph statistics for assist2012 saved.
+Sparse-skill profile for assist2012: very_sparse=60, sparse=61, medium=52, frequent=81
+DAG Disruption Rate (DDR) experiment for assist2012 completed.
+[BKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.575, ACC: 0.6647, NLL: 0.6447
+  -> Testing variant: E_pre
+     AUC: 0.5795, ACC: 0.672, NLL: 0.6417
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5776, ACC: 0.6659, NLL: 0.6488
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5823, ACC: 0.6683, NLL: 0.6417
+[simpleKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[GIKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[SKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2024.
+  --> Executing Pipeline for Seed: 2025
+Splitting for assist2012 completed.
+QMatrix provenance for assist2012 completed. Status: PASS
+  - E_pre built: 32131 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 9994 edges (min_count=2)
+Graph construction for assist2012 completed.
+DAG audit for assist2012 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for assist2012 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.9747, max: 8.5986
+Leakage audit for assist2012 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=254, edges=32131, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=245, edges=9994, density=0.3344
+Graph statistics for assist2012 saved.
+Sparse-skill profile for assist2012: very_sparse=60, sparse=61, medium=52, frequent=81
+DAG Disruption Rate (DDR) experiment for assist2012 completed.
+[BKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5775, ACC: 0.6673, NLL: 0.6435
+  -> Testing variant: E_pre
+     AUC: 0.5765, ACC: 0.6648, NLL: 0.6454
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5814, ACC: 0.6693, NLL: 0.6411
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5766, ACC: 0.6687, NLL: 0.6416
+[simpleKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[GIKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[SKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2025.
+  --> Executing Pipeline for Seed: 2026
+Splitting for assist2012 completed.
+QMatrix provenance for assist2012 completed. Status: PASS
+  - E_pre built: 32131 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 9994 edges (min_count=2)
+Graph construction for assist2012 completed.
+DAG audit for assist2012 completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for assist2012 completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.9747, max: 8.5986
+Leakage audit for assist2012 completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=254, edges=32131, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=245, edges=9994, density=0.3344
+Graph statistics for assist2012 saved.
+Sparse-skill profile for assist2012: very_sparse=60, sparse=61, medium=52, frequent=81
+DAG Disruption Rate (DDR) experiment for assist2012 completed.
+[BKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5792, ACC: 0.6694, NLL: 0.6438
+  -> Testing variant: E_pre
+     AUC: 0.5703, ACC: 0.6621, NLL: 0.6448
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5799, ACC: 0.6725, NLL: 0.644
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5814, ACC: 0.6661, NLL: 0.6387
+[simpleKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[GIKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+[SKT] Dataset contains 256 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.5343, ACC: 0.6961, NLL: 0.6129
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5301, ACC: 0.6961, NLL: 0.6128
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/assist2012/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2026.
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\make_figures.py:112: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = axes[1].boxplot(strata_groups, labels=strata_order, patch_artist=True)
+
+[make_figures] Generating all figures for assist2012 fold 0...
+  Saved: results/figures/assist2012/fold_0/fig0_kc_frequency_distribution.pdf
+  Saved: results/figures/assist2012/fold_0/fig1_pipeline.pdf
+  Saved: results/figures/assist2012/fold_0/fig2_eco_weight_distribution.pdf
+  Saved: results/figures/assist2012/fold_0/fig3_sparse_skill_strata.pdf
+  Saved: results/figures/assist2012/fold_0/fig4_relation_ablation.pdf
+  Saved: results/figures/assist2012/fold_0/fig5_eco_threshold_sensitivity_optional.pdf
+  Saved: results/figures/assist2012/fold_0/fig6_leakage_audit_summary.pdf
+[make_figures] All figures for assist2012 generated successfully.
+
+[report] Diagnostic report written: results/reports/assist2012/fold_0/p0_diagnostic_report.md
+[report] Archives created in results/paper_ready/
+End-to-end P0 pipeline completed for assist2012 fold 0.
+
+==========================================================
+PROCESSING DATASET: junyi
+==========================================================
+[CORE] Running Preprocess for Deployment 80/20 Split...
+Traceback (most recent call last):
+  File "D:\scientific_paper1\miniconda3\envs\scientific_paper1\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'interaction_id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\preprocess.py", line 28, in <module>
+    df_int['interaction_id'] = df_int['interaction_id'].astype(str)
+                               ~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\scientific_paper1\miniconda3\envs\scientific_paper1\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\scientific_paper1\miniconda3\envs\scientific_paper1\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'interaction_id'
+  --> Executing Pipeline for Seed: 2024
+Splitting for junyi completed.
+QMatrix provenance for junyi completed. Status: PASS
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 23 edges (min_count=2)
+Graph construction for junyi completed.
+DAG audit for junyi completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for junyi completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.7445, max: 3.0401
+Leakage audit for junyi completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=10, edges=45, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=10, edges=23, density=0.5111
+Graph statistics for junyi saved.
+Sparse-skill profile for junyi: very_sparse=0, sparse=0, medium=3, frequent=7
+DAG Disruption Rate (DDR) experiment for junyi completed.
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6439, ACC: 0.7186, NLL: 0.5733
+  -> Testing variant: E_pre
+     AUC: 0.6443, ACC: 0.7201, NLL: 0.5727
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6436, ACC: 0.7193, NLL: 0.5731
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6437, ACC: 0.7209, NLL: 0.5728
+[simpleKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[GIKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[SKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2024.
+  --> Executing Pipeline for Seed: 2025
+Splitting for junyi completed.
+QMatrix provenance for junyi completed. Status: PASS
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 23 edges (min_count=2)
+Graph construction for junyi completed.
+DAG audit for junyi completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for junyi completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.7445, max: 3.0401
+Leakage audit for junyi completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=10, edges=45, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=10, edges=23, density=0.5111
+Graph statistics for junyi saved.
+Sparse-skill profile for junyi: very_sparse=0, sparse=0, medium=3, frequent=7
+DAG Disruption Rate (DDR) experiment for junyi completed.
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6437, ACC: 0.7208, NLL: 0.5731
+  -> Testing variant: E_pre
+     AUC: 0.6425, ACC: 0.7203, NLL: 0.5733
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6432, ACC: 0.7203, NLL: 0.5731
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.6426, ACC: 0.7205, NLL: 0.573
+[simpleKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[GIKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[SKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2025.
+  --> Executing Pipeline for Seed: 2026
+Splitting for junyi completed.
+QMatrix provenance for junyi completed. Status: PASS
+  - E_pre built: 45 edges
+  - E_sim built: 0 edges (threshold=0.1, top_k=20)
+  - E_co built: 23 edges (min_count=2)
+Graph construction for junyi completed.
+DAG audit for junyi completed.
+  - Cycles before pruning: 0
+  - Edges removed: 0
+  - Cycles after pruning: 0
+Eco audit for junyi completed.
+  - Symmetry Pass: True
+  - Train-only Source Pass: True
+  - E_co weight median: 0.7445, max: 3.0401
+Leakage audit for junyi completed:
+  - L1_edge: PASS
+  - L2_qmatrix: PASS
+  - L3_temporal: PASS
+  - L4_coldstart (No Learner Overlap): FAIL
+  - L5_co_occurrence: PASS
+  [graph_stats] E_pre_train_pruned: nodes=10, edges=45, density=0.5000
+  [graph_stats] E_sim_train: skipped (empty)
+  [graph_stats] E_co_train: nodes=10, edges=23, density=0.5111
+Graph statistics for junyi saved.
+Sparse-skill profile for junyi: very_sparse=0, sparse=0, medium=3, frequent=7
+DAG Disruption Rate (DDR) experiment for junyi completed.
+[BKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\baseline_probe.py:99: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\cb\pytorch_1000000000000\work\torch\csrc\utils\tensor_numpy.cpp:212.)
+  y_labels.append(torch.FloatTensor(next_labels))
+[DKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.6427, ACC: 0.7188, NLL: 0.5734
+  -> Testing variant: E_pre
+     AUC: 0.6424, ACC: 0.7202, NLL: 0.5733
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.6428, ACC: 0.7194, NLL: 0.5735
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.644, ACC: 0.7203, NLL: 0.5729
+[simpleKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[GIKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+[SKT] Dataset contains 10 mapped skills.
+  -> Testing variant: no_graph
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim
+     AUC: 0.583, ACC: 0.7166, NLL: 0.5908
+  -> Testing variant: E_pre_E_sim_E_co
+     AUC: 0.5853, ACC: 0.7166, NLL: 0.5901
+  --> Running Noise Robustness (10% and 20%)...
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Traceback (most recent call last):
+  File "D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\noise_robustness.py", line 5, in <module>
+    from src.common import load_config, ensure_dir, set_random_seed
+ModuleNotFoundError: No module named 'src'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.1/train.csv'
+Error loading split files: [Errno 2] No such file or directory: 'data/processed/junyi/fold_0/noisy_0.2/train.csv'
+  [v] Completed iteration for seed 2026.
+D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\src\make_figures.py:112: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = axes[1].boxplot(strata_groups, labels=strata_order, patch_artist=True)
+
+[make_figures] Generating all figures for junyi fold 0...
+  Saved: results/figures/junyi/fold_0/fig0_kc_frequency_distribution.pdf
+  Saved: results/figures/junyi/fold_0/fig1_pipeline.pdf
+  Saved: results/figures/junyi/fold_0/fig2_eco_weight_distribution.pdf
+  Saved: results/figures/junyi/fold_0/fig3_sparse_skill_strata.pdf
+  Saved: results/figures/junyi/fold_0/fig4_relation_ablation.pdf
+  Saved: results/figures/junyi/fold_0/fig5_eco_threshold_sensitivity_optional.pdf
+  Saved: results/figures/junyi/fold_0/fig6_leakage_audit_summary.pdf
+[make_figures] All figures for junyi generated successfully.
+
+[report] Diagnostic report written: results/reports/junyi/fold_0/p0_diagnostic_report.md
+[report] Archives created in results/paper_ready/
+End-to-end P0 pipeline completed for junyi fold 0.
+==========================================================
+ALL 3 DATASETS AND 3 SEEDS EXECUTED SUCCESSFULLY!
+==========================================================
+[POST] Generating Final Publication Tables (144-run export, Taxonomy)...
+=== GENERATING FINAL PUBLICATION TABLES ===
+Generated Table 1: Dataset Statistics
+Generated Table 2: Graph Comparison
+Generated Table 3: Baseline Metrics Summary
+Exported 144_run_export.csv
+
+All compilation successfully written to results/paper_ready/

@@ -16,11 +16,15 @@ foreach ($Dataset in $Datasets) {
     & $PythonPath -m src.leakage_audit --config $Config --fold 0
     & $PythonPath -m src.graph_statistics --config $Config --fold 0
     & $PythonPath -m src.sparse_skill_profile --config $Config --fold 0
+    & $PythonPath -m src.dag_disruption --config $Config --fold 0 --seed $Seed
     & $PythonPath -m src.baseline_probe --config $Config --fold 0 --model BKT
     & $PythonPath -m src.baseline_probe --config $Config --fold 0 --model DKT
     & $PythonPath -m src.make_figures --config $Config --fold 0
     & $PythonPath -m src.report_generator --config $Config --fold 0
     Write-Host "Done $Dataset reproduction!"
 }
+
+Write-Host "Generating Final Publication Tables..."
+& $PythonPath scripts/generate_publication_tables.py
 
 Write-Host "Mini-Test Completed Successfully across all 3 datasets."
