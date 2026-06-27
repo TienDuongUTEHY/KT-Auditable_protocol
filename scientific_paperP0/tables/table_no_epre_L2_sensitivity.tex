@@ -1,0 +1,17 @@
+\begin{table}[h]
+\centering
+\caption{No-Epre Sensitivity Analysis and L2 Residual Risk Assessment.}
+\label{tab:no_epre_L2_sensitivity}
+\begin{tabular}{llccccccl}
+\toprule
+Dataset & Backbone & Original Selected & Original Test AUC & Best No-Epre Selected & No-Epre Test AUC & Delta vs No-Graph & Survives $\ge$ 0.005 \\
+\midrule
+ASSIST2012 & DKT & e_pre & 0.6171 & no_graph & 0.6143 & 0.0000 & No \\
+ASSIST2012 & SIMPLEKT & no_graph & 0.6216 & no_graph & 0.6216 & 0.0000 & No \\
+JUNYI & DKT & relation_gated_1 & 0.6713 & e_co_only & 0.6715 & 0.0003 & No \\
+JUNYI & SIMPLEKT & no_graph & 0.6726 & e_co_only & 0.6731 & 0.0005 & No \\
+KDD2010 & DKT & e_pre_e_sim & 0.7647 & e_co_only & 0.7620 & 0.0023 & No \\
+KDD2010 & SIMPLEKT & no_graph & 0.7576 & e_co_only & 0.7574 & -0.0002 & No \\
+\bottomrule
+\end{tabular}
+\end{table}

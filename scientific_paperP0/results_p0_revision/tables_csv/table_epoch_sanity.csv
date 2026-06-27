@@ -1,0 +1,9 @@
+dataset,fold,seed,backbone,epoch_budget,auc_no_graph,auc_selected_graph,delta_auc,sign_delta,main_two_epoch_delta_if_available,sign_preserved_vs_main,train_loss_last,valid_auc_last,convergence_label,notes
+assist2012,1,42,dkt,5,0.6248,0.6249,0.0001,positive,-0.0008,no,0.5808,0.6199,still_improving,Selected graph configuration: e_pre_e_sim
+assist2012,1,42,dkt,10,0.6146,0.6083,-0.0063,negative,-0.0008,yes,0.5586,0.6062,still_improving,Selected graph configuration: e_pre_e_sim
+assist2012,1,42,simplekt,5,0.6326,0.6326,0.0,zero,0.0048,no,0.5734,0.6232,still_improving,Selected graph configuration: e_pre
+assist2012,1,42,simplekt,10,0.6158,0.6158,0.0,zero,0.0048,no,0.5503,0.6084,still_improving,Selected graph configuration: e_pre
+junyi,1,42,dkt,5,0.6622,0.6602,-0.002,negative,0.0013,no,0.5829,0.6677,still_improving,Selected graph configuration: e_pre
+junyi,1,42,dkt,10,0.6619,0.6615,-0.0004,negative,0.0013,no,0.581,0.6675,still_improving,Selected graph configuration: e_pre
+junyi,1,42,simplekt,5,0.6628,0.6628,0.0,zero,0.0001,no,0.5814,0.6691,still_improving,Selected graph configuration: e_pre_e_sim
+junyi,1,42,simplekt,10,0.6632,0.6632,0.0,zero,0.0001,no,0.5807,0.6694,still_improving,Selected graph configuration: e_pre_e_sim

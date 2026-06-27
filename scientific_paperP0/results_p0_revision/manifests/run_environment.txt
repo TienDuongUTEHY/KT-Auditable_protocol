@@ -1,0 +1,7 @@
+python_version: 3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 16:36:12) [MSC v.1944 64 bit (AMD64)]
+platform: Windows-10-10.0.19045-SP0
+cuda_available: no
+gpu_name_or_NA: NA
+git_commit: 1913b250fe6d678b16cb2001b1682d8276018b3a
+git_branch: main
+uncommitted_changes_yes_no: yes

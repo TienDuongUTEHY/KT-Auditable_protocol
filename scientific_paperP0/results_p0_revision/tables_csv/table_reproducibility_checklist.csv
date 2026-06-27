@@ -1,0 +1,9 @@
+artifact,path,status,sha256,purpose,used_in_main_text_yes_no
+Dataset Statistics Table,results_p0_revision/tables_csv/table_dataset_statistics.csv,available,8aa52d4b8e7b00f232d050e3b43c2db7c485f16e04da70d91a6c922a98261fda,"Audits users, questions, skills, interactions per split, density.",yes
+Graph Provenance Table,results_p0_revision/tables_csv/table_graph_provenance_corrected.csv,available,3e969e93d8bbdce422264a8044adc8d031638ece3f784f01adb6e15434821105,Corrects and verifies graph edge limits for KDD2010 and other datasets.,yes
+Leakage Audit Table,results_p0_revision/tables_csv/table_leakage_audit_L1_L6.csv,available,42ef03564489e112601bdf20c7e41728f486c15ab0741280d32137b5e8799a50,Documents split boundary and selection leakage audits L1-L6.,yes
+Main AUC Delta Table,results_p0_revision/tables_csv/table_main_auc_delta_holm.csv,available,5954fe551231f34145c43130beff6148347b5eab9c130e569059315b175330cd,"Displays mean test AUC delta, 95% confidence intervals, and Holm p-values.",yes
+Selected Relation Variants Table,results_p0_revision/tables_csv/table_selected_relation_variants.csv,available,3d9338becf0554b269c33914f32a5ef49795903c3e120aed1de72474cde4a446,Tracks selection frequency of candidate graphs.,yes
+Epoch Sanity Check Table,results_p0_revision/tables_csv/table_epoch_sanity.csv,available,0aa17e041670775d8bcc02fae10cef5f2e360f43ec0042c51ab10ee0d619efc7,Sanity audits DKT and simpleKT convergence at 5 and 10 epochs.,yes
+Hardware/Runtime Table,results_p0_revision/tables_csv/table_hardware_runtime.csv,available,950e1666669af72b2fbee75551878105928ee61acbbfc04c86c9d032d65978d5,"Details system hardware (CPU/GPU, RAM) and pipeline running times.",yes
+Anonymous Repository Link,https://anonymous.4open.science/r/LC-MRSG,available,,Anonymous code sharing for double-blind peer review.,yes

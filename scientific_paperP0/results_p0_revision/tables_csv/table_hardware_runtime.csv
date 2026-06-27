@@ -1,0 +1,12 @@
+parameter,details
+CPU,Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz (2 physical / 4 logical cores)
+GPU,"N/A (CPU-only execution, CUDA not available)"
+System RAM,15.89 GB (16 GB total)
+OS Platform,Windows-10-10.0.19045-SP0
+Python Version,3.12.13 (Conda environment)
+Epoch Budget (Main),2 epochs (validation gating and edge boosting sweeps)
+Epoch Budget (Sanity),5 and 10 epochs (direction-check audits)
+Training Time (BKT Proxy),<0.1 seconds per model-seed-fold
+Training Time (Neural KT),~10-30 seconds per run (fold/seed/variant) on CPU
+Total Experiment Suite Time,"~6.5 hours (all datasets, models, variants, folds, seeds)"
+Total Revision Pipeline Runtime,"~120 seconds (repo scan, all audits, table and manifest generation)"

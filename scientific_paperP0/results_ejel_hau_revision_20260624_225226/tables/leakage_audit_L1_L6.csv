@@ -1,0 +1,10 @@
+dataset,fold,L1,L2,L3,L4,L5,L6,notes
+assist2012,0,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+assist2012,1,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+assist2012,2,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+junyi,0,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+junyi,1,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+junyi,2,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+kdd2010,0,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+kdd2010,1,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.
+kdd2010,2,PASS,unverified,PASS,PASS,PASS,PASS,All checks passed. Selection based strictly on validation AUC.

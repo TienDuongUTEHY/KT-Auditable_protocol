@@ -1,0 +1,43 @@
+\begin{table*}[htbp]
+\centering
+\caption{Overall KT model performance comparison (No Graph vs. LC-MRSG++) across 15 runs.}
+\label{tab:overall-perf-calibration}
+\begin{tabular}{lllccc}
+\hline
+Dataset & Model & Variant & AUC (Mean $\pm$ 95\% CI) & ECE (Mean $\pm$ 95\% CI) & Brier Score (Mean $\pm$ 95\% CI) \\
+\hline
+ASSIST2012 & BKT & No Graph (Baseline) & 0.5554 $\pm$ 0.0015 & 0.0073 $\pm$ 0.0017 & 0.2086 $\pm$ 0.0013 \\
+ASSIST2012 & BKT & LC-MRSG++ (Proposed) & 0.5544 $\pm$ 0.0020 & 0.0078 $\pm$ 0.0017 & 0.2086 $\pm$ 0.0013 \\
+ASSIST2012 & DKT & No Graph (Baseline) & 0.5939 $\pm$ 0.0033 & 0.0824 $\pm$ 0.0089 & 0.2187 $\pm$ 0.0032 \\
+ASSIST2012 & DKT & LC-MRSG++ (Proposed) & 0.5922 $\pm$ 0.0037 & 0.0836 $\pm$ 0.0096 & 0.2193 $\pm$ 0.0031 \\
+ASSIST2012 & SIMPLEKT & No Graph (Baseline) & 0.6003 $\pm$ 0.0018 & 0.0812 $\pm$ 0.0050 & 0.2176 $\pm$ 0.0016 \\
+ASSIST2012 & SIMPLEKT & LC-MRSG++ (Proposed) & 0.6010 $\pm$ 0.0025 & 0.0785 $\pm$ 0.0037 & 0.2167 $\pm$ 0.0015 \\
+ASSIST2012 & GIKT & No Graph (Baseline) & 0.6045 $\pm$ 0.0024 & 0.0632 $\pm$ 0.0020 & 0.2131 $\pm$ 0.0013 \\
+ASSIST2012 & GIKT & LC-MRSG++ (Proposed) & 0.6043 $\pm$ 0.0019 & 0.0630 $\pm$ 0.0030 & 0.2133 $\pm$ 0.0015 \\
+ASSIST2012 & SKT & No Graph (Baseline) & 0.6143 $\pm$ 0.0022 & 0.0542 $\pm$ 0.0019 & 0.2095 $\pm$ 0.0015 \\
+ASSIST2012 & SKT & LC-MRSG++ (Proposed) & 0.6118 $\pm$ 0.0017 & 0.0543 $\pm$ 0.0024 & 0.2098 $\pm$ 0.0013 \\
+\hline
+JUNYI & BKT & No Graph (Baseline) & 0.6061 $\pm$ 0.0033 & 0.0397 $\pm$ 0.0010 & 0.2096 $\pm$ 0.0004 \\
+JUNYI & BKT & LC-MRSG++ (Proposed) & 0.6081 $\pm$ 0.0024 & 0.0363 $\pm$ 0.0028 & 0.2093 $\pm$ 0.0003 \\
+JUNYI & DKT & No Graph (Baseline) & 0.6662 $\pm$ 0.0028 & 0.0123 $\pm$ 0.0019 & 0.1992 $\pm$ 0.0007 \\
+JUNYI & DKT & LC-MRSG++ (Proposed) & 0.6664 $\pm$ 0.0029 & 0.0117 $\pm$ 0.0021 & 0.1991 $\pm$ 0.0007 \\
+JUNYI & SIMPLEKT & No Graph (Baseline) & 0.6670 $\pm$ 0.0036 & 0.0103 $\pm$ 0.0020 & 0.1988 $\pm$ 0.0009 \\
+JUNYI & SIMPLEKT & LC-MRSG++ (Proposed) & 0.6645 $\pm$ 0.0072 & 0.0130 $\pm$ 0.0030 & 0.1993 $\pm$ 0.0015 \\
+JUNYI & GIKT & No Graph (Baseline) & 0.6673 $\pm$ 0.0028 & 0.0115 $\pm$ 0.0026 & 0.1989 $\pm$ 0.0007 \\
+JUNYI & GIKT & LC-MRSG++ (Proposed) & 0.6673 $\pm$ 0.0028 & 0.0096 $\pm$ 0.0028 & 0.1989 $\pm$ 0.0007 \\
+JUNYI & SKT & No Graph (Baseline) & 0.6683 $\pm$ 0.0028 & 0.0119 $\pm$ 0.0024 & 0.1986 $\pm$ 0.0006 \\
+JUNYI & SKT & LC-MRSG++ (Proposed) & 0.6681 $\pm$ 0.0027 & 0.0109 $\pm$ 0.0015 & 0.1986 $\pm$ 0.0006 \\
+\hline
+KDD2010 & BKT & No Graph (Baseline) & 0.7273 $\pm$ 0.0039 & 0.0426 $\pm$ 0.0010 & 0.1430 $\pm$ 0.0023 \\
+KDD2010 & BKT & LC-MRSG++ (Proposed) & 0.7273 $\pm$ 0.0039 & 0.0425 $\pm$ 0.0012 & 0.1430 $\pm$ 0.0023 \\
+KDD2010 & DKT & No Graph (Baseline) & 0.7560 $\pm$ 0.0064 & 0.0611 $\pm$ 0.0035 & 0.1468 $\pm$ 0.0033 \\
+KDD2010 & DKT & LC-MRSG++ (Proposed) & 0.7568 $\pm$ 0.0058 & 0.0611 $\pm$ 0.0027 & 0.1464 $\pm$ 0.0033 \\
+KDD2010 & SIMPLEKT & No Graph (Baseline) & 0.7469 $\pm$ 0.0063 & 0.0728 $\pm$ 0.0039 & 0.1511 $\pm$ 0.0037 \\
+KDD2010 & SIMPLEKT & LC-MRSG++ (Proposed) & 0.7472 $\pm$ 0.0050 & 0.0731 $\pm$ 0.0029 & 0.1513 $\pm$ 0.0034 \\
+KDD2010 & GIKT & No Graph (Baseline) & 0.7737 $\pm$ 0.0058 & 0.0414 $\pm$ 0.0026 & 0.1400 $\pm$ 0.0032 \\
+KDD2010 & GIKT & LC-MRSG++ (Proposed) & 0.7724 $\pm$ 0.0054 & 0.0399 $\pm$ 0.0028 & 0.1400 $\pm$ 0.0032 \\
+KDD2010 & SKT & No Graph (Baseline) & 0.7596 $\pm$ 0.0061 & 0.0502 $\pm$ 0.0033 & 0.1441 $\pm$ 0.0032 \\
+KDD2010 & SKT & LC-MRSG++ (Proposed) & 0.7589 $\pm$ 0.0059 & 0.0511 $\pm$ 0.0030 & 0.1444 $\pm$ 0.0033 \\
+\hline
+\end{tabular}
+\end{table*}

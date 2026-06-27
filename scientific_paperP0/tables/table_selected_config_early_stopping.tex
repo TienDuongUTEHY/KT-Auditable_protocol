@@ -1,0 +1,60 @@
+\begin{tabular}{llrrlrrrrrrrrl}
+\toprule
+dataset & backbone & fold & seed & selected_candidate & selected_valid_auc & selected_test_auc & no_graph_valid_auc & no_graph_test_auc & delta_selected_vs_no_graph & selected_is_no_graph & is_tautological_delta & tie_break_applied & notes \\
+\midrule
+assist2012 & dkt & 0 & 42 & e_pre & 0.627900 & 0.617100 & 0.619800 & 0.614300 & 0.002800 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 0 & 2024 & full_lc_mrsg & 0.634700 & 0.622600 & 0.630400 & 0.619200 & 0.003400 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 0 & 2025 & relation_gated_1 & 0.624600 & 0.615200 & 0.622900 & 0.616000 & -0.000800 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 1 & 42 & e_pre & 0.619900 & 0.624900 & 0.619400 & 0.629700 & -0.004800 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 1 & 2024 & e_pre & 0.620700 & 0.624000 & 0.619700 & 0.625700 & -0.001700 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 1 & 2025 & no_graph & 0.620700 & 0.625100 & 0.620700 & 0.625100 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & dkt & 2 & 42 & e_pre & 0.626200 & 0.624600 & 0.625000 & 0.621500 & 0.003100 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 2 & 2024 & e_pre & 0.629600 & 0.628300 & 0.620500 & 0.618400 & 0.009900 & False & False & False & Strict validation argmax \\
+assist2012 & dkt & 2 & 2025 & no_graph & 0.618000 & 0.619200 & 0.618000 & 0.619200 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 0 & 42 & no_graph & 0.635000 & 0.621600 & 0.635000 & 0.621600 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 0 & 2024 & no_graph & 0.639800 & 0.630800 & 0.639800 & 0.630800 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 0 & 2025 & no_graph & 0.638400 & 0.627500 & 0.638400 & 0.627500 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 1 & 42 & no_graph & 0.623200 & 0.632600 & 0.623200 & 0.632600 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 1 & 2024 & no_graph & 0.626500 & 0.634200 & 0.626500 & 0.634200 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 1 & 2025 & no_graph & 0.624500 & 0.631500 & 0.624500 & 0.631500 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 2 & 42 & no_graph & 0.629100 & 0.629800 & 0.629100 & 0.629800 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 2 & 2024 & no_graph & 0.630300 & 0.629500 & 0.630300 & 0.629500 & 0.000000 & True & True & False & Strict validation argmax \\
+assist2012 & simplekt & 2 & 2025 & no_graph & 0.634200 & 0.631900 & 0.634200 & 0.631900 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & dkt & 0 & 42 & full_lc_mrsg & 0.668900 & 0.672100 & 0.668300 & 0.672000 & 0.000100 & False & False & False & Strict validation argmax \\
+junyi & dkt & 0 & 2024 & full_lc_mrsg & 0.668400 & 0.672200 & 0.667500 & 0.671400 & 0.000800 & False & False & False & Strict validation argmax \\
+junyi & dkt & 0 & 2025 & no_graph & 0.668200 & 0.671900 & 0.668200 & 0.671900 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & dkt & 1 & 42 & no_graph & 0.669500 & 0.663300 & 0.669500 & 0.663300 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & dkt & 1 & 2024 & no_graph & 0.670400 & 0.661800 & 0.670400 & 0.661800 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & dkt & 1 & 2025 & full_lc_mrsg & 0.669500 & 0.661600 & 0.668900 & 0.662100 & -0.000500 & False & False & False & Strict validation argmax \\
+junyi & dkt & 2 & 42 & no_graph & 0.666100 & 0.674000 & 0.666100 & 0.674000 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & dkt & 2 & 2024 & relation_gated_1 & 0.666000 & 0.673600 & 0.665800 & 0.672000 & 0.001600 & False & False & False & Strict validation argmax \\
+junyi & dkt & 2 & 2025 & no_graph & 0.665400 & 0.673200 & 0.665400 & 0.673200 & 0.000000 & True & True & True & Tie-break applied due to negligible validation gain \\
+junyi & simplekt & 0 & 42 & no_graph & 0.669600 & 0.672500 & 0.669600 & 0.672500 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 0 & 2024 & no_graph & 0.670200 & 0.672100 & 0.670200 & 0.672100 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 0 & 2025 & no_graph & 0.669900 & 0.673000 & 0.669900 & 0.673000 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 1 & 42 & no_graph & 0.671100 & 0.663200 & 0.671100 & 0.663200 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 1 & 2024 & no_graph & 0.669900 & 0.663200 & 0.669900 & 0.663200 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 1 & 2025 & no_graph & 0.670200 & 0.663900 & 0.670200 & 0.663900 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 2 & 42 & no_graph & 0.667600 & 0.674500 & 0.667600 & 0.674500 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 2 & 2024 & no_graph & 0.666900 & 0.674400 & 0.666900 & 0.674400 & 0.000000 & True & True & False & Strict validation argmax \\
+junyi & simplekt & 2 & 2025 & no_graph & 0.667100 & 0.674700 & 0.667100 & 0.674700 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & dkt & 0 & 42 & e_pre_e_sim & 0.810300 & 0.764700 & 0.806800 & 0.759700 & 0.005000 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 0 & 2024 & no_graph & 0.812400 & 0.767700 & 0.812400 & 0.767700 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & dkt & 0 & 2025 & e_pre & 0.811300 & 0.765300 & 0.807700 & 0.760400 & 0.004900 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 1 & 42 & e_pre & 0.786500 & 0.780700 & 0.782700 & 0.782900 & -0.002200 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 1 & 2024 & e_pre & 0.790600 & 0.781400 & 0.787500 & 0.778000 & 0.003400 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 1 & 2025 & e_pre & 0.787600 & 0.780600 & 0.783700 & 0.776200 & 0.004400 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 2 & 42 & e_pre & 0.778400 & 0.780000 & 0.777800 & 0.776500 & 0.003500 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 2 & 2024 & e_pre & 0.781300 & 0.776000 & 0.778800 & 0.778500 & -0.002500 & False & False & False & Strict validation argmax \\
+kdd2010 & dkt & 2 & 2025 & e_pre & 0.777000 & 0.776900 & 0.775800 & 0.777900 & -0.001000 & False & False & False & Strict validation argmax \\
+kdd2010 & simplekt & 0 & 42 & no_graph & 0.803600 & 0.757600 & 0.803600 & 0.757600 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 0 & 2024 & no_graph & 0.805900 & 0.757200 & 0.805900 & 0.757200 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 0 & 2025 & no_graph & 0.804300 & 0.757300 & 0.804300 & 0.757300 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 1 & 42 & no_graph & 0.784100 & 0.777900 & 0.784100 & 0.777900 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 1 & 2024 & no_graph & 0.778800 & 0.770600 & 0.778800 & 0.770600 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 1 & 2025 & no_graph & 0.782200 & 0.774600 & 0.782200 & 0.774600 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 2 & 42 & no_graph & 0.773300 & 0.774700 & 0.773300 & 0.774700 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 2 & 2024 & no_graph & 0.773500 & 0.774000 & 0.773500 & 0.774000 & 0.000000 & True & True & False & Strict validation argmax \\
+kdd2010 & simplekt & 2 & 2025 & no_graph & 0.773700 & 0.775500 & 0.773700 & 0.775500 & 0.000000 & True & True & False & Strict validation argmax \\
+\bottomrule
+\end{tabular}

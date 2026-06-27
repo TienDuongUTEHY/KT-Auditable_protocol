@@ -1,0 +1,34 @@
+{
+  "project": "lc_mrsg_ejel_hau_revision",
+  "start_time": "2026-06-25T08:42:16.199235",
+  "python_version": "3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 16:36:12) [MSC v.1944 64 bit (AMD64)]",
+  "package_versions": {
+    "torch": "2.4.1",
+    "pandas": "3.0.2",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "networkx": "3.6.1"
+  },
+  "system": {
+    "hostname": "TienDuongUTEHY",
+    "os": "Windows 10.0.19045",
+    "cpu_count": 4,
+    "cuda_available": false,
+    "cuda_device": "none"
+  },
+  "random_seeds": [
+    42,
+    2024,
+    2025
+  ],
+  "folds": [
+    0,
+    1,
+    2
+  ],
+  "datasets": [
+    "assist2012",
+    "junyi",
+    "kdd2010"
+  ]
+}

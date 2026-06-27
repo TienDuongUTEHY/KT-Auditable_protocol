@@ -1,0 +1,10 @@
+dataset,fold,split_type,n_users_total,n_users_train,n_users_valid,n_users_test,n_questions_total,n_questions_train,n_questions_valid,n_questions_test,n_skills_total,n_skills_train,n_skills_valid,n_skills_test,n_interactions_total,n_interactions_train,n_interactions_valid,n_interactions_test,user_skill_density_train,mean_interactions_per_user_train,median_interactions_per_user_train,mean_interactions_per_skill_train,median_interactions_per_skill_train,sparse_50_count,sparse_100_count,sparse_200_count,frequent_500_count,suspected_subsampling,subsampling_reason
+assist2012,0,user_stratified,22767,15936,3415,3416,37658,34263,17684,17131,256,255,238,236,221364,155075,33543,32746,0.038161,9.73,5,608.14,105,112,126,152,76,yes,compute_budget
+assist2012,1,user_stratified,22767,15936,3415,3416,37658,34111,17777,17439,256,255,236,233,221364,155050,33932,32382,0.038155,9.73,5,608.04,104,112,127,151,76,yes,compute_budget
+assist2012,2,user_stratified,22767,15936,3415,3416,37658,34269,17401,17509,256,256,236,233,221364,154662,33203,33499,0.037911,9.71,5,604.15,104,112,127,152,77,yes,compute_budget
+junyi,0,user_stratified,48192,33734,7228,7230,1326,1326,1306,1317,10,10,10,10,500000,350029,75422,74549,1.037615,10.38,4,35002.9,12035,0,0,1,7,yes,compute_budget
+junyi,1,user_stratified,48192,33734,7228,7230,1326,1326,1317,1315,10,10,10,10,500000,348365,74996,76639,1.032682,10.33,4,34836.5,11792,0,0,1,7,yes,compute_budget
+junyi,2,user_stratified,48192,33734,7228,7230,1326,1326,1315,1301,10,10,10,10,500000,349754,76325,73921,1.0368,10.37,4,34975.4,11720,0,0,1,7,yes,compute_budget
+kdd2010,0,user_stratified,889,622,133,134,184629,157303,76550,105124,906,868,860,892,1602672,1063930,221381,317361,1.97062,1710.5,1037,1225.73,345,181,255,341,376,no,not_applicable
+kdd2010,1,user_stratified,889,622,133,134,184629,161633,97900,81307,906,899,885,742,1602672,1071703,277355,253614,1.916569,1723.0,1060,1192.11,300,154,258,367,371,no,not_applicable
+kdd2010,2,user_stratified,889,622,133,134,184629,164597,79482,94168,906,900,803,879,1602672,1077308,244172,281192,1.924452,1732.01,978,1197.01,320,155,246,368,377,no,not_applicable

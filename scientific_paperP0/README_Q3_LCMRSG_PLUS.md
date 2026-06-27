@@ -44,3 +44,10 @@ D:\scientific_paper1\miniconda3\envs\scientific_paper1\python.exe scripts/q3_lcm
 D:\scientific_paper1\miniconda3\envs\scientific_paper1\python.exe scripts/q3_lcmrsg_plus_render_tables.py --run_dir runs/q3_lcmrsg_plus_TIMESTAMP
 D:\scientific_paper1\miniconda3\envs\scientific_paper1\python.exe scripts/q3_lcmrsg_plus_export_appendix.py --run_dir runs/q3_lcmrsg_plus_TIMESTAMP
 ```
+
+## Reproducibility Package Links (Anonymous)
+
+For double-blind peer review, the code repository, configuration files, and processed datasets are shared anonymously via the following link:
+
+- **Anonymous Code Repository (via 4open)**: [https://anonymous.4open.science/r/LC-MRSG](https://anonymous.4open.science/r/LC-MRSG)
+

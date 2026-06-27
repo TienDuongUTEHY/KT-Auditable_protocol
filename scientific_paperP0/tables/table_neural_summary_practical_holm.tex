@@ -1,0 +1,18 @@
+\begin{tabular}{lllrrrrrrrlrrl}
+\toprule
+dataset & backbone & comparison_type & n_runs & mean_delta_auc & ci95_low & ci95_high & raw_p & holm_p & practical_threshold & classification & selected_no_graph_count & non_graph_candidate_count & notes \\
+\midrule
+assist2012 & dkt & selected_config_vs_no_graph & 9 & 0.001322 & -0.001100 & 0.004000 & 0.367273 & 1.000000 & 0.005000 & diagnostic negligible & 2 & 7 & Validation-based model selection \\
+assist2012 & simplekt & selected_config_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & selection-no-graph tautology; governance selection outcome & 9 & 0 & Validation-based model selection \\
+junyi & dkt & selected_config_vs_no_graph & 9 & 0.000222 & -0.000100 & 0.000600 & 0.309178 & 1.000000 & 0.005000 & diagnostic negligible & 5 & 4 & Validation-based model selection \\
+junyi & simplekt & selected_config_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & selection-no-graph tautology; governance selection outcome & 9 & 0 & Validation-based model selection \\
+kdd2010 & dkt & selected_config_vs_no_graph & 9 & 0.001722 & -0.000300 & 0.003600 & 0.135663 & 1.000000 & 0.005000 & diagnostic negligible & 1 & 8 & Validation-based model selection \\
+kdd2010 & simplekt & selected_config_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & selection-no-graph tautology; governance selection outcome & 9 & 0 & Validation-based model selection \\
+assist2012 & dkt & best_available_graph_vs_no_graph & 9 & 0.002133 & -0.000400 & 0.004800 & 0.165530 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+assist2012 & simplekt & best_available_graph_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+junyi & dkt & best_available_graph_vs_no_graph & 9 & -0.000089 & -0.000600 & 0.000500 & 0.773343 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+junyi & simplekt & best_available_graph_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+kdd2010 & dkt & best_available_graph_vs_no_graph & 9 & 0.001700 & -0.000300 & 0.003600 & 0.141712 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+kdd2010 & simplekt & best_available_graph_vs_no_graph & 9 & 0.000000 & 0.000000 & 0.000000 & 1.000000 & 1.000000 & 0.005000 & diagnostic negligible & 0 & 9 & Forced best validation candidate \\
+\bottomrule
+\end{tabular}

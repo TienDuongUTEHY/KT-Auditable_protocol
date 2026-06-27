@@ -1,0 +1,14 @@
+epoch_sanity:
+  datasets:
+    - assist2012
+    - junyi
+  models:
+    - dkt
+    - simplekt
+  folds:
+    - 1
+  seeds:
+    - 42
+  epoch_budgets:
+    - 5
+    - 10

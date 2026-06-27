@@ -1,0 +1,15 @@
+\begin{tabular}{llccccl}
+\hline
+ID & Name & Relations Enabled & Selection Gate & Pre-specified & No Test Selection & Notes \\
+\hline
+1 & no_graph & None & Fixed (0,0,0) & yes & no & Baseline without graph features \\
+2 & e_pre & E_pre & Fixed (1,0,0) & yes & no & Prerequisite relation only \\
+3 & e_pre_e_sim & E_pre, E_sim & Fixed (1,1,0) & yes & no & Prerequisite and similarity relations \\
+4 & full_lc_mrsg & E_pre, E_sim, E_co & Fixed (1,1,1) & yes & no & All relations with equal weights \\
+5 & relation_gated_1 & E_pre, E_sim, E_co & Fixed (1.0, 0.5, 0.1) & yes & no & Heuristic gate variant 1 \\
+6 & relation_gated_2 & E_pre, E_sim & Fixed (0.5, 0.25, 0.0) & yes & no & Heuristic gate variant 2 \\
+7 & val_selected_static & Selected static subset & Validation optimized & yes & no & Dynamically chosen static variant per dataset/fold/model \\
+8 & relation_gated & Selected gates & Validation optimized & yes & no & Dynamically chosen gating weights per dataset/fold/model \\
+9 & sparse_aware_relation_gated & Selected gates & Validation optimized & yes & no & Proposed sparse-boosted gate configuration \\
+\hline
+\end{tabular}

@@ -1,0 +1,13 @@
+dataset,bin_name,n_skills,n_test_interactions,effective_sample_size,reliability_flag,mean_degree_E_pre,mean_degree_E_co,coverage_ratio
+assist2012,<=50,112,414,414,limited,0.99,56.11,0.9911
+assist2012,<=100,127,627,627,limited,0.99,66.47,0.9921
+assist2012,<=200,151,1352,1352,reliable,0.99,82.34,0.9934
+assist2012,>500,76,28808,28808,reliable,1.0,286.29,1.0
+junyi,<=50,0,0,0,insufficient,0.0,0.0,0.0
+junyi,<=100,0,0,0,insufficient,0.0,0.0,0.0
+junyi,<=200,1,33,33,insufficient,1.0,6.0,1.0
+junyi,>500,7,76445,76445,reliable,1.86,8.57,1.0
+kdd2010,<=50,154,305,305,limited,0.99,1362.95,1.0
+kdd2010,<=100,258,1769,1769,reliable,1.0,1484.88,1.0
+kdd2010,<=200,367,4994,4994,reliable,1.0,1518.86,1.0
+kdd2010,>500,371,237464,237464,reliable,1.0,1625.45,1.0

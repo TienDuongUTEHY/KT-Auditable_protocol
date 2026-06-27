@@ -1,0 +1,22 @@
+paper_scope:
+  main_contribution: "split-first graph construction + leakage/E_co audit + validation-guided relation selection"
+  performance_role: "diagnostic evidence only"
+  not_claiming:
+    - "state-of-the-art KT architecture"
+    - "universal graph improvement"
+    - "true prerequisite discovery"
+    - "calibration or pedagogical usefulness"
+    - "learning-path recommendation"
+    - "SSA-CL / InfoNCE representation learning"
+  defer_to_future_or_other_papers:
+    P1:
+      - "adaptive stratification"
+      - "calibration: ECE/Brier"
+      - "full sparse-skill evaluation methodology"
+    P2:
+      - "SSA-CL"
+      - "InfoNCE"
+      - "graph augmentation strategies"
+    P3:
+      - "distillation"
+      - "cross-dataset transfer"

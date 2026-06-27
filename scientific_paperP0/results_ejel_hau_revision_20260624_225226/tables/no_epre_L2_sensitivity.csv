@@ -1,0 +1,5 @@
+dataset,backbone,original_selected_candidate,original_test_auc,best_no_epre_candidate,best_no_epre_test_auc,delta_vs_no_graph,survives_delta_gt_005
+assist2012,dkt,e_pre,0.6171,no_graph,0.6143,0.0,No
+assist2012,simplekt,no_graph,0.6216,no_graph,0.6216,0.0,No
+junyi,dkt,relation_gated_1,0.6713,e_co_only,0.6715,0.0003,No
+junyi,simplekt,no_graph,0.6726,e_co_only,0.6731,0.0005,No

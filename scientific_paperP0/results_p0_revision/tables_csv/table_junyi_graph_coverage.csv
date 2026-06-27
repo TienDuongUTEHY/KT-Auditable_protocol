@@ -1,0 +1,4 @@
+dataset,fold,n_skills,E_pre_unique_undirected,E_sim_unique_undirected,E_co_unique_undirected,all_relations_unique_undirected,n_skills_with_degree_ge_1,coverage_ratio,n_isolated_skills,isolated_ratio,mean_degree_all_nodes,median_degree_all_nodes,mean_degree_nonisolated_nodes,sparse_skill_coverage_50,sparse_skill_coverage_100,sparse_skill_coverage_200
+junyi,0,10,9,0,25,28,10,1.0,0,0.0,5.6,5,5.6,0.0,0.0,1.0
+junyi,1,10,9,0,23,25,10,1.0,0,0.0,5.0,5,5.0,0.0,0.0,1.0
+junyi,2,10,9,0,22,24,10,1.0,0,0.0,4.8,4,4.8,0.0,0.0,1.0

@@ -1,0 +1,5 @@
+dataset,backbone,mean_delta_two_epoch,two_epoch_ci,mean_delta_early_stopping,early_stopping_ci,stability_label
+assist2012,dkt,0.0001,"[-0.0015, 0.0017]",0.0008,"[-0.0013, 0.0027]",near_zero_unstable
+assist2012,simplekt,0.0029,"[0.0005, 0.0055]",0.0,"[0.0000, 0.0000]",sign_changed
+junyi,dkt,0.0001,"[-0.0004, 0.0008]",0.0006,"[0.0000, 0.0013]",near_zero_unstable
+junyi,simplekt,-0.0005,"[-0.0008, -0.0001]",0.0,"[0.0000, 0.0000]",sign_changed

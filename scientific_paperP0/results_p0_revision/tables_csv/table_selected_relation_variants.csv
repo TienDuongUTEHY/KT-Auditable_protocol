@@ -1,0 +1,16 @@
+dataset,backbone,selected_candidate_most_frequent,count_selected,N_observations,selection_frequency,selected_relations,includes_E_co_yes_no,includes_E_sim_effective_yes_no,notes
+assist2012,bkt,full_lc_mrsg,9,9,1.0,All relations helpful,yes,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+assist2012,dkt,e_pre_e_sim,4,9,0.4444,Pre & Sim dominant,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+assist2012,gikt,no_graph,4,9,0.4444,No graph helpful,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+assist2012,simplekt,e_pre,5,9,0.5556,Prerequisite dominant,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+assist2012,skt,no_graph,5,9,0.5556,No graph helpful,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+junyi,bkt,full_lc_mrsg,9,9,1.0,All relations helpful,yes,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+junyi,dkt,e_pre,5,9,0.5556,Prerequisite dominant,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+junyi,gikt,e_pre,3,9,0.3333,Prerequisite dominant,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+junyi,simplekt,e_pre_e_sim,3,9,0.3333,Pre & Sim dominant,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+junyi,skt,no_graph,5,9,0.5556,No graph helpful,no,no (E_sim^eff=empty),E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+kdd2010,bkt,e_pre_e_sim,9,9,1.0,Pre & Sim dominant,no,yes,E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+kdd2010,dkt,e_pre_e_sim,3,9,0.3333,Pre & Sim dominant,no,yes,E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+kdd2010,gikt,no_graph,5,9,0.5556,No graph helpful,no,no,E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+kdd2010,simplekt,full_lc_mrsg,5,9,0.5556,All relations helpful,yes,yes,E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.
+kdd2010,skt,e_pre,4,9,0.4444,Prerequisite dominant,no,no,E_sim is empty for assist2012 and junyi due to single-skill Q-matrix constraint.

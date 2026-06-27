@@ -1,0 +1,20 @@
+# Ignore large model checkpoints
+*.pt
+**/checkpoints/
+
+# Ignore massive prediction CSV outputs
+**/predictions/
+
+# Ignore log files
+*.log
+**/*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,10 @@
+dataset,fold,n_skills,embedding_file_found,similarity_matrix_shape,candidate_pairs_before_threshold,threshold_theta_sim,pairs_after_threshold,top_k,pairs_after_top_k,final_E_sim_edges,reason_if_zero
+assist2012,0,255,no,255x255,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+assist2012,1,255,no,255x255,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+assist2012,2,256,no,256x256,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+junyi,0,10,no,10x10,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+junyi,1,10,no,10x10,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+junyi,2,10,no,10x10,0,0.1,0,20,0,0,"Single-skill Q-matrix (questions map to 1 skill only, Jaccard similarity is 0)"
+kdd2010,0,868,no,868x868,646,0.1,397,20,397,397,NA
+kdd2010,1,899,no,899x899,680,0.1,412,20,412,412,NA
+kdd2010,2,900,no,900x900,706,0.1,412,20,412,412,NA
