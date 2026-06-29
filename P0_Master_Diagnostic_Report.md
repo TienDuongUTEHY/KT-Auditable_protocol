@@ -1,16 +1,16 @@
-# Báo cáo Tổng hợp Cuối cùng Bài báo P0 (Master Report)
+# Final Aggregated Diagnostic Report for Paper P0 (Master Report)
 
-> Được tạo tự động dựa trên toàn bộ 144 vòng huấn luyện mô hình.
+> Automatically generated based on all 144 model training runs.
 
-## 1. Kết quả Kiểm toán Rò rỉ (Leakage Audit Summary L1-L5)
+## 1. Leakage Audit Summary (L1-L5)
 | Dataset | L1_edge | L2_qmatrix | L3_temporal | L4_coldstart | L5_co_occurrence |
 |---|---|---|---|---|---|
 | kdd2010 | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS |
 | junyi | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS |
 | assist2012 | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS | ✅ PASS |
 
-## 2. Kết quả Cắt tỉa Quan hệ Đồ thị (Relation Ablation Results)
-Bảng dưới đây là trung bình (mean) và độ lệch chuẩn (std) của AUC/ACC trên 3 seeds.
+## 2. Relation Ablation Results
+The table below displays the mean and standard deviation (std) of AUC/ACC across 3 seeds.
 
 | Dataset    | Model    | Graph Variant    |   AUC (Mean) |   AUC (Std) |   ACC (Mean) |   ACC (Std) |
 |:-----------|:---------|:-----------------|-------------:|------------:|-------------:|------------:|
@@ -68,7 +68,7 @@ Bảng dưới đây là trung bình (mean) và độ lệch chuẩn (std) của
 
 ## 3. Eco Provenance Audit Module
 
-Bảng dưới đây thống kê các thuộc tính của đồ thị đồng xuất hiện (E_co) bao gồm độ bao phủ trên các kỹ năng thưa thớt (Sparse-KC).
+The table below summarizes the attributes of the co-occurrence graph (E_co) including the coverage on sparse skills (Sparse-KC).
 
 | Dataset    | Symmetry Pass   | Train-only Support   | Weight Dist (Mean ± Std)   | Sparse-KC Coverage   |
 |:-----------|:----------------|:---------------------|:---------------------------|:---------------------|
@@ -80,7 +80,7 @@ Bảng dưới đây thống kê các thuộc tính của đồ thị đồng xu
 
 ## Table 7: Full Ablation for simpleKT and GIKT (Supplementary Material)
 
-> Lời tựa: Dưới đây là số liệu ablation chi tiết cho các mô hình simpleKT và GIKT được dùng làm sanitiy check.
+> Preface: Detailed ablation metrics for simpleKT and GIKT models used as sanity checks.
 
 | Dataset    | Model    | Graph Variant    |   AUC (Mean) |   AUC (Std) |   ACC (Mean) |   ACC (Std) |
 |:-----------|:---------|:-----------------|-------------:|------------:|-------------:|------------:|

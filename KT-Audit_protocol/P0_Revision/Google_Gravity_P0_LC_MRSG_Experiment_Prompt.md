@@ -1,34 +1,34 @@
-# PROMPT CHO GOOGLE GRAVITY / ANTIGRAVITY
+# PROMPT FOR GOOGLE GRAVITY / ANTIGRAVITY
 
-## Nhiệm vụ tổng quát
+## General Mission
 
-Bạn là một tác nhân lập trình nghiên cứu khoa học. Hãy tự động rà soát, bổ sung, chạy kiểm tra và xuất toàn bộ kết quả thực nghiệm tối thiểu để hoàn thiện bài báo P0:
+You are a scientific research programming agent. Automatically inspect, supplement, run, and export all minimal experimental results to complete Paper P0:
 
 **LC-MRSG++: Leakage-Controlled and Validation-Guided Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing**
 
-Mục tiêu không phải tạo thêm một bài performance/SOTA, mà là hoàn thiện một bài **protocol/audit paper** đạt chất lượng Q3 uy tín. Tất cả kết quả performance chỉ được xem là **diagnostic evidence**. Không mở rộng sang P1/P2: không triển khai calibration/ECE/Brier, không adaptive stratification, không SSA-CL/InfoNCE, không learning-path recommendation.
+The goal is not to create another performance/SOTA paper, but to complete a reputable Q3-quality **protocol/audit paper**. All performance results should only be viewed as **diagnostic evidence**. Do not expand to P1/P2: do not implement calibration/ECE/Brier, do not implement adaptive stratification, do not implement SSA-CL/InfoNCE, and do not implement learning-path recommendations.
 
 ---
 
-## 0. Nguyên tắc bắt buộc
+## 0. Mandatory Principles
 
-1. **Không sửa raw dataset.** Chỉ đọc dữ liệu gốc và ghi kết quả vào thư mục `results_p0_revision/`.
-2. **Không overwrite kết quả cũ.** Nếu file đã tồn tại, ghi bản mới có timestamp.
-3. **Không bịa số liệu.** Nếu không đọc được file hoặc không tính được chỉ số, ghi `NA` kèm lý do trong log.
-4. **Fail fast.** Nếu audit phát hiện lỗi nghiêm trọng ở graph provenance hoặc split leakage, dừng trước khi chạy epoch sanity.
-5. **Tất cả log phải dễ đọc.** Mỗi giai đoạn phải có dòng:
+1. **Do not modify the raw dataset.** Only read original data and write results to the `results_p0_revision/` directory.
+2. **Do not overwrite older results.** If a file already exists, write the new version with a timestamp.
+3. **Do not fabricate data.** If a file cannot be read or a metric cannot be calculated, record `NA` with the reason in the logs.
+4. **Fail fast.** If the audit detects a critical issue with graph provenance or split leakage, stop before running epoch sanity checks.
+5. **All logs must be human-readable.** Each stage must contain the following lines:
    - `PHASE_START`
-   - `PHASE_PASS` hoặc `PHASE_FAIL`
+   - `PHASE_PASS` or `PHASE_FAIL`
    - `PHASE_SUMMARY`
-6. **Mọi bảng phải xuất cả CSV và LaTeX.** CSV dùng kiểm tra; `.tex` dùng ráp vào manuscript.
-7. **Mọi artifact chính phải có SHA256 hash.** Tạo manifest cuối cùng.
-8. **Không thay đổi claim khoa học.** Chỉ báo cáo kết quả theo hướng thận trọng: graph usefulness is dataset- and backbone-dependent.
+6. **All tables must be exported as both CSV and LaTeX.** CSV is used for verification; `.tex` is used for insertion into the manuscript.
+7. **All main artifacts must have a SHA256 hash.** Generate a final manifest.
+8. **Do not alter the scientific claims.** Only report results conservatively: graph usefulness is dataset- and backbone-dependent.
 
 ---
 
-## 1. Cấu trúc thư mục cần tạo
+## 1. Directory Structure to Create
 
-Hãy tạo cấu trúc sau trong root của repository:
+Create the following structure in the root of the repository:
 
 ```text
 results_p0_revision/
@@ -79,25 +79,25 @@ results_p0_revision/
     reviewer_response_notes.md
 ```
 
-Nếu repository đã có cấu trúc riêng, vẫn tạo thư mục trên để gom kết quả cuối.
+If the repository already has its own structure, still create the above directories to aggregate the final results.
 
 ---
 
-## 2. Tự động phát hiện repository
+## 2. Automated Repository Inspection
 
-Trước khi chạy, hãy kiểm tra:
+Before running, verify:
 
 ```text
-- Có file cấu hình dataset không?
-- Có thư mục data/ hoặc datasets/ không?
-- Có thư mục outputs/results/tables hiện hữu không?
-- Có script train/evaluate hiện hữu không?
-- Có file graph provenance hiện hữu không?
-- Có split specification hiện hữu không?
-- Có bảng kết quả AUC hiện hữu không?
+- Are dataset configuration files present?
+- Is the data/ or datasets/ directory present?
+- Do the outputs/results/tables directories exist?
+- Are training/evaluation scripts present?
+- Is the graph provenance file present?
+- Is the split specification present?
+- Are AUC results tables present?
 ```
 
-Ghi vào `logs/master_run_<TIMESTAMP>.log`:
+Record in `logs/master_run_<TIMESTAMP>.log`:
 
 ```text
 [REPO_SCAN]
@@ -112,15 +112,15 @@ found_split_files=<list>
 found_auc_files=<list>
 ```
 
-Nếu không phát hiện được script train/evaluate, không tự ý viết lại toàn bộ model; hãy tạo wrapper và ghi rõ cần người dùng chỉ đường dẫn.
+If no training/evaluation scripts are detected, do not rewrite models; create wrappers and prompt the user for paths.
 
 ---
 
-## 3. Phase 0 — Chốt phạm vi P0
+## 3. Phase 0 — Scope Boundary Control
 
-### 3.1 Việc cần làm
+### 3.1 Tasks to Perform
 
-Tạo `configs/p0_revision_config.yaml` với các biến:
+Create `configs/p0_revision_config.yaml` with variables:
 
 ```yaml
 paper_scope:
@@ -147,9 +147,9 @@ paper_scope:
       - "cross-dataset transfer"
 ```
 
-### 3.2 Log bắt buộc
+### 3.2 Mandatory Logs
 
-Ghi vào `phase0_scope_decision.log`:
+Record in `phase0_scope_decision.log`:
 
 ```text
 PHASE_START phase0_scope_decision
@@ -163,19 +163,19 @@ PHASE_PASS phase0_scope_decision
 
 ---
 
-## 4. Phase 1 — Kiểm tra đúng đắn dữ liệu và đồ thị
+## 4. Phase 1 — Data and Graph Correctness Audit
 
-Phase này là bắt buộc trước mọi claim kết quả. Nếu fail, không chạy Phase 2.
+This phase is mandatory before any results are claimed. If it fails, do not proceed to Phase 2.
 
 ---
 
-### 4.1 Audit dataset statistics và disclosure subsampling
+### 4.1 Audit Dataset Statistics and Disclosure Subsampling
 
-#### Mục tiêu
+#### Objective
 
-Khôi phục bảng thống kê dataset và phát hiện có dùng subset/subsampling hay không.
+Recover the dataset statistics table and detect if subsetting or subsampling was used.
 
-#### Datasets cần xử lý
+#### Datasets to Process
 
 ```text
 - ASSIST2012
@@ -183,7 +183,7 @@ Khôi phục bảng thống kê dataset và phát hiện có dùng subset/subsam
 - KDD2010
 ```
 
-Tên folder có thể khác nhau. Hãy tự dò các alias:
+Folder names may vary. Check aliases:
 
 ```text
 assist2012, assistments2012, assist_2012, ASSIST2012
@@ -191,9 +191,9 @@ junyi, junyi_academy, Junyi
 kdd2010, algebra2008, bridge_to_algebra, KDDCup2010
 ```
 
-#### Chỉ số cần tính
+#### Metrics to Compute
 
-Với mỗi dataset và mỗi split/fold nếu có:
+For each dataset and each split/fold (if applicable):
 
 ```text
 - dataset
@@ -228,9 +228,9 @@ Với mỗi dataset và mỗi split/fold nếu có:
 - subsampling_reason: compute_budget/unknown/not_applicable
 ```
 
-#### Đối chiếu quy mô tham chiếu
+#### Reference Scale Verification
 
-Ghi cảnh báo nếu quy mô nhỏ hơn đáng kể so với các mốc đang được dùng trong bản thảo:
+Log a warning if the scale is significantly smaller than the reference points used in the manuscript:
 
 ```text
 ASSIST2012 expected interactions ≈ 2.7M
@@ -238,7 +238,7 @@ Junyi expected interactions ≈ 16.2M
 KDD2010 expected interactions: compute from local processed dataset; if there is an original raw file, compare processed/raw ratio.
 ```
 
-Không hard-fail chỉ vì quy mô nhỏ; chỉ hard-fail nếu không có disclosure subsampling.
+Do not hard-fail solely due to scale; only hard-fail if there is no disclosure of subsampling.
 
 #### Output
 
@@ -248,7 +248,7 @@ tables_tex/table_dataset_statistics.tex
 logs/phase1_dataset_graph_audit.log
 ```
 
-#### Log bắt buộc
+#### Mandatory Logs
 
 ```text
 PHASE_START dataset_statistics
@@ -261,21 +261,21 @@ PHASE_PASS dataset_statistics
 
 ---
 
-### 4.2 Audit KDD2010 E_co bất thường
+### 4.2 Audit KDD2010 E_co Anomaly
 
-#### Vấn đề cần giải quyết
+#### Problem Description
 
-Bản nhận xét nêu rủi ro: `KDD2010 E_co = 658,943` cạnh. Nếu `|C|≈493`, số cặp KC--KC vô hướng tối đa là `C(|C|,2)≈121,278`, nên cần xác định con số kia là:
+The review raised a risk: `KDD2010 E_co = 658,943` edges. If `|C|≈493`, the maximum number of undirected KC--KC pairs is `C(|C|,2)≈121,278`. We need to determine if this number represents:
 
 ```text
 (a) support records,
 (b) directed/mirrored edges,
 (c) multi-edge graph,
-(d) |C| thực tế khác,
-(e) lỗi aggregation/mirroring.
+(d) different actual |C|,
+(e) aggregation/mirroring error.
 ```
 
-#### Chỉ số phải tính cho từng dataset/fold/relation
+#### Metrics to Compute for Each Dataset/Fold/Relation
 
 ```text
 - dataset
@@ -299,15 +299,15 @@ Bản nhận xét nêu rủi ro: `KDD2010 E_co = 658,943` cạnh. Nếu `|C|≈4
 - interpretation: unique_edges/support_records/multi_edge/error
 ```
 
-#### Hard-fail rule
+#### Hard-Fail Rule
 
-Fail nếu:
+Fail if:
 
 ```text
 unique_undirected_edges > max_possible_undirected_pairs
 ```
 
-trừ khi graph được định nghĩa rõ là multi-edge và có cột `support_records` riêng.
+unless the graph is explicitly defined as a multi-edge graph and has a separate `support_records` column.
 
 #### Output
 
@@ -317,7 +317,7 @@ tables_tex/table_graph_provenance_corrected.tex
 logs/phase1_dataset_graph_audit.log
 ```
 
-#### Log bắt buộc
+#### Mandatory Logs
 
 ```text
 PHASE_START kdd2010_eco_audit
@@ -328,7 +328,7 @@ KDD2010_ECO_DECISION=<unique_edges|support_records|multi_edge|error_fixed|error_
 PHASE_PASS kdd2010_eco_audit
 ```
 
-Nếu fail:
+If it fails:
 
 ```text
 PHASE_FAIL kdd2010_eco_audit reason="unique undirected edges exceed graph limit and no multi-edge definition found"
@@ -337,15 +337,15 @@ STOP_BEFORE_PHASE2=true
 
 ---
 
-### 4.3 Trace E_sim pipeline
+### 4.3 Trace E_sim Pipeline
 
-#### Vấn đề cần giải quyết
+#### Problem Description
 
-Bản nhận xét nêu mâu thuẫn: một bảng nói `top-k=20`, nhưng bảng khác báo `E_sim=0` trên ASSIST2012/Junyi. Cần log số cạnh sau từng bước.
+The review noted a contradiction: one table specified `top-k=20`, but another reported `E_sim=0` on ASSIST2012/Junyi. We need to log the edge count after each step.
 
-#### Các bước cần trace
+#### Trace Steps
 
-Với mỗi dataset/fold:
+For each dataset/fold:
 
 ```text
 - n_skills
@@ -360,16 +360,16 @@ Với mỗi dataset/fold:
 - reason_if_zero
 ```
 
-#### Quyết định sau trace
+#### Post-Trace Decision
 
-Tự động gán một trong hai quyết định:
+Automatically assign one of the two decisions:
 
 ```text
-A. E_sim_active: E_sim có cạnh trên ít nhất 2/3 datasets.
-B. E_sim_empty_effective: E_sim rỗng ở >=2 datasets; manuscript phải dùng nhãn E_sim^eff hoặc "empty E_sim branch" và không claim similarity benefit.
+A. E_sim_active: E_sim has edges in at least 2/3 of datasets.
+B. E_sim_empty_effective: E_sim is empty in >=2 datasets; the manuscript must use the label E_sim^eff or "empty E_sim branch" and not claim similarity benefits.
 ```
 
-Không tự ý đổi thuật toán nếu không có flag cho phép. Mặc định chỉ audit. Nếu muốn sửa pipeline top-k, tạo đề xuất riêng trong log, không chạy thay đổi chính.
+Do not modify the algorithm unless a flag is explicitly provided. Default behavior is audit only. If proposing changes to the top-k pipeline, log them as a separate proposal; do not execute them.
 
 #### Output
 
@@ -379,7 +379,7 @@ tables_tex/table_esim_trace.tex
 logs/phase1_esim_trace.log
 ```
 
-#### Log bắt buộc
+#### Mandatory Logs
 
 ```text
 PHASE_START esim_trace
@@ -392,15 +392,15 @@ PHASE_PASS esim_trace
 
 ---
 
-### 4.4 Junyi graph coverage và node cô lập
+### 4.4 Junyi Graph Coverage and Isolated Nodes
 
-#### Mục tiêu
+#### Objective
 
-Giải thích vì sao Junyi graph rất thưa nhưng vẫn có gain ở một số backbone. Không được diễn giải quá mức.
+Explain why the Junyi graph is extremely sparse but still yields performance gains on some backbones. Do not over-interpret.
 
-#### Chỉ số cần tính
+#### Metrics to Compute
 
-Với Junyi, mỗi fold và mỗi relation/candidate graph:
+For Junyi, each fold and each relation/candidate graph:
 
 ```text
 - n_skills
@@ -428,7 +428,7 @@ tables_tex/table_junyi_graph_coverage.tex
 logs/phase1_junyi_coverage.log
 ```
 
-#### Log bắt buộc
+#### Mandatory Logs
 
 ```text
 PHASE_START junyi_coverage
@@ -441,17 +441,17 @@ PHASE_PASS junyi_coverage
 
 ---
 
-### 4.5 Leakage audit L1--L6
+### 4.5 Leakage Audit L1--L6
 
-#### L1--L6 cần kiểm tra
+#### Audits to Run
 
 ```text
-L1 Edge-construction leakage: mọi edge support phải thuộc train split.
-L2 Q-matrix/provenance leakage: Q-matrix dùng để tạo edge không được lấy từ held-out logs ngoài quy tắc công bố dataset.
-L3 Temporal leakage: nếu có timestamp, không có future evidence trong graph construction.
-L4 Cold-start neighborhood leakage: test-only skills/items không được nhận neighborhood từ held-out evidence.
-L5 Co-occurrence leakage: E_co support/count/PMI/NPMI chỉ từ train fold.
-L6 Selection leakage: validation chọn candidate; test không được dùng để chọn graph/hyperparameter.
+L1 Edge-construction leakage: all edge supports must come from the training split.
+L2 Q-matrix/provenance leakage: Q-matrix used to build edges must not be derived from held-out logs outside dataset specifications.
+L3 Temporal leakage: if timestamps exist, no future evidence is used in graph construction.
+L4 Cold-start neighborhood leakage: test-only skills/items must not receive neighborhoods from held-out evidence.
+L5 Co-occurrence leakage: E_co support/count/PMI/NPMI must be computed only from the training fold.
+L6 Selection leakage: validation selects the candidate; the test set must not be used to choose graphs or hyperparameters.
 ```
 
 #### Output
@@ -461,7 +461,7 @@ tables_csv/table_leakage_audit_L1_L6.csv
 tables_tex/table_leakage_audit_L1_L6.tex
 ```
 
-#### Log bắt buộc
+#### Mandatory Logs
 
 ```text
 PHASE_START leakage_audit_L1_L6
@@ -470,31 +470,31 @@ LEAKAGE_AUDIT dataset=ASSIST2012 fold=0 L1=PASS L2=PASS L3=PASS L4=PASS L5=PASS 
 PHASE_PASS leakage_audit_L1_L6
 ```
 
-Hard-fail nếu bất kỳ L1, L5, L6 fail.
+Hard-fail if any of L1, L5, or L6 fail.
 
 ---
 
-## 5. Phase 2 — Epoch sanity-check tối thiểu
+## 5. Phase 2 — Minimum Epoch Sanity Checks
 
-### 5.1 Mục tiêu
+### 5.1 Objective
 
-Xử lý rủi ro fixed two-epoch undertraining. Không dùng phase này để tìm SOTA, không thay kết quả confirmatory chính, chỉ kiểm tra **dấu của ΔAUC** có ổn định ở ngân sách 5 và 10 epoch không.
+Address the risk of fixed two-epoch undertraining. Do not use this phase to find SOTA, nor to replace the main confirmatory results; only verify if the **sign of ΔAUC** remains stable at 5 and 10 epoch budgets.
 
-### 5.2 Thiết kế bắt buộc
+### 5.2 Mandatory Settings
 
-Chạy đúng subset đang dùng trong paper, không đổi preprocessing.
+Use the exact subset used in the paper; do not modify preprocessing.
 
 ```text
-Datasets: chọn 2 dataset chính có đủ dữ liệu và đại diện. Mặc định: ASSIST2012 và Junyi. Nếu Junyi quá nặng, dùng KDD2010 thay thế nhưng phải ghi lý do.
+Datasets: select 2 main representative datasets. Default: ASSIST2012 and Junyi. If Junyi is too large, use KDD2010 but document the reason.
 Backbones: DKT, simpleKT
 Graph conditions: no_graph, selected_graph
 Epoch budgets: 5, 10
-Folds: dùng 3 folds nếu compute cho phép; nếu không, tối thiểu fold 0 nhưng phải ghi limitation.
-Seeds: dùng 3 seeds nếu compute cho phép; nếu không, tối thiểu seed chính trong paper nhưng phải ghi limitation.
-Early stopping: nếu pipeline có sẵn, bật early stopping nhưng vẫn ghi max epoch budget.
+Folds: use 3 folds if compute allows; otherwise, at a minimum fold 0 but document the limitation.
+Seeds: use 3 seeds if compute allows; otherwise, at a minimum the main seed in the paper but document the limitation.
+Early stopping: if available in pipeline, enable early stopping but log the maximum epoch budget.
 ```
 
-### 5.3 Output cần tính
+### 5.3 Metrics to Compute
 
 ```text
 - dataset
@@ -514,7 +514,7 @@ Early stopping: nếu pipeline có sẵn, bật early stopping nhưng vẫn ghi 
 - notes
 ```
 
-### 5.4 Output files
+### 5.4 Output Files
 
 ```text
 tables_csv/table_epoch_sanity.csv
@@ -522,7 +522,7 @@ tables_tex/table_epoch_sanity.tex
 logs/phase2_epoch_sanity.log
 ```
 
-### 5.5 Log bắt buộc
+### 5.5 Mandatory Logs
 
 ```text
 PHASE_START epoch_sanity
@@ -536,23 +536,23 @@ EPOCH_SANITY_SUMMARY total_runs=... positive_delta=... negative_delta=... sign_p
 PHASE_PASS epoch_sanity
 ```
 
-### 5.6 Quy tắc diễn giải tự động
+### 5.6 Automated Interpretation Rules
 
-Tạo biến `epoch_sanity_interpretation`:
+Create the variable `epoch_sanity_interpretation`:
 
 ```text
-- "direction_stable" nếu >=75% comparisons giữ cùng dấu với kết quả chính.
-- "mixed_direction" nếu 50--74% giữ dấu.
-- "direction_unstable" nếu <50% giữ dấu.
+- "direction_stable" if >=75% of comparisons retain the same sign as the main results.
+- "mixed_direction" if 50--74% retain the same sign.
+- "direction_unstable" if <50% retain the same sign.
 ```
 
-Nếu `direction_unstable`, manuscript phải hạ claim mạnh:
+If `direction_unstable`, lower the claims in the manuscript:
 
 ```text
 The fixed-budget graph effect should be interpreted as a two-epoch diagnostic result only; longer-budget sanity checks do not support a stable selected-graph direction.
 ```
 
-Nếu `direction_stable`, manuscript có thể viết:
+If `direction_stable`, write:
 
 ```text
 The longer-budget sanity check preserves the direction of the selected-graph effect in most inspected settings, supporting the use of the fixed-budget results as protocol diagnostics rather than SOTA-tuned model comparisons.
@@ -560,15 +560,15 @@ The longer-budget sanity check preserves the direction of the selected-graph eff
 
 ---
 
-## 6. Phase 3 — Tạo bảng tổng hợp cho manuscript
+## 6. Phase 3 — Generating Summary Tables for the Manuscript
 
-### 6.1 Bảng validation candidates pre-specified
+### 6.1 Pre-Specified Validation Candidates Table
 
-Tạo `p0_validation_candidates.yaml` và bảng `.csv/.tex` với 9 candidate configurations.
+Create `p0_validation_candidates.yaml` and a `.csv/.tex` table with 9 candidate configurations.
 
-Nếu không tìm thấy config thật trong repo, tạo bảng template nhưng đánh dấu `status=TO_VERIFY`.
+If no actual configuration is found in the repo, generate a template table but mark `status=TO_VERIFY`.
 
-Cấu trúc bảng:
+Table Structure:
 
 ```text
 candidate_id
@@ -581,11 +581,11 @@ test_used_for_selection_yes_no
 notes
 ```
 
-Yêu cầu: `pre_specified_yes_no=yes` và `test_used_for_selection_yes_no=no` cho mọi candidate, nếu có bằng chứng timestamp/hash.
+Requirement: `pre_specified_yes_no=yes` and `test_used_for_selection_yes_no=no` for all candidates, provided there is timestamp/hash evidence.
 
-### 6.2 Bảng main AUC delta + CI + Holm
+### 6.2 Main AUC Delta + CI + Holm Table
 
-Tạo bảng ngắn cho main text:
+Create a summary table for the main text:
 
 ```text
 - dataset
@@ -602,9 +602,9 @@ Tạo bảng ngắn cho main text:
 - interpretation: confirmatory/diagnostic_only/not_supported
 ```
 
-Nếu file AUC cũ đã tồn tại, đọc và chuẩn hóa. Không tính lại nếu thiếu prediction files; ghi `NA` và log.
+If the older AUC file exists, read and standardize it. Do not recompute if prediction files are missing; record `NA` and log.
 
-### 6.3 Bảng selected relation variants
+### 6.3 Selected Relation Variants Table
 
 ```text
 - dataset
@@ -618,9 +618,9 @@ Nếu file AUC cũ đã tồn tại, đọc và chuẩn hóa. Không tính lại
 - notes
 ```
 
-Nếu `E_sim` rỗng, dùng nhãn `E_sim^eff=empty`.
+If `E_sim` is empty, use the label `E_sim^eff=empty`.
 
-### 6.4 Bảng sparse bins descriptive
+### 6.4 Sparse Bins Descriptive Table
 
 ```text
 - dataset
@@ -634,9 +634,9 @@ Nếu `E_sim` rỗng, dùng nhãn `E_sim^eff=empty`.
 - coverage_ratio
 ```
 
-Không chạy adaptive stratification.
+Do not run adaptive stratification.
 
-### 6.5 Bảng reproducibility checklist
+### 6.5 Reproducibility Checklist Table
 
 ```text
 artifact
@@ -647,7 +647,7 @@ purpose
 used_in_main_text_yes_no
 ```
 
-### 6.6 Log bắt buộc
+### 6.6 Mandatory Logs
 
 ```text
 PHASE_START table_generation
@@ -661,11 +661,11 @@ PHASE_PASS table_generation
 
 ---
 
-## 7. Phase 4 — Manifest, validation, Definition of Done
+## 7. Phase 4 — Manifest, Validation, and Definition of Done
 
-### 7.1 SHA256 manifest
+### 7.1 SHA256 Manifest
 
-Tạo `manifests/sha256_manifest.csv` cho mọi file trong `results_p0_revision/`:
+Create `manifests/sha256_manifest.csv` for all files in `results_p0_revision/`:
 
 ```text
 relative_path
@@ -674,9 +674,9 @@ size_bytes
 modified_time
 ```
 
-### 7.2 Run environment
+### 7.2 Run Environment
 
-Tạo `manifests/run_environment.txt`:
+Create `manifests/run_environment.txt`:
 
 ```text
 python_version
@@ -691,7 +691,7 @@ uncommitted_changes_yes_no
 
 ### 7.3 Definition of Done
 
-Tạo `manifests/final_definition_of_done.md` với checklist:
+Create `manifests/final_definition_of_done.md` with the checklist:
 
 ```markdown
 # Definition of Done — P0 LC-MRSG++ Revision
@@ -710,18 +710,18 @@ Tạo `manifests/final_definition_of_done.md` với checklist:
 - [ ] References 2024+ manually verified before submission.
 ```
 
-### 7.4 Validation script
+### 7.4 Validation Script
 
-Tạo hoặc chạy `scripts/p0_validate_outputs.py` để kiểm tra:
+Create or run `scripts/p0_validate_outputs.py` to verify:
 
 ```text
-- mọi file bắt buộc có tồn tại không;
-- không có hard-fail trong log;
-- table_graph_provenance_corrected không có unique_undirected_edges > max_possible_undirected_pairs;
-- leakage L1/L5/L6 không fail;
-- table_epoch_sanity có ít nhất một kết quả hoặc có limitation rõ;
-- sha256 manifest có đủ file chính;
-- bảng LaTeX không rỗng.
+- presence of all required files;
+- no hard-fails in logs;
+- table_graph_provenance_corrected does not contain unique_undirected_edges > max_possible_undirected_pairs;
+- leakage audits L1/L5/L6 pass;
+- table_epoch_sanity has at least one entry or documented limitation;
+- sha256 manifest contains all core files;
+- LaTeX tables are not empty.
 ```
 
 Log:
@@ -738,9 +738,9 @@ PHASE_PASS manifest_validation
 
 ---
 
-## 8. Scripts cần tạo nếu chưa có
+## 8. Scripts to Create if Missing
 
-Nếu repository chưa có các script tương ứng, hãy tạo trong `scripts/`:
+If not present in the repository, create the following under `scripts/`:
 
 ```text
 scripts/p0_repo_scan.py
@@ -756,13 +756,13 @@ scripts/p0_validate_outputs.py
 scripts/p0_run_all_revision.py
 ```
 
-`p0_run_all_revision.py` phải là entrypoint chính:
+`p0_run_all_revision.py` must be the main entry point:
 
 ```bash
 python scripts/p0_run_all_revision.py --config results_p0_revision/configs/p0_revision_config.yaml
 ```
 
-Trong mỗi script, dùng logging chuẩn:
+Use standard logging in all scripts:
 
 ```python
 import logging
@@ -772,23 +772,23 @@ logging.basicConfig(
 )
 ```
 
-Mỗi phase cần ghi log ra console và file.
+Log each phase to both the console and the file.
 
 ---
 
-## 9. Quy tắc viết bảng LaTeX
+## 9. LaTeX Table Rules
 
-1. Bảng `.tex` không được chứa `\begin{table}` nếu sẽ được `\input{}` vào manuscript có wrapper riêng. Nếu cần standalone, tạo hai bản: `_body.tex` và `_table.tex`.
-2. Số quá dài dùng `\scriptsize` hoặc `\resizebox{\textwidth}{!}{...}`.
-3. Mọi bảng phải có cột `Notes` nếu có `NA` hoặc `TO_VERIFY`.
-4. Không dùng dấu phẩy kiểu Việt Nam trong số thập phân; dùng dấu chấm.
-5. Với KDD2010 E_co, bảng phải có cả `support_records` và `unique_undirected_edges` để tránh hiểu nhầm.
+1. `.tex` tables must not contain `\begin{table}` environment if they are meant to be `\input{}` into a manuscript wrapper. If a standalone version is required, generate two versions: `_body.tex` and `_table.tex`.
+2. Format long numbers with `\scriptsize` or wrap with `\resizebox{\textwidth}{!}{...}`.
+3. Every table must contain a `Notes` column if `NA` or `TO_VERIFY` values are present.
+4. Use dots instead of commas as decimal separators.
+5. For KDD2010 E_co, report both `support_records` and `unique_undirected_edges` to prevent confusion.
 
 ---
 
-## 10. Nội dung reviewer-note tự động sinh
+## 10. Automatically Generated Reviewer Response Snippets
 
-Tạo `supplementary/reviewer_response_notes.md` với các đoạn sẵn để đưa vào response letter:
+Create `supplementary/reviewer_response_notes.md` containing response snippets:
 
 ```markdown
 ## Dataset and graph-provenance correction
@@ -809,15 +809,15 @@ We moved calibration, adaptive stratification, SSA-CL, and learning-path recomme
 
 ---
 
-## 11. Quy tắc cập nhật manuscript sau khi chạy
+## 11. Post-Run Manuscript Update Guidelines
 
-Sau khi chạy xong, cập nhật file LaTeX bằng cách copy các bảng `.tex` từ:
+After completion, update LaTeX files by copying the generated `.tex` files from:
 
 ```text
 results_p0_revision/tables_tex/
 ```
 
-vào thư mục `tables/` của Overleaf hoặc giữ nguyên path và gọi:
+into the `tables/` directory of Overleaf, or keep the paths and invoke:
 
 ```latex
 \input{results_p0_revision/tables_tex/table_dataset_statistics.tex}
@@ -830,19 +830,19 @@ vào thư mục `tables/` của Overleaf hoặc giữ nguyên path và gọi:
 \input{results_p0_revision/tables_tex/table_reproducibility_checklist.tex}
 ```
 
-Nếu bảng nào thiếu, manuscript phải hiển thị placeholder `TO BE FILLED AFTER P0 REVISION RUN` thay vì bịa kết quả.
+If a table is missing, use a placeholder: `TO BE FILLED AFTER P0 REVISION RUN` (do not fabricate results).
 
 ---
 
-## 12. Lệnh chạy cuối cùng
+## 12. Final Execution Command
 
-Hãy triển khai toàn bộ pipeline, sau đó chạy:
+Implement the complete pipeline, then run:
 
 ```bash
 python scripts/p0_run_all_revision.py --config results_p0_revision/configs/p0_revision_config.yaml 2>&1 | tee results_p0_revision/logs/master_run_$(date +%Y%m%d_%H%M%S).log
 ```
 
-Kết thúc phải in ra console:
+Upon completion, print to console:
 
 ```text
 P0_REVISION_PIPELINE_FINISHED
@@ -853,40 +853,40 @@ NEXT_ACTION=Copy tables_tex into LaTeX manuscript and update the interpretation 
 
 ---
 
-## 13. Không được làm
+## 13. Strictly Prohibited Actions
 
-Không được tự động làm các việc sau:
+Do not:
 
 ```text
-- Không thêm calibration/ECE/Brier vào P0.
-- Không thêm adaptive sparse stratification.
-- Không thêm SSA-CL/InfoNCE.
-- Không thêm learning-path recommendation experiments.
-- Không claim SOTA.
-- Không dùng test set để chọn graph.
-- Không thay đổi raw dataset.
-- Không xóa kết quả cũ.
-- Không sửa kết quả để đẹp hơn.
+- Add calibration/ECE/Brier to P0.
+- Add adaptive sparse stratification.
+- Add SSA-CL/InfoNCE.
+- Add learning-path recommendation experiments.
+- Claim SOTA.
+- Use the test set to select graphs.
+- Modify the raw dataset.
+- Delete older results.
+- Alter results to look better.
 ```
 
 ---
 
-## 14. Tiêu chí thành công
+## 14. Success Criteria
 
-Pipeline đạt `PASS` nếu:
+The pipeline achieves `PASS` if:
 
 ```text
-- Dataset stats đủ 3 datasets.
-- KDD2010 E_co được phân định rõ: unique edges / support records / multi-edge / lỗi đã sửa.
-- E_sim trace có quyết định rõ.
-- Junyi graph coverage có số skill covered và isolated nodes.
-- Leakage audit L1--L6 không fail ở L1/L5/L6.
-- Epoch sanity có kết quả hoặc limitation rõ.
-- Tất cả bảng CSV và LaTeX được xuất.
-- SHA256 manifest hoàn chỉnh.
-- Definition of Done được tạo.
+- Dataset stats are complete for all 3 datasets.
+- KDD2010 E_co is resolved (unique edges, support records, multi-edge, or fixed error).
+- E_sim trace has a clear decision.
+- Junyi graph coverage has covered skill and isolated node status.
+- Leakage audits L1--L6 do not fail on L1/L5/L6.
+- Epoch sanity check is complete or limitations are logged.
+- All CSV and LaTeX tables are exported.
+- SHA256 manifest is complete.
+- Definition of Done is generated.
 ```
 
-Pipeline đạt `PASS_WITH_LIMITATIONS` nếu epoch sanity chưa chạy đủ folds/seeds vì compute budget nhưng các audit dữ liệu/graph đều pass và limitation được ghi rõ.
+The pipeline achieves `PASS_WITH_LIMITATIONS` if the epoch sanity checks could not be fully run across folds/seeds due to compute budget, but dataset/graph audits all pass and limitations are documented.
 
-Pipeline `FAIL` nếu có lỗi graph leakage, KDD2010 E_co vượt giới hạn mà không giải thích được, hoặc selection dùng test evidence.
+The pipeline `FAILS` if there is a graph leakage error, KDD2010 E_co count exceeds limit without explanation, or if selection uses test set evidence.

@@ -1,48 +1,48 @@
-# Science Paper P0 — Đồ thị đa quan hệ & Knowledge Tracing
+# Science Paper P0 — Multi-Relational Graphs & Knowledge Tracing
 
-Mã nguồn hỗ trợ luận chứng và thí nghiệm cho chủ đề **xây dựng đồ thị kỹ năng đa quan hệ có kiểm soát rò rỉ dữ liệu (leakage)**, phục vụ **theo dõi tri thức (Knowledge Tracing)** khi các kỹ năng (KC) có mức độ **thưa (sparse)**.
+Source code supporting arguments and experiments for the topic of **constructing multi-relational skill graphs with controlled data leakage**, serving **Knowledge Tracing** when key concepts (KC) are **sparse**.
 
-Tên cấu hình nội bộ trong `configs/global.yaml`: `KT-Auditable_protocol`; tiêu đề đặt trong cùng file: **"Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"**.
-
----
-
-## Mục tiêu dự án
-
-- **Tiền xử lý và chia dữ liệu** theo học sinh và thứ tự thời gian (`learner_based_temporal`), với các tỷ lệ train/valid/test cấu hình trong `configs/global.yaml`.
-- **Ba loại quan hệ giữa kỹ năng** chỉ được ước lượng từ **tập huấn luyện** (giảm rò rỉ):
-  - **E_pre** — tiền đề / thứ tự dạy học gợi ý,
-  - **E_sim** — tương đồng (ví dụ Jaccard trên `question_id` chung),
-  - **E_co** — đồng xuất hiện (ví dụ PMI có làm trơn, chỉ cạnh dương).
-- **Kiểm toán và báo cáo**: nguồn gốc Q-matrix, DAG, báo cáo “eco”, **kiểm toán leakage (L1–L5)**, thống kê đồ thị, hồ sơ “sparse skill”, baseline có **ablation** theo biến thể đồ thị (`no_graph`, `E_pre`, …).
-- **Baseline**: BKT, DKT (PyTorch); có chế độ smoke trong cấu hình chung.
+Internal configuration name in `configs/global.yaml`: `KT-Auditable_protocol`; title in the same file: **"Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"**.
 
 ---
 
-## Cấu trúc thư mục (tóm lược)
+## Project Goals
 
-| Thư mục / File | Vai trò |
-|----------------|---------|
-| `configs/global.yaml` | Siêu cấu hình: seed, chia dữ liệu, tham số đồ thị, sparse bins, baseline, audit. |
-| `configs/*.yaml` | Theo từng bộ dữ liệu (vd. `kdd2010.yaml`, `assist2012.yaml`, `junyi.yaml`, `algebra2005.yaml`, `synthetic.yaml`). |
-| `src/` | Pipeline Python (preprocess, split, Q-matrix, đồ thị, audit, baseline, báo cáo, figures). |
-| `scripts/` | Lệnh ôn hoàn pipeline (`reproduce_one_dataset.sh`), master Python (`run_planA_master.py`), v.v. |
-| `data/raw/`, `data/processed/` | Dữ liệu thô và đã xử lý (thường không đồng bộ lên repo đầy đủ — cần chuẩn bị theo README từng nguồn). |
-| `results/` | Bảng CSV, báo cáo Markdown, artefact publication (`results/paper_ready/`). |
-| `logs/` | Log chạy dài (`run_log_*`). |
-| `P0_Master_Diagnostic_Report.md` | Ví dụ báo cáo tổng hợp (leakage, ablation, eco, …). |
+- **Preprocessing and data splitting** by learner and chronological order (`learner_based_temporal`), with train/valid/test split ratios configured in `configs/global.yaml`.
+- **Three types of skill relationships** are estimated solely from the **training set** (reducing leakage):
+  - **E_pre** — prerequisite / suggested teaching sequence,
+  - **E_sim** — similarity (e.g., Jaccard index on shared `question_id`s),
+  - **E_co** — co-occurrence (e.g., smoothed positive PMI).
+- **Auditing and Reporting**: Q-matrix provenance, DAG validation, "eco" co-occurrence report, **leakage auditing (L1–L5)**, graph statistics, "sparse skill" profiling, and baseline evaluation with **relation ablation** variants (`no_graph`, `E_pre`, etc.).
+- **Baselines**: BKT, DKT (PyTorch); with a smoke test mode supported in the global configuration.
 
 ---
 
-## Yêu cầu môi trường
+## Directory Structure (Summary)
 
-- **Python** 3.x (đường dẫn trình thông dịch trong `scripts/run_planA_master.py` hiện đang hard-code cho môi trường Windows cụ thể — nên sửa thành Python của máy bạn hoặc gọi `python -m …` như các script khác).
-- Thư viện chính (tham khảo `scripts/run_planA_master.py` và mã `src/`):
+| Directory / File | Role / Purpose |
+|------------------|----------------|
+| `configs/global.yaml` | Global settings: seeds, data splitting, graph parameters, sparse bins, baseline, and audit. |
+| `configs/*.yaml` | Dataset-specific settings (e.g., `kdd2010.yaml`, `assist2012.yaml`, `junyi.yaml`, `algebra2005.yaml`, `synthetic.yaml`). |
+| `src/` | Python pipeline (preprocessing, split, Q-matrix, graph construction, auditing, baseline, reports, figures). |
+| `scripts/` | Shell scripts for reproduction (`reproduce_one_dataset.sh`), python runner (`run_planA_master.py`), etc. |
+| `data/raw/`, `data/processed/` | Raw and processed datasets (usually ignored in git — need to prepare according to README of each dataset). |
+| `results/` | CSV files, Markdown reports, and publication-ready artefacts (`results/paper_ready/`). |
+| `logs/` | Execution logs (`run_log_*`). |
+| `P0_Master_Diagnostic_Report.md` | Aggregated report example (leakage, ablation, eco, etc.). |
+
+---
+
+## Environment Requirements
+
+- **Python** 3.x (the interpreter path in `scripts/run_planA_master.py` is currently hardcoded for a specific Windows environment — please update it to your python path or call `python -m ...` as in other scripts).
+- Core libraries (refer to `scripts/run_planA_master.py` and `src/` code):
   - `numpy`, `pandas`, `PyYAML`
   - `torch`, `scikit-learn`
   - `matplotlib`, `seaborn`, `tqdm`
-  - Tùy bước: `openml`, `tabulate`
+  - Depending on stage: `openml`, `tabulate`
 
-Cài ví dụ (tùy môi trường):
+Installation example:
 
 ```bash
 pip install numpy pandas pyyaml torch scikit-learn matplotlib seaborn tqdm openml tabulate
@@ -50,40 +50,41 @@ pip install numpy pandas pyyaml torch scikit-learn matplotlib seaborn tqdm openm
 
 ---
 
-## Chạy nhanh (một bộ dữ liệu, một seed)
+## Quick Start (Single Dataset, Single Seed)
 
-Từ thư mục gốc dự án, trên Bash (Git Bash/WSL/Linux):
+From the project root directory, run on Bash (Git Bash/WSL/Linux):
 
 ```bash
-bash scripts/reproduce_one_dataset.sh <tên_dataset> <seed_số>
-# Ví dụ:
+bash scripts/reproduce_one_dataset.sh <dataset_name> <seed>
+# Example:
 bash scripts/reproduce_one_dataset.sh kdd2010 2026
 ```
 
-Trên PowerShell có thể gọi từng bước tương đương (cùng thứ tự như trong `scripts/reproduce_one_dataset.sh`): `python -m src.preprocess --config configs/<dataset>.yaml`, sau đó `split_checker`, `qmatrix_provenance`, `tri_relation_graph_builder`, các audit, v.v.
+On PowerShell, you can run the equivalent steps (same order as in `scripts/reproduce_one_dataset.sh`):
+`python -m src.preprocess --config configs/<dataset>.yaml`, followed by `split_checker`, `qmatrix_provenance`, `tri_relation_graph_builder`, audits, etc.
 
 ---
 
-## Chạy automation nhiều seed / nhiều dataset
+## Automated Run (Multi-Seed / Multi-Dataset)
 
-- `scripts/run_planA_master.py`: lặp theo dataset và seed (cần chỉnh `PYTHON_PATH`, `DATASETS`, `SEEDS` cho phù hợp máy của bạn).
-- Shell hỗ trợ khác trong `scripts/`: `run_mini_test.sh`, `run_synthetic_minimal.sh`.
-
----
-
-## Xuất bảng publication
-
-Script `scripts/generate_publication_tables.py` và thư mục `results/paper_ready/` phục vụ gộp kết quả cho bản thảo báo.
+- `scripts/run_planA_master.py`: Loops over datasets and seeds (need to adjust `PYTHON_PATH`, `DATASETS`, `SEEDS` to match your system).
+- Other helper shells in `scripts/`: `run_mini_test.sh`, `run_synthetic_minimal.sh`.
 
 ---
 
-## Ghi chú
+## Exporting Publication Tables
 
-- Logic merge cấu hình: `src.common.load_config` gộp `configs/global.yaml` với file cấu hình dataset.
-- Các báo chi tiết theo dataset/fold nằm trong `results/reports/<dataset>/fold_0/` (DAG, leakage, eco, diagnostic, …).
+The script `scripts/generate_publication_tables.py` and the `results/paper_ready/` directory are used to aggregate results for the paper manuscript.
 
 ---
 
-## Tác giả / trích dẫn
+## Notes
 
-Thêm thông tin tác giả, phiên bản và trích dẫn báo khi có bản thảo cuối cùng.
+- Configuration merging: `src.common.load_config` merges `configs/global.yaml` with the dataset-specific configuration.
+- Detailed reports for each dataset/fold are located in `results/reports/<dataset>/fold_0/` (DAG, leakage, eco, diagnostics, etc.).
+
+---
+
+## Authors / Citation
+
+Add author info, version, and paper citation once the final manuscript is accepted.

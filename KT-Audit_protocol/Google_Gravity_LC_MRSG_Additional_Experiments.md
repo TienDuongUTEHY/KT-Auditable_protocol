@@ -1,23 +1,23 @@
-# Kế hoạch xử lý bổ sung cho LC-MRSG bằng Google Gravity / Colab
+# Additional Experiment Plan for LC-MRSG using Google Gravity / Colab
 
-## 0. Mục tiêu chỉnh sửa
+## 0. Revision Goals
 
-Mục tiêu của gói việc này là xử lý 6 điểm còn dễ bị reviewer bắt bẻ:
+The goal of this work package is to address 6 potential criticisms from reviewers:
 
-1. Training-integrity diagnostic còn gây nghi ngờ.
-2. Cần giải thích rõ phạm vi giữa dataset-scale audit và fold-level plots.
-3. Eco provenance đang có `FLAG` nhưng phải diễn giải đúng là cờ provenance, không phải held-out leakage.
-4. Sparse-skill claim phải viết thận trọng.
-5. KDD2010 BKT có ý nghĩa thống kê nhưng hiệu ứng thực tế quá nhỏ.
-6. Bảng/hình phụ lục quá nhiều, cần tách representative figures ở main text và full folds ở supplementary.
+1. Training-integrity diagnostics are currently questionable.
+2. Clearly define the scope difference between dataset-scale audit and fold-level plots.
+3. Eco provenance has a `FLAG` which needs to be correctly interpreted as an audit provenance flag, not held-out data leakage.
+4. Sparse-skill claims must be written conservatively.
+5. KDD2010 BKT is statistically significant but has a practically negligible effect.
+6. The appendix contains too many tables and figures; representative figures should remain in the main text while full folds should be moved to the supplementary material.
 
-Kết quả kỳ vọng sau khi chạy bổ sung: reviewer thấy bài báo trung thực, có kiểm soát rò rỉ, không thổi phồng kết quả, và có đủ phụ lục training diagnostics để giảm nghi ngờ về tính toàn vẹn huấn luyện.
+Expected outcome: The reviewer sees the paper as honest, leakage-controlled, with realistic performance claims, and backed by training diagnostics in the appendix to remove doubts about training integrity.
 
 ---
 
-## 1. Cấu trúc thư mục chuẩn
+## 1. Directory Structure
 
-Tạo cấu trúc sau trong project:
+Create the following structure in the project:
 
 ```text
 scientific_paper1/
@@ -56,39 +56,39 @@ scientific_paper1/
 
 ---
 
-## 2. Task A - Xuất epoch-level training logs
+## 2. Task A - Export Epoch-Level Training Logs
 
-### 2.1. Lý do cần làm
+### 2.1. Rationale
 
-Bản hiện tại có strict training-integrity export bị `FAIL` vì rule `training_loss_decrease` không được thỏa trong probe log. Tuy nhiên prediction standard deviation khác 0, nên chưa thể kết luận model bị constant-output collapse. Reviewer Q3 có thể chấp nhận nếu ta bổ sung epoch-level logs hoặc learning curves để chứng minh mô hình có quá trình học hợp lệ.
+The current strict training-integrity export is flagged as `FAIL` because the `training_loss_decrease` rule is not met in the probe log. However, since the prediction standard deviation is non-zero, we cannot conclude that the model suffers from constant-output collapse. A Q3 reviewer will likely accept this if we provide epoch-level logs or learning curves to prove that valid training progress occurred.
 
-### 2.2. Schema bắt buộc của file `training_logs.csv`
+### 2.2. Mandatory Schema for `training_logs.csv`
 
-Mỗi dòng là một epoch của một cấu hình chạy:
+Each row represents one epoch of a training run configuration:
 
 ```text
 dataset,fold,seed,model,graph_variant,epoch,train_loss,valid_loss,valid_auc,valid_acc,lr,grad_norm,best_epoch,early_stop_flag,run_id
 ```
 
-Ví dụ:
+Example:
 
 ```text
 assist2012,0,42,gikt,E_pre_E_sim_E_co,1,0.6941,0.6935,0.5012,0.6901,0.001,1.82,0,False,assist2012_f0_s42_gikt_full
 assist2012,0,42,gikt,E_pre_E_sim_E_co,2,0.6813,0.6802,0.5634,0.6912,0.001,1.54,0,False,assist2012_f0_s42_gikt_full
 ```
 
-### 2.3. Điều kiện pass thực tế hơn strict monotonic rule
+### 2.3. Realistic Success Criteria (Relaxed Monotonic Rule)
 
-Không yêu cầu loss giảm ở mọi epoch. Dùng quy tắc reviewer-safe:
+We do not require the training loss to decrease at every single epoch. Instead, use a reviewer-safe check:
 
-- `pred_std > 0.01` để loại constant prediction.
-- `final_train_loss <= first_train_loss * 0.99` hoặc `best_valid_auc >= first_valid_auc + 0.005`.
-- Không có NaN/Inf trong `train_loss`, `valid_loss`, `valid_auc`, `valid_acc`.
-- `best_epoch` nằm trong khoảng epoch hợp lệ.
+- `pred_std > 0.01` to exclude constant predictions.
+- `final_train_loss <= first_train_loss * 0.99` OR `best_valid_auc >= first_valid_auc + 0.005`.
+- No NaN/Inf values in `train_loss`, `valid_loss`, `valid_auc`, or `valid_acc`.
+- `best_epoch` falls within the valid range of trained epochs.
 
-### 2.4. Code kiểm tra training integrity
+### 2.4. Training Integrity Audit Script
 
-Tạo file `scripts/audit_training_integrity.py`:
+Create `scripts/audit_training_integrity.py`:
 
 ```python
 import pandas as pd
@@ -155,20 +155,20 @@ print(f"Saved: {OUT_PATH}")
 
 ---
 
-## 3. Task B - Vẽ learning curves
+## 3. Task B - Plot Learning Curves
 
-### 3.1. Mục tiêu
+### 3.1. Objective
 
-Tạo learning curves để đưa vào Appendix C hoặc Supplementary:
+Generate learning curves for Appendix C or Supplementary Material:
 
-- Train loss theo epoch.
-- Valid loss theo epoch.
-- Valid AUC theo epoch.
-- Đánh dấu best epoch.
+- Training loss by epoch.
+- Validation loss by epoch.
+- Validation AUC by epoch.
+- Mark the best epoch.
 
-### 3.2. Code vẽ learning curves
+### 3.2. Learning Curves Script
 
-Tạo file `scripts/plot_training_curves.py`:
+Create `scripts/plot_training_curves.py`:
 
 ```python
 import pandas as pd
@@ -181,13 +181,13 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 logs = pd.read_csv(LOG_PATH)
 
-# Representative curves: full graph, fold 0, seed đầu tiên theo từng dataset-model
+# Representative curves: full graph, fold 0, first seed for each dataset-model
 rep = logs[logs["graph_variant"].isin(["E_pre_E_sim_E_co", "LC-MRSG", "full"])]
 if rep.empty:
     rep = logs.copy()
 
 for (dataset, model), g0 in rep.groupby(["dataset", "model"]):
-    # Chọn fold 0 nếu có; nếu không lấy fold nhỏ nhất
+    # Select fold 0 if available; otherwise use the minimum fold index
     fold = 0 if 0 in set(g0["fold"]) else sorted(g0["fold"].unique())[0]
     g1 = g0[g0["fold"] == fold]
     seed = sorted(g1["seed"].unique())[0]
@@ -214,41 +214,41 @@ for (dataset, model), g0 in rep.groupby(["dataset", "model"]):
         print(f"Saved {out}")
 ```
 
-### 3.3. File tổng hợp để chèn vào LaTeX
+### 3.3. Compiling PDF Curves for LaTeX
 
-Sau khi có nhiều PDF curve, có thể ghép 6-9 curves đại diện thành một file:
+After generating the PDF files, combine the 6-9 representative curves:
 
 ```bash
 python scripts/plot_training_curves.py
 ```
 
-Sau đó chèn vào LaTeX:
+Then include it in LaTeX:
 
 ```latex
 \includegraphics[width=0.95\textwidth]{figures/training_curves_summary.pdf}
 ```
 
-Trong file LaTeX tôi đã để sẵn placeholder `figures/training_curves_summary.pdf`. Khi có hình thật, chỉ cần đặt file đúng đường dẫn đó.
+A placeholder for `figures/training_curves_summary.pdf` is already defined in the LaTeX file. Once the actual figures are generated, place them at that path.
 
 ---
 
-## 4. Task C - Sửa Eco provenance FLAG
+## 4. Task C - Resolving the Eco Provenance FLAG
 
-### 4.1. Diễn giải khoa học
+### 4.1. Scientific Interpretation
 
-Trong bài báo, không viết `Eco FAIL = leakage`. Viết đúng:
+Do not write `Eco FAIL = leakage` in the paper. Instead, write:
 
 > FLAG indicates one-direction storage or missing train-only support metadata in the raw provenance table. It is an audit/provenance flag, not observed held-out leakage.
 
-### 4.2. Schema chuẩn cho `eco_provenance_fixed.csv`
+### 4.2. Standard Schema for `eco_provenance_fixed.csv`
 
 ```text
 dataset,fold,src_skill,dst_skill,weight,pmi,support_count,train_only_support,support_hash,is_mirrored,edge_source
 ```
 
-### 4.3. Code mirror undirected Eco edges
+### 4.3. Mirrored Undirected Eco Edges Script
 
-Tạo file `scripts/mirror_eco_edges.py`:
+Create `scripts/mirror_eco_edges.py`:
 
 ```python
 import pandas as pd
@@ -259,7 +259,7 @@ OUT_PATH = Path("outputs/diagnostics/eco_provenance_fixed.csv")
 
 df = pd.read_csv(IN_PATH)
 
-# Chuẩn hóa tên cột nếu cần
+# Normalize column names if needed
 rename_map = {
     "src": "src_skill",
     "dst": "dst_skill",
@@ -298,9 +298,9 @@ print("Fixed directed-storage edges:", len(fixed))
 print(f"Saved: {OUT_PATH}")
 ```
 
-### 4.4. Code audit lại Eco provenance
+### 4.4. Eco Provenance Re-Audit Script
 
-Tạo file `scripts/audit_eco_provenance.py`:
+Create `scripts/audit_eco_provenance.py`:
 
 ```python
 import pandas as pd
@@ -341,46 +341,46 @@ print(f"Saved: {OUT}")
 
 ---
 
-## 5. Task D - Sparse-skill claim
+## 5. Task D - Sparse-Skill Claims
 
-### 5.1. Câu chữ cần dùng trong bài
+### 5.1. Target Text to Use in Paper
 
-Dùng câu an toàn:
+Use conservative phrasing:
 
 > The evidence supports sparse-skill diagnostics rather than a universal claim that LC-MRSG improves sparse-skill prediction.
 
-Tránh dùng:
+Do not use:
 
 > LC-MRSG improves sparse-skill prediction.
 
-### 5.2. Lý do
+### 5.2. Rationale
 
-- ASSIST2012 có sparse/very sparse strata rõ.
-- Junyi không có very-sparse hoặc sparse test strata trong final export.
-- KDD2010 có kết quả sparse-stratum không ổn định đối với nhiều neural/graph-aware models.
+- ASSIST2012 has clearly defined sparse/very sparse strata.
+- Junyi has no very-sparse or sparse test strata in the final export.
+- KDD2010 exhibits unstable sparse-stratum results for multiple neural/graph-aware KT models.
 
 ---
 
-## 6. Task E - KDD2010 BKT: thống kê có ý nghĩa nhưng hiệu ứng nhỏ
+## 6. Task E - KDD2010 BKT: Statistically Significant but Practically Negligible
 
-### 6.1. Câu chữ cần dùng
+### 6.1. Target Text to Use
 
-Trong Results và Discussion viết:
+In the Results and Discussion sections, write:
 
 > KDD2010 BKT is statistically significant but practically tiny, with ΔAUC around +0.0001; it should not be treated as a meaningful performance improvement.
 
-### 6.2. Ngưỡng diễn giải đề xuất
+### 6.2. Proposed Interpretation Thresholds
 
 - `|ΔAUC| < 0.001`: practically tiny.
 - `0.001 <= |ΔAUC| < 0.005`: small.
 - `0.005 <= |ΔAUC| < 0.01`: moderate for KT benchmarks.
-- `|ΔAUC| >= 0.01`: practically meaningful, cần kiểm tra thêm CI và stability.
+- `|ΔAUC| >= 0.01`: practically meaningful, requires further CI and stability audits.
 
 ---
 
-## 7. Task F - Tổ chức lại main text, appendix, supplementary
+## 7. Task F - Reorganizing Main Text, Appendix, and Supplementary Material
 
-### 7.1. Main text chỉ giữ
+### 7.1. Main Text Content
 
 - Table dataset-scale audit.
 - Table multi-fold performance.
@@ -393,25 +393,25 @@ Trong Results và Discussion viết:
 - Sparse-strata representative figure/table.
 - Training-integrity summary table.
 
-### 7.2. Appendix giữ
+### 7.2. Appendix Content
 
 - Fold-level Eco provenance audit.
 - Training-integrity by dataset-model.
-- Naming convention của full fold-level figures.
+- Naming convention of full fold-level figures.
 - Training diagnostics reproducibility checklist.
 
-### 7.3. Supplementary để ngoài bài
+### 7.3. Supplementary Material (External files)
 
-- Tất cả fold-level figures cho 3 datasets x 3 folds x 6 figure types.
+- All fold-level figures for 3 datasets x 3 folds x 6 figure types.
 - Full epoch logs.
 - Full learning curves.
-- Full prediction files nếu journal cho phép.
+- Full prediction files (if allowed by the journal).
 
 ---
 
-## 8. Prompt tổng thể cho Google Gravity / Antigravity
+## 8. Master Prompt for Google Gravity / Antigravity
 
-Sao chép prompt dưới đây vào Google Gravity / Antigravity:
+Copy and paste the following prompt into Google Gravity / Antigravity:
 
 ```text
 You are editing the scientific_paper1 project for a knowledge tracing paper titled "Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing".
@@ -440,26 +440,25 @@ Acceptance criteria:
 
 ---
 
-## 9. Sau khi chạy xong cần cập nhật LaTeX
+## 9. Post-Execution LaTeX Guidelines
 
-1. Copy file `figures/training_curves_summary.pdf` vào thư mục `figures/` cùng cấp file `.tex`.
-2. Nếu Eco fixed audit đã PASS, cập nhật Table Eco provenance từ `FLAG` sang `PASS_FIXED` nhưng vẫn giải thích raw export ban đầu có FLAG.
-3. Nếu training integrity summary có nhiều PASS, cập nhật Table 8 thành hai cột: `Strict probe status` và `Epoch-log status`.
-4. Nếu vẫn WARN, giữ wording thận trọng: `training-log warning, not constant-output collapse`.
+1. Copy the generated `figures/training_curves_summary.pdf` into the `figures/` directory beside the `.tex` file.
+2. If the Eco fixed audit PASSES, update the Table Eco provenance entry from `FLAG` to `PASS_FIXED`, but explain that the raw export originally flagged it.
+3. If the training integrity summary has multiple PASS entries, split Table 8 into two columns: `Strict probe status` and `Epoch-log status`.
+4. If it still WARNS, keep the conservative wording: `training-log warning, not constant-output collapse`.
 
 ---
 
-## 10. Checklist trước khi nộp Q3
+## 10. Pre-Submission Checklist
 
-- [ ] Abstract không nói universal improvement.
-- [ ] Introduction nêu rõ graph leakage risk.
-- [ ] Protocol có split-first condition.
-- [ ] Dataset-scale audit và fold-level plots được phân biệt bằng đúng câu: `Scale audit reports benchmark-level processed availability; fold plots report representative fold artifacts.`
-- [ ] Eco FLAG được giải thích là one-direction storage / missing metadata, không phải held-out leakage.
-- [ ] Sparse-skill claim dùng `supports sparse-skill diagnostics`.
-- [ ] KDD2010 BKT ghi rõ statistically significant but practically tiny.
-- [ ] Main text không quá tải hình phụ lục.
-- [ ] Appendix có training diagnostics hoặc learning curves.
-- [ ] Supplementary có full fold figures.
-- [ ] LaTeX compile sạch.
-```
+- [ ] Abstract does not state universal improvement.
+- [ ] Introduction explicitly states graph leakage risks.
+- [ ] Protocol includes split-first condition.
+- [ ] Dataset-scale audits and fold-level plots are clearly distinguished by: `Scale audit reports benchmark-level processed availability; fold plots report representative fold artifacts.`
+- [ ] Eco FLAG is explained as one-direction storage or missing metadata, not held-out leakage.
+- [ ] Sparse-skill claims use the phrasing `supports sparse-skill diagnostics`.
+- [ ] KDD2010 BKT is stated as statistically significant but practically tiny.
+- [ ] Main text does not overload fold-level supplementary figures.
+- [ ] Appendix includes training diagnostics or learning curves.
+- [ ] Supplementary material contains all fold figures.
+- [ ] LaTeX compiles cleanly.

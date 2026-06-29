@@ -2,7 +2,7 @@
 
 ## Mission
 
-Create a fresh, fully reproducible output folder for the EJEL revision of LC-MRSG and run all experiments needed to address GS Hậu's comments P1--P7. The pipeline must be automatic, resumable, and auditable. Do not wait for manual supervision between stages. If a stage fails, write an error report, skip dependent stages, continue independent stages, and produce a final `RUN_STATUS.md` explaining what succeeded and what remains unresolved.
+Create a fresh, fully reproducible output folder for the EJEL revision of LC-MRSG and run all experiments needed to address GS Hau's comments P1--P7. The pipeline must be automatic, resumable, and auditable. Do not wait for manual supervision between stages. If a stage fails, write an error report, skip dependent stages, continue independent stages, and produce a final `RUN_STATUS.md` explaining what succeeded and what remains unresolved.
 
 ## Non-negotiable scientific rules
 
@@ -546,7 +546,7 @@ Export the exact artefacts needed to update the manuscript.
 
 ### Goal
 
-Prevent overclaiming and technical inconsistencies before the file is sent to GS Hậu or EJEL.
+Prevent overclaiming and technical inconsistencies before the file is sent to GS Hau or EJEL.
 
 ### Actions
 
