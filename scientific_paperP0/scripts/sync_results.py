@@ -16,8 +16,8 @@ def copy_tree(src, dst):
             # print(f"Copied: {rel_path}")
 
 def main():
-    src_results = Path(r"d:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\scientific_paperP0\results")
-    dst_results = Path(r"D:\Paper P0 Nguyen Tien Duong\Paper_P0\scientific_paperP0\results")
+    src_results = Path(r"d:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\KT-Auditable_protocol\results")
+    dst_results = Path(r"D:\Paper P0 Nguyen Tien Duong\Paper_P0\KT-Auditable_protocol\results")
     
     print(f"Syncing results from:\n  {src_results}\nto:\n  {dst_results}")
     copy_tree(src_results, dst_results)

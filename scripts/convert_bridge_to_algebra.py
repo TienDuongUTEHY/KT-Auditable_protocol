@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import time
 
-raw_train_path = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\data\raw\bridge_to_algebra_2008_2009_train.txt"
-output_dir = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\data\raw\kdd2010"
+raw_train_path = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\data\raw\bridge_to_algebra_2008_2009_train.txt"
+output_dir = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\data\raw\kdd2010"
 os.makedirs(output_dir, exist_ok=True)
 
 print("Loading full raw train file (this might take a minute)...")

@@ -9,7 +9,7 @@ def ensure_dir(d):
 def ingest_full_junyi():
     print("\n--- Processing FULL Junyi Dataset (Memory Safe) ---")
     zip_path = r"D:\Paper P0 Nguyen Tien Duong\Paper_P0\Data\raw\Junyi\archive.zip"
-    out_dir = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\data\raw\junyi"
+    out_dir = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\data\raw\junyi"
     ensure_dir(out_dir)
     
     try:

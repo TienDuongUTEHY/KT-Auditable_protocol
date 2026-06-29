@@ -20,10 +20,10 @@
 
 ## Files for manuscript update
 
-- Main manuscript: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\scientific_paperP0\results_ejel_hau_revision_20260624_225226\manuscript_ready\LC_MRSG_EJEL_MAIN_FILLED.md
-- Supplementary: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\scientific_paperP0\results_ejel_hau_revision_20260624_225226\manuscript_ready\LC_MRSG_EJEL_SUPPLEMENTARY_FILLED.md
-- Tables: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\scientific_paperP0\results_ejel_hau_revision_20260624_225226\tables/
-- Figures: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\scientific_paperP0\results_ejel_hau_revision_20260624_225226\figures/
+- Main manuscript: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\KT-Auditable_protocol\results_ejel_hau_revision_20260624_225226\manuscript_ready\LC_MRSG_EJEL_MAIN_FILLED.md
+- Supplementary: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\KT-Auditable_protocol\results_ejel_hau_revision_20260624_225226\manuscript_ready\LC_MRSG_EJEL_SUPPLEMENTARY_FILLED.md
+- Tables: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\KT-Auditable_protocol\results_ejel_hau_revision_20260624_225226\tables/
+- Figures: D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\KT-Auditable_protocol\results_ejel_hau_revision_20260624_225226\figures/
 
 ## Author decisions still required
 

@@ -2,7 +2,7 @@
 
 Mã nguồn hỗ trợ luận chứng và thí nghiệm cho chủ đề **xây dựng đồ thị kỹ năng đa quan hệ có kiểm soát rò rỉ dữ liệu (leakage)**, phục vụ **theo dõi tri thức (Knowledge Tracing)** khi các kỹ năng (KC) có mức độ **thưa (sparse)**.
 
-Tên cấu hình nội bộ trong `configs/global.yaml`: `scientific_paperP0`; tiêu đề đặt trong cùng file: **"Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"**.
+Tên cấu hình nội bộ trong `configs/global.yaml`: `KT-Auditable_protocol`; tiêu đề đặt trong cùng file: **"Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"**.
 
 ---
 

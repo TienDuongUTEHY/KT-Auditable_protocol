@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 
 def main():
-    src_path = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final\data\raw\kdd2010\interactions.csv"
+    src_path = r"D:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol\data\raw\kdd2010\interactions.csv"
     dst_dir = Path("data/raw/kdd2010")
     dst_dir.mkdir(parents=True, exist_ok=True)
     

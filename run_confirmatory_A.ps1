@@ -5,7 +5,7 @@
 # Fully automated - no user input required
 # =====================================================================
 
-$ProjectRoot = "d:\Paper P0 Nguyen Tien Duong\SCIE_P0\scientific_paperP0_final"
+$ProjectRoot = "d:\Paper P0 Nguyen Tien Duong\SCIE_P0\KT-Auditable_protocol"
 Set-Location $ProjectRoot
 
 $PythonPath = "D:\scientific_paper1\miniconda3\envs\scientific_paper1\python.exe"

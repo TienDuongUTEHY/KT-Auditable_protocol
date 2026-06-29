@@ -1,5 +1,5 @@
 project:
-  name: scientific_paperP0
+  name: KT-Auditable_protocol
   title: "Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing"
   seed: 2026
   output_dir: results
