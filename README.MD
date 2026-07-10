@@ -1,4 +1,4 @@
-# Science Paper P0 — Multi-Relational Graphs & Knowledge Tracing
+# KT Auditable protocol for Relation-Aware Skill Graph Construction in e-Learning Knowledge Tracing
 
 Source code supporting arguments and experiments for the topic of **constructing multi-relational skill graphs with controlled data leakage**, serving **Knowledge Tracing** when key concepts (KC) are **sparse**.
 
