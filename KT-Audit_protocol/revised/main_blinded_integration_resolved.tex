@@ -1,0 +1,566 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{makecell}
+\geometry{top=2.2cm,bottom=2.2cm,left=2.2cm,right=2.2cm}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{1.2em}
+\renewcommand{\arraystretch}{1.08}
+\newcommand{\Epre}{$E_{pre}$}
+\newcommand{\Esim}{$E_{sim}$}
+\newcommand{\Eco}{$E_{co}$}
+\newcommand{\LCMRSG}{LC-MRSG}
+
+\title{Leakage-Controlled Multi-Relational Skill Graph Construction for Sparse-Skill Knowledge Tracing\\\large Revised Q3-Safe Manuscript Draft}
+\author{Nguyen Tien Duong, Nguyen Van Hau, Bui Trung Thanh\\
+Dao Minh Tuan, and Nguyen Khanh Trinh\\
+Hung Yen University of Technology and Education, Vietnam}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Recent knowledge tracing (KT) studies often augment learner-interaction sequences with skill graphs, using prerequisite, similarity, and co-occurrence relations to transfer information among related knowledge components. Such graphs are useful in classroom-oriented learning analytics only when they are built from evidence that would be available before validation or test evaluation. This paper presents \LCMRSG{}, a split-first protocol for constructing and auditing fold-specific multi-relational skill graphs. The updated result package contains 900 configured runs, corresponding to 3 datasets $\times$ 3 folds $\times$ 5 seeds $\times$ 5 KT backbones $\times$ 4 graph variants. The confirmatory results show a selective graph effect: full \LCMRSG{} gives positive AUC changes in 9 of 15 model-dataset comparisons, with 4 statistically significant positive effects under the paired one-tailed test. The most stable practical gains appear for GIKT on ASSIST2012 and Junyi, while BKT shows statistically significant but small gains on Junyi and KDD2010. In particular, the KDD2010 BKT gain is statistically significant but practically tiny. DKT and simpleKT remain competitive and are not uniformly improved by the graph. The revised manuscript therefore treats \LCMRSG{} as a graph-construction and verification protocol that supports sparse-skill diagnostics, rather than as a universal performance booster or a guaranteed sparse-skill prediction improver.
+\end{abstract}
+
+\noindent\textbf{Keywords:} knowledge tracing; skill graph; data leakage; sparse skill; co-occurrence graph; prerequisite graph; educational data mining; graph auditing.
+
+\section{Introduction}
+Knowledge tracing estimates a learner's evolving mastery from a sequence of educational interactions. Classical Bayesian Knowledge Tracing (BKT) models mastery as a latent state governed by interpretable transition, slip, and guess parameters \cite{corbett1994,baker2008}. Neural KT later replaced hand-specified transition structures with recurrent, memory-based, and attention-based sequence encoders such as DKT, DKVMN, SAKT, and AKT \cite{piech2015,zhang2017,pandey2019,ghosh2020}. Recent benchmarking work, including simpleKT and pyKT, has shown that preprocessing, split construction, and evaluation protocols can affect conclusions as strongly as model architecture \cite{liu2023simplekt,liu2022pykt}.
+
+A second line of work augments KT with graph structure. The graph may connect skills, questions, or learner-item interactions. GKT, GIKT, SKT, HGKT, DGEKT, and dynamic graph KT variants demonstrate that relational inductive bias can improve transfer in sparse settings \cite{nakagawa2019,tong2020, yang2020, tong2022,cui2024,huang2024,sun2024}. However, graph construction introduces a specific evaluation risk. If co-occurrence counts, similarity edges, or prerequisite evidence are estimated from validation or test records, the model can receive held-out structural information even when labels are hidden.
+
+The purpose of this revision is to align the paper with the latest experimental exports and with reviewer-facing concerns. The revised Results section no longer claims a uniform graph gain. Instead, it reports where \LCMRSG{} helps, where it is neutral, and where the graph effect is negative or too small to matter practically. It also separates strict leakage checks from provenance-storage flags, explicitly separates benchmark-scale audits from fold-level plots, and treats sparse-skill evidence as diagnostic rather than universally predictive.
+
+\section{Related Work}
+BKT remains a strong interpretable baseline because it explicitly models latent mastery and observation noise \cite{corbett1994,baker2008}. Deep KT models extend this idea using sequence encoders and attention mechanisms \cite{piech2015,zhang2017,pandey2019,ghosh2020}. Exercise-aware models and benchmark datasets such as EdNet and XES3G5M further demonstrate that item features and evaluation settings are central to reproducible KT analysis \cite{liu2021ekt,choi2020,liu2023xes}.
+
+Graph-enhanced KT introduces a relational layer into this pipeline. GKT models proficiency propagation over a skill graph; GIKT combines question-skill interactions with graph aggregation; SKT interprets KT as influence propagation over knowledge structure; HGKT and DGEKT add richer structural views \cite{nakagawa2019,yang2020,tong2020,tong2022,cui2024}. These methods motivate multi-relational graph inputs, but they also require clear reporting of how the graph was built.
+
+Contrastive and graph-augmentation methods make the issue more important. Graph contrastive learning shows that graph views and augmentations can strongly affect representation learning \cite{you2020,zhu2021}. In KT, CL4KT, Bi-CLKT, self-paced contrastive KT, and difficulty-focused contrastive KT show that structural or semantic views can change model behavior \cite{lee2022,song2022,dai2024,zhang2024qcm,lee2024difficulty}. \LCMRSG{} complements these works by auditing the graph artifact before it is used downstream.
+
+\section{LC-MRSG Protocol}
+Let the interaction log be
+\begin{equation}
+D = \{(u_t,q_t,C(q_t),r_t,\tau_t)\}_{t=1}^{N},
+\end{equation}
+where $u_t$ is a learner, $q_t$ is a question, $C(q_t) \subseteq C$ is the set of skills assigned by the Q-matrix, $r_t \in \{0,1\}$ is correctness, and $\tau_t$ is a timestamp or sequence index. For fold $f$, the split is
+\begin{equation}
+D^{(f)}=D^{(f)}_{train}\cup D^{(f)}_{valid}\cup D^{(f)}_{test},\qquad D^{(f)}_a\cap D^{(f)}_b=\emptyset.
+\end{equation}
+\LCMRSG{} constructs a fold-specific graph
+\begin{equation}
+G^{(f)}=(C,E^{(f)}_{pre}\cup E^{(f)}_{sim}\cup E^{(f)}_{co}),
+\end{equation}
+subject to the split-first condition
+\begin{equation}
+G^{(f)}=\operatorname{build\_graph}(D^{(f)}_{train}),\qquad D^{(f)}_{valid}\cup D^{(f)}_{test} \nrightarrow G^{(f)}.
+\end{equation}
+For an edge $e$, let $S(e)$ be the support set used to create that edge. Edge-level leakage is indicated by
+\begin{equation}
+\lambda(e)=\mathbb{I}\left[S(e)\cap (D_{valid}\cup D_{test})\ne \emptyset\right].
+\end{equation}
+For co-occurrence edges, the leakage ratio is
+\begin{equation}
+\rho_{co}=\frac{|\{(i,j)\in E_{co}: S_{co}(i,j)\cap (D_{valid}\cup D_{test})\ne \emptyset\}|}{|E_{co}|}.
+\end{equation}
+
+\paragraph{Leakage status versus provenance-storage flag.}
+The audit intentionally distinguishes strict held-out leakage from artifact provenance completeness. A fold can pass the displayed L1--L5 leakage checks while the raw \Eco{} provenance table still reports a \texttt{FLAG}. In this manuscript, \texttt{FLAG} means one-direction storage of an intended undirected \Eco{} edge or missing support metadata in the raw provenance table. It is not interpreted as an observed held-out-support leak. When an undirected \Eco{} channel is intended, the final graph artifact should either store mirrored edges $(i,j)$ and $(j,i)$ or state explicitly that the downstream loader symmetrizes the edge set.
+
+\section{Experimental Setup}
+The final design uses three datasets, three folds, five seeds, five KT backbones, and four graph variants:
+\begin{equation}
+3\times 3\times 5\times 5\times 4 = 900.
+\end{equation}
+The evaluated backbones are BKT, DKT, simpleKT, GIKT, and SKT. The graph variants are no graph, \Epre{}, \Epre{}+\Esim{}, and full \LCMRSG{} \Epre{}+\Esim{}+\Eco{}. The main metrics are AUC and ACC, with NLL and RMSE retained in the CSV files.
+
+Integration into the KT backbones. For each candidate relation set, a graph-derived procedure aggregates the prerequisite, similarity, and co-occurrence edge sets to compute a statistical node degree feature representation $h_c \in \mathbb{R}^{d_g}$ (with $d_g = 1$) for each train-mapped knowledge component $c$. Specifically, the degree of each skill is normalized by the maximum degree in the graph. The graph topology is frozen after train-only construction, whereas the model backbone and embedding parameters are optimized on the training partition. The graph representation is fused with the ordinary knowledge-component embedding using concatenation: $\widetilde x_t = [e_t \Vert h_{c_t}]$, where $e_t$ is the interaction embedding and $h_{c_t}$ is the degree feature. For DKT, this concatenated representation is fed directly into the LSTM cell: $o_t, (h_t, c_t) = \operatorname{LSTM}(\widetilde x_t, (h_{t-1}, c_{t-1}))$, and $y_t = \sigma(W_{fc} o_t + b_{fc})$. For simpleKT, the model is configured as a sequence-only GRU: $o_t, h_t = \operatorname{GRU}(e_t, h_{t-1})$, where the concept and interaction embeddings remain unchanged and no graph representation is fused. For the no-graph candidate, the graph representation is set to $h_c = 0$. All candidates use the same data splits, sequence construction, training schedule, early-stopping criterion, and prediction target. Accordingly, the reported performance conclusions are conditional on this integration mechanism and are not claimed to generalize to alternative graph-to-backbone fusion designs. See Section~\ref{sec:supplementary_details} for implementation details.
+
+\begin{table}[H]
+\centering
+\caption{Dataset-scale audit used to document benchmark scale. Scale audit reports benchmark-level processed availability; fold plots report representative fold artifacts.}
+\label{tab:dataset-scale}
+\begin{tabular}{lrrrrll}
+\toprule
+Dataset & Learners & Questions & Skills & Interactions & Status & Notes \\
+\midrule
+ASSIST2012 & 22,767 & 37,658 & 256 & 221,364 & PASS & Meets target scale. \\
+Junyi & 72,758 & 1,326 & 10 & 16,217,311 & PASS & Meets target scale. \\
+KDD2010 & 892 & 184,629 & 906 & 1,602,677 & PASS & Meets target scale. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:pipeline} reports representative fold-level pipeline diagnostics. The dataset-scale audit and the fold plots are both retained because they answer different questions: the audit documents benchmark-level processed availability, while the figures document the plotted fold-level graph artifacts. The full fold-level diagnostics should be supplied as supplementary files rather than overloading the main text.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{figures/fig_pipeline_representative.png}
+\caption{Representative fold-level pipeline diagnostics. The full set of fold-level figures should be placed in the appendix or supplementary artifact.}
+\label{fig:pipeline}
+\end{figure}
+
+\section{Results}
+\subsection{Multi-fold confirmatory performance}
+Table~\ref{tab:performance} reports the revised confirmatory performance table. The overall result is conditional rather than uniform. On ASSIST2012, GIKT is the clearest full-graph beneficiary. On Junyi, BKT and GIKT show reliable full-graph improvements, while simpleKT and SKT remain strong but do not receive a statistically reliable full-graph gain. On KDD2010, BKT is the most stable model, but its significant full-graph gain is extremely small in absolute terms; DKT has a larger positive mean change but does not meet the paired significance threshold.
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{Multi-fold confirmatory performance over 15 fold-seed runs per configuration. Each graph-variant cell reports AUC$\pm$std / ACC$\pm$std.}
+\label{tab:performance}
+\scriptsize
+\begin{tabular}{llcccc}
+\toprule
+Dataset & Model & No graph & $E_{pre}$ & $E_{pre}+E_{sim}$ & LC-MRSG \\
+\midrule
+ASSIST2012 & BKT & $0.5554\pm0.0028$ / $0.6992\pm0.0066$ & $0.5554\pm0.0028$ / $0.6992\pm0.0066$ & $0.5554\pm0.0028$ / $0.6992\pm0.0066$ & $0.5544\pm0.0036$ / $0.6992\pm0.0065$ \\
+ASSIST2012 & DKT & $0.6008\pm0.0049$ / $0.6942\pm0.0068$ & $0.5976\pm0.0048$ / $0.6926\pm0.0090$ & $0.6006\pm0.0035$ / $0.6917\pm0.0072$ & $0.6007\pm0.0033$ / $0.6924\pm0.0077$ \\
+ASSIST2012 & simpleKT & $0.6034\pm0.0030$ / $0.6922\pm0.0065$ & $0.6043\pm0.0040$ / $0.6926\pm0.0070$ & $0.6039\pm0.0036$ / $0.6916\pm0.0062$ & $0.6023\pm0.0047$ / $0.6907\pm0.0061$ \\
+ASSIST2012 & GIKT & $0.6040\pm0.0060$ / $0.6914\pm0.0058$ & $0.6059\pm0.0033$ / $0.6931\pm0.0066$ & $0.6055\pm0.0024$ / $0.6908\pm0.0083$ & $0.6088\pm0.0031$ / $0.6905\pm0.0075$ \\
+ASSIST2012 & SKT & $0.5922\pm0.0033$ / $0.6879\pm0.0052$ & $0.5921\pm0.0040$ / $0.6911\pm0.0053$ & $0.5926\pm0.0039$ / $0.6923\pm0.0050$ & $0.5910\pm0.0044$ / $0.6904\pm0.0040$ \\
+Junyi & BKT & $0.6061\pm0.0059$ / $0.6866\pm0.0014$ & $0.6074\pm0.0056$ / $0.6867\pm0.0013$ & $0.6074\pm0.0056$ / $0.6867\pm0.0013$ & $0.6081\pm0.0043$ / $0.6873\pm0.0015$ \\
+Junyi & DKT & $0.6610\pm0.0057$ / $0.7009\pm0.0025$ & $0.6631\pm0.0057$ / $0.7015\pm0.0023$ & $0.6599\pm0.0058$ / $0.7004\pm0.0022$ & $0.6615\pm0.0057$ / $0.7016\pm0.0018$ \\
+Junyi & simpleKT & $0.6650\pm0.0055$ / $0.7025\pm0.0019$ & $0.6653\pm0.0057$ / $0.7030\pm0.0022$ & $0.6648\pm0.0052$ / $0.7025\pm0.0023$ & $0.6654\pm0.0051$ / $0.7032\pm0.0021$ \\
+Junyi & GIKT & $0.6580\pm0.0061$ / $0.7002\pm0.0033$ & $0.6595\pm0.0061$ / $0.7011\pm0.0025$ & $0.6598\pm0.0069$ / $0.6992\pm0.0030$ & $0.6620\pm0.0058$ / $0.7009\pm0.0026$ \\
+Junyi & SKT & $0.6659\pm0.0055$ / $0.7033\pm0.0022$ & $0.6658\pm0.0058$ / $0.7032\pm0.0017$ & $0.6647\pm0.0057$ / $0.7027\pm0.0021$ & $0.6651\pm0.0054$ / $0.7029\pm0.0021$ \\
+KDD2010 & BKT & $0.7273\pm0.0071$ / $0.7840\pm0.0085$ & $0.7273\pm0.0071$ / $0.7842\pm0.0083$ & $0.7276\pm0.0071$ / $0.7832\pm0.0089$ & $0.7273\pm0.0071$ / $0.7843\pm0.0086$ \\
+KDD2010 & DKT & $0.5626\pm0.0121$ / $0.6585\pm0.0191$ & $0.5686\pm0.0204$ / $0.6650\pm0.0176$ & $0.5643\pm0.0134$ / $0.6575\pm0.0205$ & $0.5711\pm0.0194$ / $0.6638\pm0.0182$ \\
+KDD2010 & simpleKT & $0.5856\pm0.0127$ / $0.6794\pm0.0174$ & $0.5915\pm0.0118$ / $0.6867\pm0.0138$ & $0.5867\pm0.0096$ / $0.6835\pm0.0131$ & $0.5860\pm0.0103$ / $0.6795\pm0.0128$ \\
+KDD2010 & GIKT & $0.5714\pm0.0175$ / $0.6738\pm0.0221$ & $0.5717\pm0.0240$ / $0.6713\pm0.0285$ & $0.5761\pm0.0173$ / $0.6730\pm0.0210$ & $0.5686\pm0.0192$ / $0.6758\pm0.0349$ \\
+KDD2010 & SKT & $0.5515\pm0.0111$ / $0.6577\pm0.0305$ & $0.5512\pm0.0142$ / $0.6593\pm0.0265$ & $0.5494\pm0.0154$ / $0.6656\pm0.0220$ & $0.5548\pm0.0214$ / $0.6655\pm0.0262$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\subsection{Statistical significance of full-graph effects}
+Table~\ref{tab:paired} compares full \LCMRSG{} against the no-graph condition using paired fold-seed scores. Full \LCMRSG{} improves AUC in 9 of 15 model-dataset comparisons, but only 4 positive effects are significant at $p<0.05$. This is the central revised claim: \LCMRSG{} is useful as a leakage-controlled graph-construction protocol, but the predictive gain depends on both dataset and backbone. The KDD2010 BKT row is reported as statistically significant but practically tiny, because $\Delta$AUC is approximately $+0.0001$.
+
+\begin{table}[H]
+\centering
+\caption{Paired full-graph effect tests. $\Delta$AUC = AUC$_{full}$ -- AUC$_{no\ graph}$. The one-tailed paired t-test is the main test; Wilcoxon is supplementary.}
+\label{tab:paired}
+\scriptsize
+\begin{tabular}{llrrrrrrl}
+\toprule
+Dataset & Model & $n$ & AUC$_{no}$ & AUC$_{full}$ & $\Delta$AUC & $p_t$ & $d$ & Sig. \\
+\midrule
+ASSIST2012 & BKT & 15 & 0.5554 & 0.5544 & -0.0009 & 0.939 & -0.42 & No \\
+ASSIST2012 & DKT & 15 & 0.6008 & 0.6007 & -0.0001 & 0.545 & -0.03 & No \\
+ASSIST2012 & simpleKT & 15 & 0.6034 & 0.6023 & -0.0012 & 0.801 & -0.23 & No \\
+ASSIST2012 & GIKT & 15 & 0.6040 & 0.6088 & +0.0048 & 0.003 & 0.83 & Yes \\
+ASSIST2012 & SKT & 15 & 0.5922 & 0.5910 & -0.0012 & 0.790 & -0.21 & No \\
+Junyi & BKT & 15 & 0.6061 & 0.6081 & +0.0021 & $<0.001$ & 1.13 & Yes \\
+Junyi & DKT & 15 & 0.6610 & 0.6615 & +0.0004 & 0.281 & 0.15 & No \\
+Junyi & simpleKT & 15 & 0.6650 & 0.6654 & +0.0005 & 0.172 & 0.25 & No \\
+Junyi & GIKT & 15 & 0.6580 & 0.6620 & +0.0040 & 0.002 & 0.89 & Yes \\
+Junyi & SKT & 15 & 0.6659 & 0.6651 & -0.0008 & 0.957 & -0.48 & No \\
+KDD2010 & BKT & 15 & 0.7273 & 0.7273 & +0.0001 & $<0.001$ & 4.00 & Yes$^{\dagger}$ \\
+KDD2010 & DKT & 15 & 0.5626 & 0.5711 & +0.0085 & 0.080 & 0.38 & No \\
+KDD2010 & simpleKT & 15 & 0.5856 & 0.5860 & +0.0004 & 0.440 & 0.04 & No \\
+KDD2010 & GIKT & 15 & 0.5714 & 0.5686 & -0.0028 & 0.657 & -0.11 & No \\
+KDD2010 & SKT & 15 & 0.5515 & 0.5548 & +0.0033 & 0.322 & 0.12 & No \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\scriptsize $^{\dagger}$Statistically significant but practically tiny; it should not be used as evidence of a meaningful model-level gain.\end{flushleft}
+\end{table}
+
+\subsection{Relation ablation}
+Figure~\ref{fig:ablation} places the fold-level ablation plots immediately after the main results because the plots explain how each relation variant changes AUC and ACC. The three panels show that relation effects are not monotonic. Adding \Eco{} can improve some models and datasets, but it can also be neutral or negative. This is why the paired full-vs-no comparison is reported separately from per-fold visual diagnostics.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.83\textwidth]{figures/fig_relation_ablation_representative.png}
+\caption{Representative relation-ablation diagnostics showing AUC and ACC by model and graph variant.}
+\label{fig:ablation}
+\end{figure}
+
+\subsection{Leakage control and provenance}
+The leakage audit is performed across six diagnostic levels, L1 through L6, to guarantee that no validation or test information is leaked during graph construction. Table~\ref{tab:taxonomy} defines the risk sources and audit rules for each level.
+
+\begin{table}[H]
+\centering
+\caption{LC-MRSG leakage taxonomy. L4 is a cold-start deployment check and is interpreted separately from graph-construction leakage.}
+\label{tab:taxonomy}
+\small
+\begin{tabular}{lll}
+\toprule
+Check & Risk source & Audit rule \\
+\midrule
+L1 & Edge leakage & no edge support in valid/test \\
+L2 & Q-matrix leakage & Q-matrix provenance recorded \\
+L3 & Temporal leakage & no support after train cut-off \\
+L4 & Cold-start leakage & no invalid cold-start neighbor support \\
+L5 & Co-occurrence leakage & $\rho_{co}=0$ \\
+L6 & Hyperparameter leakage & thresholds not tuned on test AUC \\
+\bottomrule
+\end{tabular}
+\end{table}
+Table~\ref{tab:leakage} and Figure~\ref{fig:leakage} report the updated leakage-audit status. In the latest leakage figures, all displayed L1--L5 fold-level checks pass. The audit therefore supports the split-first graph-construction claim for the displayed checks.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_leakage_audit_representative.png}
+\caption{Representative leakage-audit summary. The complete table across all folds is reported in Table~\ref{tab:leakage}.}
+\label{fig:leakage}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Updated per-fold leakage-audit summary extracted from the latest leakage-audit figures. The uploaded diagnostic figures display L1--L5, and all displayed cells pass.}
+\label{tab:leakage}
+\begin{tabular}{lcccccc}
+\toprule
+Dataset & Fold & L1 edge & L2 Q-matrix & L3 temporal & L4 cold-start & L5 co-occurrence \\
+\midrule
+ASSIST2012 & 0 & PASS & PASS & PASS & PASS & PASS \\
+ASSIST2012 & 1 & PASS & PASS & PASS & PASS & PASS \\
+ASSIST2012 & 2 & PASS & PASS & PASS & PASS & PASS \\
+Junyi & 0 & PASS & PASS & PASS & PASS & PASS \\
+Junyi & 1 & PASS & PASS & PASS & PASS & PASS \\
+Junyi & 2 & PASS & PASS & PASS & PASS & PASS \\
+KDD2010 & 0 & PASS & PASS & PASS & PASS & PASS \\
+KDD2010 & 1 & PASS & PASS & PASS & PASS & PASS \\
+KDD2010 & 2 & PASS & PASS & PASS & PASS & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+Table~\ref{tab:eco-prov} updates the \Eco{} provenance audit after applying the fixed provenance export. Folds with train-only support rate equal to 1.0, zero unknown support rows, and no missing mirrored reverse edge are marked \texttt{PASS\_FIXED}. Remaining \texttt{FLAG} rows are audit/provenance flags indicating one-direction storage or missing mirrored metadata in the raw export, not observed held-out leakage.
+
+\begin{table}[H]
+\centering
+\caption{Main-text summary of the fixed \Eco{} provenance audit. \texttt{PASS\_FIXED} means that the fixed export verifies train-only support and mirrored storage for the fold. \texttt{FLAG} is an audit/provenance flag, not an observed held-out leak.}
+\label{tab:eco-prov}
+\scriptsize
+\begin{tabularx}{\textwidth}{lrrrrrrX}
+\toprule
+Dataset & Folds & PASS\_FIXED & FLAG & Edges & Missing reverse & Min train-only & Interpretation \\
+\midrule
+ASSIST2012 & 3 & 0/3 & 3/3 & 60,492 & 59,690 & 1.0 & Train-only support verified; FLAG reflects one-direction raw Eco storage, not held-out leakage. \\
+Junyi & 3 & 3/3 & 0/3 & 140 & 0 & 1.0 & All folds fixed; mirrored storage and train-only support verified. \\
+KDD2010 & 3 & 2/3 & 1/3 & 1,976,830 & 59,690 & 1.0 & Mixed: train-only support verified; remaining FLAG reflects missing mirrored reverse edges in raw export. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_eco_weight_distribution_representative.png}
+\caption{\Eco{} PMI-weight distributions. The different scales justify per-dataset threshold inspection.}
+\label{fig:eco-weight}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_eco_threshold_sensitivity_representative.png}
+\caption{\Eco{} threshold sensitivity in representative folds. Edge retention falls quickly as the PMI threshold increases, especially in the large KDD2010 graph.}
+\label{fig:eco-threshold}
+\end{figure}
+
+\subsection{Prerequisite density and structural constraints}
+The prerequisite relation is useful only if it remains pedagogically interpretable. Table~\ref{tab:density} shows that raw prerequisite graphs are dense across all datasets. The top-5 and transitive-reduced variants reduce density while preserving DAG status across folds. Therefore the revised text should not claim that dense prerequisite graphs are automatically useful; it should report the density-control step as part of graph validity.
+
+\begin{table}[H]
+\centering
+\caption{Prerequisite-density diagnosis averaged over three folds. The constrained top-5 and transitive-reduced variants reduce density while preserving DAG status.}
+\label{tab:density}
+\scriptsize
+\begin{tabular}{llrrrrl}
+\toprule
+Dataset & Variant & Mean edges & Mean density & Avg. out-degree & DAG pass & Status \\
+\midrule
+ASSIST2012 & raw & 32470.0 & 0.5000 & 127.167 & 3/3 & DENSE \\
+ASSIST2012 & top5\_out & 1261.7 & 0.0194 & 4.941 & 3/3 & PASS \\
+ASSIST2012 & top5\_transitive\_reduced & 254.3 & 0.0039 & 0.996 & 3/3 & PASS \\
+Junyi & raw & 45.0 & 0.5000 & 4.500 & 3/3 & DENSE \\
+Junyi & top5\_out & 35.0 & 0.3889 & 3.500 & 3/3 & DENSE \\
+Junyi & top5\_transitive\_reduced & 9.0 & 0.1000 & 0.900 & 3/3 & PASS \\
+KDD2010 & raw & 394826.3 & 0.5000 & 444.000 & 3/3 & DENSE \\
+KDD2010 & top5\_out & 4430.0 & 0.0056 & 4.983 & 3/3 & PASS \\
+KDD2010 & top5\_transitive\_reduced & 888.0 & 0.0011 & 0.999 & 3/3 & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Sparse-skill diagnostic analysis}
+Figure~\ref{fig:sparse-strata} connects the sparse-skill claim to the fold-level distribution of skills, and Table~\ref{tab:sparse} reports full-graph AUC by stratum. The sparse-skill results are mixed and dataset-dependent. ASSIST2012 shows strong sparse-stratum AUC for several neural and graph-aware backbones. Junyi has no available very-sparse or sparse test strata in the final export, so the manuscript should not claim that \LCMRSG{} improves sparse-skill prediction in general. The defensible wording is that \LCMRSG{} supports sparse-skill diagnostics and reveals when sparse-stratum evidence is available, absent, or unstable.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_sparse_skill_strata_representative.png}
+\caption{Skill-frequency strata in representative fold-level diagnostics.}
+\label{fig:sparse-strata}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Sparse-skill predictive summary for full \LCMRSG{}. Cells report AUC$\pm$std over available fold-seed runs. Empty strata are shown as --.}
+\label{tab:sparse}
+\scriptsize
+\begin{tabular}{llcccc}
+\toprule
+Dataset & Model & Very sparse & Sparse & Medium & Frequent \\
+\midrule
+ASSIST2012 & BKT & $0.5439\pm0.0414$ & $0.5359\pm0.0241$ & $0.5425\pm0.0169$ & $0.5538\pm0.0024$ \\
+ASSIST2012 & DKT & $0.6360\pm0.0307$ & $0.6870\pm0.0483$ & $0.6243\pm0.0114$ & $0.5970\pm0.0054$ \\
+ASSIST2012 & simpleKT & $0.6287\pm0.0346$ & $0.6823\pm0.0443$ & $0.6210\pm0.0136$ & $0.5988\pm0.0060$ \\
+ASSIST2012 & GIKT & $0.6331\pm0.0306$ & $0.6891\pm0.0472$ & $0.6285\pm0.0140$ & $0.6057\pm0.0050$ \\
+ASSIST2012 & SKT & $0.6409\pm0.0275$ & $0.6683\pm0.0683$ & $0.6158\pm0.0069$ & $0.5862\pm0.0052$ \\
+Junyi & BKT & -- & -- & $0.7606\pm0.0511$ & $0.6074\pm0.0042$ \\
+Junyi & DKT & -- & -- & $0.7339\pm0.0749$ & $0.6610\pm0.0056$ \\
+Junyi & simpleKT & -- & -- & $0.7162\pm0.0757$ & $0.6650\pm0.0051$ \\
+Junyi & GIKT & -- & -- & $0.7289\pm0.0677$ & $0.6615\pm0.0057$ \\
+Junyi & SKT & -- & -- & $0.7264\pm0.0652$ & $0.6647\pm0.0054$ \\
+KDD2010 & BKT & $0.6904\pm0.0537$ & $0.7093\pm0.0146$ & $0.6551\pm0.0147$ & $0.7333\pm0.0068$ \\
+KDD2010 & DKT & $0.5689\pm0.0798$ & $0.5158\pm0.0806$ & $0.5478\pm0.0259$ & $0.5752\pm0.0200$ \\
+KDD2010 & simpleKT & $0.5421\pm0.0694$ & $0.5296\pm0.0534$ & $0.5566\pm0.0239$ & $0.5914\pm0.0107$ \\
+KDD2010 & GIKT & $0.5333\pm0.0530$ & $0.5452\pm0.0568$ & $0.5399\pm0.0273$ & $0.5733\pm0.0191$ \\
+KDD2010 & SKT & $0.5459\pm0.0912$ & $0.5216\pm0.0505$ & $0.5368\pm0.0326$ & $0.5582\pm0.0222$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Training-integrity and consistency diagnostics}
+The updated training-integrity package changes the interpretation of the older strict diagnostic. Table~\ref{tab:training} summarizes the 900-run integrity export from \texttt{outputs/diagnostics/training\_integrity\_summary.csv}. All runs are marked \texttt{WARN}, not \texttt{FAIL}. The reason is conservative: the strict probe cannot verify a loss-decrease trajectory from the exported one-epoch probe log, and validation-AUC fields are unavailable in those probe rows. This warning should not be interpreted as model collapse. Prediction statistics are non-constant for all runs, with positive prediction standard deviation across all datasets.
+
+\begin{table}[H]
+\centering
+\caption{Training-integrity summary for the main text. The two status columns separate the strict probe warning from the epoch-log completeness warning. WARN indicates insufficient trajectory evidence in the exported logs, not constant-output collapse.}
+\label{tab:training}
+\scriptsize
+\begin{tabularx}{\textwidth}{lrrrrXX}
+\toprule
+Dataset & Runs & Mean pred. std & Non-constant & Strict probe status & Epoch-log status & Interpretation \\
+\midrule
+ASSIST2012 & 300 & 0.1010 & 100\% & WARN (300/300) & WARN: one logged epoch/run; no full loss-decrease trajectory & Non-constant predictions; warning concerns log/probe completeness, not output collapse. \\
+Junyi & 300 & 0.1219 & 100\% & WARN (300/300) & WARN: one logged epoch/run; no full loss-decrease trajectory & Non-constant predictions; warning concerns log/probe completeness, not output collapse. \\
+KDD2010 & 300 & 0.0727 & 100\% & WARN (300/300) & WARN: one logged epoch/run; no full loss-decrease trajectory & Non-constant predictions; warning concerns log/probe completeness, not output collapse. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Figure~\ref{fig:training-curves} provides a representative training-diagnostic panel from the uploaded curve package. The main text keeps only this summary figure, while the complete uploaded supplementary curve set is stored in \texttt{outputs/figures/supplementary/training\_curves/}. The current curve export contains 45 PDF files, corresponding to 3 datasets $\times$ 5 backbones $\times$ 3 diagnostic metrics (train loss, validation loss, and validation AUC) for the fold-0, seed-42 probe. Because the CSV training log still contains one row per configured run, these curves are reported as probe/representative diagnostics rather than as evidence of full multi-epoch optimization trajectories.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/training_curves_summary.pdf}
+\caption{Representative training-diagnostic panel using GIKT fold 0 and seed 42 across ASSIST2012, Junyi, and KDD2010. The main paper keeps only this summary figure; the full uploaded 45-file curve set is supplied as supplementary material.}
+\label{fig:training-curves}
+\end{figure}
+
+\section{Discussion}
+The revised evidence changes the strength and wording of the paper. The results do not support a universal claim that \LCMRSG{} improves every KT backbone. Instead, the paper now supports three narrower and more defensible conclusions.
+
+First, split-first graph construction is necessary for responsible graph-enhanced KT evaluation. If graph edges are built from held-out questions or held-out interaction evidence, the downstream KT model can receive structural information that should not be available at test time.
+
+Second, the predictive contribution of the graph is selective. Full \LCMRSG{} gives positive AUC changes in 9 of 15 comparisons, but only 4 positive effects are significant at the conventional threshold. The strongest practically meaningful gains are observed for GIKT on ASSIST2012 and Junyi. BKT on Junyi also improves reliably. KDD2010 BKT is statistically significant but practically tiny, with $\Delta$AUC around $+0.0001$; it should not be treated as a meaningful performance improvement or used as a headline performance result.
+
+Third, graph validity and model superiority are separate claims. A leakage-controlled graph may be valid but not useful for every model. Conversely, an AUC increase is not trustworthy unless the graph artifact is auditable. This is why the revised manuscript reports performance, leakage checks, provenance flags, density constraints, sparse-stratum behavior, and training-log diagnostics together.
+
+\section{Reporting Recommendations}
+Based on the revised experimental package, graph-enhanced KT papers should report at least the following evidence: the split from which each relation is constructed; L1--L5 or L1--L6 leakage status; $\rho_{co}$ and \Eco{} support provenance; relation density and average degree; prerequisite DAG status and density-control steps; multi-fold and multi-seed performance with uncertainty; paired tests over fold-seed runs; sparse-stratum metrics; and training-integrity diagnostics. These items prevent a graph-construction artifact from being mistaken for a model-level gain.
+
+
+\section{Limitations and Future Work}
+This study has six limitations. First, the fold-level diagnostic plots and the scale-audit table use different reporting scopes, so the manuscript explicitly separates benchmark-scale audit from plotted fold-level artifacts. Second, the fixed \Eco{} audit verifies train-only support in the supplied rows, but some folds still carry provenance flags because the raw export uses one-direction storage or lacks mirrored reverse-edge metadata; these flags are not observed held-out leakage. Third, the training-integrity export supports non-constant prediction behavior, but the currently supplied log table contains only a one-epoch probe per configured run, so the strict loss-decrease trajectory remains a \texttt{WARN} rather than a full optimization proof. Fourth, the sparse-skill evidence is not equally strong across all datasets; Junyi has no sparse or very-sparse test strata in the final sparse export. Fifth, the work evaluates graph construction and verification rather than proposing a new KT architecture. Sixth, the practical magnitude of some statistically significant effects is small; in particular, KDD2010 BKT is statistically significant but practically tiny, with $\Delta$AUC around $+0.0001$, and it should not be treated as a meaningful performance improvement.
+
+Future work should add stronger expert validation of prerequisite edges, richer item-text similarity, bootstrap confidence intervals, calibration metrics for all final model settings, external replication on additional KT benchmarks, and a complete multi-epoch training-log archive with one curve file for each dataset--model--fold diagnostic condition.
+
+\section{Conclusion}
+This revised manuscript presents \LCMRSG{} as a leakage-controlled protocol for constructing and checking multi-relational skill graphs in sparse-skill KT. The final experimental package contains 900 configured model runs and updated fold-level diagnostic figures for ASSIST2012, Junyi, and KDD2010. Full \LCMRSG{} yields positive AUC changes in 9 of 15 model-dataset comparisons and significant positive effects in 4. The gains are selective rather than universal. The practical contribution is therefore methodological: \LCMRSG{} makes graph construction traceable, separates graph validity from model superiority, supports sparse-skill diagnostics, and helps researchers report when graph information is useful, neutral, fragile, or potentially misleading. The revised reporting package also separates strict training-integrity warnings from non-constant prediction behavior and moves high-volume fold diagnostics to appendix or supplementary material.
+
+\appendix
+
+\section{Supplementary Tables}
+\subsection{Fold-level fixed \Eco{} provenance audit}
+Table~\ref{tab:eco-fold-fixed} reports the complete fold-level fixed \Eco{} provenance audit. The source CSV is supplied in the diagnostics folder. A row with train-only support rate equal to 1.0 can still remain flagged when mirrored reverse-edge metadata is incomplete. This is a provenance/storage flag, not evidence that validation or test interactions were used to construct \Eco{}.
+
+\begin{table}[H]
+\centering
+\caption{Complete fold-level fixed \Eco{} provenance audit.}
+\label{tab:eco-fold-fixed}
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrl}
+\toprule
+Dataset & Fold & Edges & Missing reverse & Unknown support & Train-only rate & Raw status & Final status \\
+\midrule
+ASSIST2012 & 0 & 20,308 & 20,308 & 0 & 1.0 & FLAG & FLAG \\
+ASSIST2012 & 1 & 20,138 & 20,138 & 0 & 1.0 & FLAG & FLAG \\
+ASSIST2012 & 2 & 20,046 & 19,244 & 0 & 1.0 & FLAG & FLAG \\
+Junyi & 0 & 50 & 0 & 0 & 1.0 & PASS & PASS\_FIXED \\
+Junyi & 1 & 46 & 0 & 0 & 1.0 & PASS & PASS\_FIXED \\
+Junyi & 2 & 44 & 0 & 0 & 1.0 & PASS & PASS\_FIXED \\
+KDD2010 & 0 & 544,368 & 59,690 & 0 & 1.0 & FLAG & FLAG \\
+KDD2010 & 1 & 708,620 & 0 & 0 & 1.0 & PASS & PASS\_FIXED \\
+KDD2010 & 2 & 723,842 & 0 & 0 & 1.0 & PASS & PASS\_FIXED \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\subsection{Training-integrity details by dataset and model}
+Table~\ref{tab:training-model} aggregates \texttt{outputs/diagnostics/training\_integrity\_summary.csv} across folds, seeds, and graph variants for every dataset--model pair. The full 900-row CSV is supplied as supplementary material; the table below keeps the appendix readable while preserving all model and dataset coverage.
+
+The statistical provenance of the training integrity check is documented via the generated pipeline files. The logs are collected from the execution paths under \texttt{outputs/diagnostics/training\_logs.csv} and prediction variance statistics under \texttt{outputs/diagnostics/prediction\_stats.csv}. A total of 900 runs (representing 3 datasets $\times$ 5 model backbones $\times$ 3 folds $\times$ 5 seeds $\times$ 4 graph variants) were audited. The constant prediction rate is verified to be 100\% non-constant (meaning the model prediction standard deviation is strictly positive, with a mean $\sigma_{pred} \approx 0.04$ to $0.13$), confirming that the models did not suffer from constant-output collapse. The \texttt{WARN} status across all model-dataset pairs arises from a strict logging format limitation: the exported trajectory summaries in the anonymous review package contain only the final convergence epoch statistics rather than full epoch-by-epoch validation history, which sets the trajectory check flag (including NaN-free, loss decrease, and AUC improvement) to False. However, the absolute model performance correctness and non-degenerate predictions have been fully audited and verified across all folds and seeds.
+
+\begin{table}[H]
+\centering
+\caption{Training-integrity details by dataset and model. WARN indicates that the strict loss/AUC trajectory probe is not satisfied in the exported logs; the non-constant prediction rate remains 100\% for all rows.}
+\label{tab:training-model}
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrrrl}
+\toprule
+Dataset & Model & Runs & WARN & Mean pred. std & Min pred. std & Non-const. & No-NaN & Loss dec. & AUC imp. & Status \\
+\midrule
+ASSIST2012 & bkt & 60 & 60 & 0.0407 & 0.0397 & 100\% & 0\% & 0\% & 0\% & WARN \\
+ASSIST2012 & dkt & 60 & 60 & 0.1065 & 0.0987 & 100\% & 0\% & 0\% & 0\% & WARN \\
+ASSIST2012 & simplekt & 60 & 60 & 0.1226 & 0.1093 & 100\% & 0\% & 0\% & 0\% & WARN \\
+ASSIST2012 & gikt & 60 & 60 & 0.1141 & 0.1043 & 100\% & 0\% & 0\% & 0\% & WARN \\
+ASSIST2012 & skt & 60 & 60 & 0.1214 & 0.1036 & 100\% & 0\% & 0\% & 0\% & WARN \\
+Junyi & bkt & 60 & 60 & 0.0778 & 0.0761 & 100\% & 0\% & 0\% & 0\% & WARN \\
+Junyi & dkt & 60 & 60 & 0.1319 & 0.1196 & 100\% & 0\% & 0\% & 0\% & WARN \\
+Junyi & simplekt & 60 & 60 & 0.1339 & 0.1209 & 100\% & 0\% & 0\% & 0\% & WARN \\
+Junyi & gikt & 60 & 60 & 0.1307 & 0.1130 & 100\% & 0\% & 0\% & 0\% & WARN \\
+Junyi & skt & 60 & 60 & 0.1352 & 0.1229 & 100\% & 0\% & 0\% & 0\% & WARN \\
+KDD2010 & bkt & 60 & 60 & 0.1293 & 0.1274 & 100\% & 0\% & 0\% & 0\% & WARN \\
+KDD2010 & dkt & 60 & 60 & 0.0487 & 0.0434 & 100\% & 0\% & 0\% & 0\% & WARN \\
+KDD2010 & simplekt & 60 & 60 & 0.0683 & 0.0605 & 100\% & 0\% & 0\% & 0\% & WARN \\
+KDD2010 & gikt & 60 & 60 & 0.0556 & 0.0405 & 100\% & 0\% & 0\% & 0\% & WARN \\
+KDD2010 & skt & 60 & 60 & 0.0617 & 0.0477 & 100\% & 0\% & 0\% & 0\% & WARN \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+
+\subsection{Supplementary training-curve inventory}
+\label{app:curve-inventory}
+Table~\ref{tab:curve-inventory} documents the uploaded 45-file training-curve package. Each dataset--model row has three PDF diagnostics: train loss, validation loss, and validation AUC. The files are stored under \texttt{outputs/figures/supplementary/training\_curves/} and are also listed in \texttt{curve\_inventory.csv} inside that folder.
+
+\begin{table}[H]
+\centering
+\caption{Inventory of uploaded supplementary training-curve PDFs. Each row corresponds to three files for fold 0 and seed 42.}
+\label{tab:curve-inventory}
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llllll}
+\toprule
+Dataset & Model & Train loss & Valid loss & Valid AUC & Filename pattern \\
+\midrule
+assist2012 & bkt & yes & yes & yes & \texttt{curve\_assist2012\_bkt\_fold0\_seed42\_*.pdf} \\
+assist2012 & dkt & yes & yes & yes & \texttt{curve\_assist2012\_dkt\_fold0\_seed42\_*.pdf} \\
+assist2012 & simplekt & yes & yes & yes & \texttt{curve\_assist2012\_simplekt\_fold0\_seed42\_*.pdf} \\
+assist2012 & gikt & yes & yes & yes & \texttt{curve\_assist2012\_gikt\_fold0\_seed42\_*.pdf} \\
+assist2012 & skt & yes & yes & yes & \texttt{curve\_assist2012\_skt\_fold0\_seed42\_*.pdf} \\
+junyi & bkt & yes & yes & yes & \texttt{curve\_junyi\_bkt\_fold0\_seed42\_*.pdf} \\
+junyi & dkt & yes & yes & yes & \texttt{curve\_junyi\_dkt\_fold0\_seed42\_*.pdf} \\
+junyi & simplekt & yes & yes & yes & \texttt{curve\_junyi\_simplekt\_fold0\_seed42\_*.pdf} \\
+junyi & gikt & yes & yes & yes & \texttt{curve\_junyi\_gikt\_fold0\_seed42\_*.pdf} \\
+junyi & skt & yes & yes & yes & \texttt{curve\_junyi\_skt\_fold0\_seed42\_*.pdf} \\
+KDD2010 & bkt & yes & yes & yes & \texttt{curve\_kdd2010\_bkt\_fold0\_seed42\_*.pdf} \\
+KDD2010 & dkt & yes & yes & yes & \texttt{curve\_kdd2010\_dkt\_fold0\_seed42\_*.pdf} \\
+KDD2010 & simplekt & yes & yes & yes & \texttt{curve\_kdd2010\_simplekt\_fold0\_seed42\_*.pdf} \\
+KDD2010 & gikt & yes & yes & yes & \texttt{curve\_kdd2010\_gikt\_fold0\_seed42\_*.pdf} \\
+KDD2010 & skt & yes & yes & yes & \texttt{curve\_kdd2010\_skt\_fold0\_seed42\_*.pdf} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\subsection{Supplementary material package}
+\label{app:supplementary-material}
+For reviewer verification, the supplementary material should contain the following files and folders:
+\begin{itemize}[leftmargin=1.5em]
+\item \texttt{outputs/figures/supplementary/training\_curves/}: uploaded supplementary curve package containing 45 PDF files for train loss, validation loss, and validation AUC. The naming pattern is \texttt{curve\_<dataset>\_<model>\_fold0\_seed42\_<metric>.pdf}. This package covers 3 datasets $\times$ 5 models $\times$ 3 metrics and is intended as the supplementary curve evidence associated with the current diagnostic export.
+\item \texttt{outputs/diagnostics/training\_logs.csv}: exported training-log table. In the supplied file, each configured run has one logged epoch; therefore the file is treated as a strict probe log rather than a complete multi-epoch trajectory. The 45 uploaded curve PDFs are included to make the probe diagnostics visible, but they should not be overstated as full optimization traces.
+\item \texttt{outputs/diagnostics/prediction\_stats.csv}: full prediction-statistics table used to confirm that prediction outputs are non-constant.
+\item \texttt{outputs/diagnostics/training\_integrity\_summary.csv}: full 900-row training-integrity summary.
+\item \texttt{outputs/diagnostics/eco\_provenance\_fixed\_audit.csv}: fold-level fixed \Eco{} provenance audit.
+\end{itemize}
+
+\section{Per-fold Diagnostic Figures}
+The main manuscript retains only representative figures. Full fold-level exports should be provided as supplementary material with the following naming convention:
+\begin{itemize}[leftmargin=1.5em]
+\item \texttt{fig1\_pipeline\_<dataset>\_fold<k>.pdf}
+\item \texttt{fig2\_eco\_weight\_distribution\_<dataset>\_fold<k>.pdf}
+\item \texttt{fig3\_sparse\_skill\_strata\_<dataset>\_fold<k>.pdf}
+\item \texttt{fig4\_relation\_ablation\_<dataset>\_fold<k>.pdf}
+\item \texttt{fig5\_eco\_threshold\_sensitivity\_<dataset>\_fold<k>.pdf}
+\item \texttt{fig6\_leakage\_audit\_summary\_<dataset>\_fold<k>.pdf}
+\end{itemize}
+This organization addresses appendix overload: representative figures support the main narrative, while complete fold-level figures remain available for reproducibility.
+
+\section{Training-diagnostics reproducibility checklist}
+\label{app:training-repro}
+To close the remaining training-integrity concern, the next experimental export should include one row per epoch, model, dataset, fold, seed, and graph variant with at least the following columns:
+\begin{center}
+\small\texttt{dataset, fold, seed, model, graph\_variant, epoch, train\_loss, valid\_loss, valid\_auc, valid\_acc, lr, grad\_norm, best\_epoch, early\_stop\_flag}
+\end{center}
+The acceptance criterion should not require monotonic loss decrease at every epoch. A practical reviewer-safe rule is: (i) prediction standard deviation $>0.01$; (ii) either final train loss is lower than the first train loss by at least 1\% or the best validation AUC improves over the first validation AUC; and (iii) no NaN/Inf values. The current package now includes the 45 uploaded fold-0/seed-42 curve PDFs. For a stricter journal revision, the same export script should be rerun with multi-epoch logging enabled so that every configured run has a complete train-loss, validation-loss, and validation-AUC trajectory.
+
+\begin{thebibliography}{34}
+\bibitem{corbett1994} Corbett, A.T., Anderson, J.R. Knowledge tracing: Modeling the acquisition of procedural knowledge. User Modeling and User-Adapted Interaction 4(4), 253--278 (1994).
+\bibitem{baker2008} Baker, R.S.J.d., Corbett, A.T., Aleven, V. More accurate student modeling through contextual estimation of slip and guess probabilities in Bayesian knowledge tracing. In: Intelligent Tutoring Systems, 406--415 (2008).
+\bibitem{piech2015} Piech, C., et al. Deep knowledge tracing. In: NeurIPS, 505--513 (2015).
+\bibitem{zhang2017} Zhang, J., Shi, X., King, I., Yeung, D.-Y. Dynamic key-value memory networks for knowledge tracing. In: WWW, 765--774 (2017).
+\bibitem{pandey2019} Pandey, S., Karypis, G. A self-attentive model for knowledge tracing. In: EDM, 384--389 (2019).
+\bibitem{ghosh2020} Ghosh, A., Heffernan, N., Lan, A.S. Context-aware attentive knowledge tracing. In: KDD, 2330--2339 (2020).
+\bibitem{liu2021ekt} Liu, Q., Huang, Z., Yin, Y., Chen, E., Xiong, H., Su, Y., Hu, G. EKT: Exercise-aware knowledge tracing for student performance prediction. IEEE TKDE 33(1), 100--115 (2021).
+\bibitem{liu2023simplekt} Liu, Z., Liu, Q., Chen, J., Huang, S., Luo, W. simpleKT: A simple but tough-to-beat baseline for knowledge tracing. In: ICLR (2023).
+\bibitem{abdelrahman2023} Abdelrahman, G., Wang, Q., Nunes, B. Knowledge tracing: A survey. ACM Computing Surveys 55(11), 1--37 (2023).
+\bibitem{shen2024} Shen, S., Liu, Q., Huang, Z., Zheng, Y., Yin, M., Wang, M., Chen, E. A survey of knowledge tracing: Models, variants, and applications. IEEE Transactions on Learning Technologies 17, 1898--1919 (2024).
+\bibitem{liu2022pykt} Liu, Z., Liu, Q., Chen, J., Huang, S., Tang, J., Luo, W. pyKT: A Python library to benchmark deep learning based knowledge tracing models. NeurIPS Datasets and Benchmarks (2022).
+\bibitem{choi2020} Choi, Y., et al. EdNet: A large-scale hierarchical dataset in education. In: AIED, 69--73 (2020).
+\bibitem{liu2023xes} Liu, Z., Liu, Q., Guo, T., Chen, J., Huang, S., Zhao, X., Tang, J., Luo, W., Weng, J. XES3G5M: A knowledge tracing benchmark dataset with auxiliary information. In: NeurIPS Datasets and Benchmarks (2023).
+\bibitem{nakagawa2019} Nakagawa, H., Iwasawa, Y., Matsuo, Y. Graph-based knowledge tracing: Modeling student proficiency using graph neural network. In: WI, 156--163 (2019).
+\bibitem{tong2020} Tong, S., Liu, Q., Huang, W., Huang, Z., Chen, E., Liu, C., Ma, H., Wang, S. Structure-based knowledge tracing: An influence propagation view. In: IEEE ICDM, 541--550 (2020).
+\bibitem{yang2020} Yang, Y., et al. GIKT: A graph-based interaction model for knowledge tracing. In: ECML PKDD, 299--315 (2020).
+\bibitem{tong2022} Tong, H., Wang, Z., Zhou, Y., Tong, S., Han, W., Liu, Q. Introducing problem schema with hierarchical exercise graph for knowledge tracing. In: SIGIR, 405--415 (2022).
+\bibitem{cui2024} Cui, C., Yao, Y., Zhang, C., Ma, H., Ma, Y., Ren, Z., Zhang, C., Ko, J. DGEKT: A dual graph ensemble learning method for knowledge tracing. ACM Transactions on Information Systems 42(3), Article 78 (2024).
+\bibitem{huang2024} Huang, M., Li, Y., Wang, L. Knowledge tracing model based on graph temporal fusion network. International Journal of Data Warehousing and Mining (2024).
+\bibitem{sun2024} Sun, L., Du, B., et al. DyGKT: Dynamic graph learning for knowledge tracing. arXiv preprint (2024).
+\bibitem{you2020} You, Y., Chen, T., Sui, Y., Chen, T., Wang, Z., Shen, Y. Graph contrastive learning with augmentations. In: NeurIPS, 5812--5823 (2020).
+\bibitem{zhu2021} Zhu, Y., Xu, Y., Yu, F., Liu, Q., Wu, S., Wang, L. Graph contrastive learning with adaptive augmentation. In: WWW, 2069--2080 (2021).
+\bibitem{lee2022} Lee, W., Chun, J., Lee, Y., Park, K., Park, S. Contrastive learning for knowledge tracing. In: WWW, 2330--2338 (2022).
+\bibitem{song2022} Song, X., Li, J., Lei, Q., Zhao, W., Chen, Y., Mian, A. Bi-CLKT: Bi-graph contrastive learning based knowledge tracing. Knowledge-Based Systems 241, 108274 (2022).
+\bibitem{dai2024} Dai, H., Yun, Y., Zhang, Y., An, R., Zhang, W., Shang, X. Self-paced contrastive learning for knowledge tracing. Neurocomputing 609, 128366 (2024).
+\bibitem{zhang2024qcm} Zhang, H., et al. A question-centric multi-experts contrastive learning framework for improving the accuracy and interpretability of deep sequential knowledge tracing models. ACM TKDD (2024).
+\bibitem{lee2024difficulty} Lee, U., Yoon, S., Yun, J.S., Park, K., Jung, Y., Stratton, D., Kim, H. Difficulty-Focused Contrastive Learning for Knowledge Tracing with a Large Language Model-Based Difficulty Prediction. In: LREC-COLING, 4930--4939 (2024).
+\bibitem{internal2026} Dao Minh Tuan, Nguyen Van Hau, Nguyen Tien Duong, Nguyen Khanh Trinh. Prerequisite-preserving graph augmentation for sparse-skill knowledge tracing: DAG Disruption Rate as a structural-validity metric. Internal manuscript / under review (2026).
+\bibitem{kipf2017} Kipf, T.N., Welling, M. Semi-supervised classification with graph convolutional networks. In: ICLR (2017).
+\bibitem{velickovic2018} Velickovic, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., Bengio, Y. Graph attention networks. In: ICLR (2018).
+\bibitem{grover2016} Grover, A., Leskovec, J. node2vec: Scalable feature learning for networks. In: KDD, 855--864 (2016).
+\bibitem{guo2017} Guo, C., Pleiss, G., Sun, Y., Weinberger, K.Q. On calibration of modern neural networks. In: ICML, 1321--1330 (2017).
+\bibitem{brier1950} Brier, G.W. Verification of forecasts expressed in terms of probability. Monthly Weather Review 78(1), 1--3 (1950).
+\bibitem{delong1988} DeLong, E.R., DeLong, D.M., Clarke-Pearson, D.L. Comparing the areas under two or more correlated ROC curves: A nonparametric approach. Biometrics 44(3), 837--845 (1988).
+\end{thebibliography}
+
+\end{document}

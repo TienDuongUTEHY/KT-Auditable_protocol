@@ -1,0 +1,34 @@
+\section{Graph-to-backbone integration and implementation details}
+\label{sec:supplementary_details}
+This section details the architectural integration and training settings for the sequence models.
+
+\begin{table}[H]
+\centering
+\caption{Implementation details for graph-to-backbone integration}
+\label{tab:implementation_details_integration}
+\begin{tabular}{lll}
+\toprule
+\textbf{Item} & \textbf{DKT} & \textbf{simpleKT} \\
+\midrule
+Backbone input representation & $[e_t \Vert h_{c_t}]$ (concatenation) & $e_t$ (interaction-only) \\
+KC embedding dimension & 16 & 16 \\
+Graph representation dimension & 1 & Not applicable \\
+Graph encoder & StatisticalDegree & Not implemented \\
+Number of graph layers & Not applicable & Not applicable \\
+Relation aggregation & SumOfEdges & Not applicable \\
+Fusion mechanism & Concatenation & None \\
+Fusion location & LSTM Input & Not applicable \\
+Normalization & Normalized by max degree & Not applicable \\
+Dropout & 0.0 & 0.0 \\
+Trainable graph parameters & 0 & 0 \\
+Frozen graph artefacts & Edge files / Node degrees & Not applicable \\
+No-graph implementation & Zero degree vector ($h_c=0$) & Identity / Sequence GRU \\
+Optimizer & Adam & Adam \\
+Learning rate & 0.05 & 0.05 \\
+Batch size & 1024 & 1024 \\
+Maximum sequence length & 200 & 200 \\
+Early-stopping metric & val\_auc & val\_auc \\
+Early-stopping patience & 50 & 50 \\
+\bottomrule
+\end{tabular}
+\end{table}
